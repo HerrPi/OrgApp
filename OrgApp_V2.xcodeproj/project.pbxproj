@@ -13,6 +13,7 @@
 		2A38545E244D885F00F2CAEB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A38545C244D885F00F2CAEB /* Main.storyboard */; };
 		2A385460244D886000F2CAEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A38545F244D886000F2CAEB /* Assets.xcassets */; };
 		2A385463244D886000F2CAEB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A385461244D886000F2CAEB /* LaunchScreen.storyboard */; };
+		2EBF1AD0A65BFFDDDDCC8326 /* libPods-OrgApp_V2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB52C40C05AD17583DA563EF /* libPods-OrgApp_V2.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,9 @@
 		2A38545F244D886000F2CAEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2A385462244D886000F2CAEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2A385464244D886000F2CAEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C272A9DC10F63A895E7D04BE /* Pods-OrgApp_V2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrgApp_V2.debug.xcconfig"; path = "Target Support Files/Pods-OrgApp_V2/Pods-OrgApp_V2.debug.xcconfig"; sourceTree = "<group>"; };
+		CB52C40C05AD17583DA563EF /* libPods-OrgApp_V2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrgApp_V2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD6109777279EB210F06EEE5 /* Pods-OrgApp_V2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrgApp_V2.release.xcconfig"; path = "Target Support Files/Pods-OrgApp_V2/Pods-OrgApp_V2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +35,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EBF1AD0A65BFFDDDDCC8326 /* libPods-OrgApp_V2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B60B5F6BB4C45447D98B0A1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C272A9DC10F63A895E7D04BE /* Pods-OrgApp_V2.debug.xcconfig */,
+				DD6109777279EB210F06EEE5 /* Pods-OrgApp_V2.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		2A38544A244D885E00F2CAEB = {
 			isa = PBXGroup;
 			children = (
 				2A385455244D885F00F2CAEB /* OrgApp_V2 */,
 				2A385454244D885F00F2CAEB /* Products */,
+				1B60B5F6BB4C45447D98B0A1 /* Pods */,
+				EE08FB95D54FC61ABB9C191A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +73,55 @@
 		2A385455244D885F00F2CAEB /* OrgApp_V2 */ = {
 			isa = PBXGroup;
 			children = (
-				2A385456244D885F00F2CAEB /* AppDelegate.swift */,
-				2A385458244D885F00F2CAEB /* SceneDelegate.swift */,
-				2A38545A244D885F00F2CAEB /* ViewController.swift */,
-				2A38545C244D885F00F2CAEB /* Main.storyboard */,
+				2A38546A244D887400F2CAEB /* Model */,
+				2ACB9086244D88A100C4579D /* View */,
+				2ACB9087244D88AD00C4579D /* Controller */,
+				2A515B51244D89BE0099AB04 /* AssetsGroup */,
+			);
+			path = OrgApp_V2;
+			sourceTree = "<group>";
+		};
+		2A38546A244D887400F2CAEB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2A515B51244D89BE0099AB04 /* AssetsGroup */ = {
+			isa = PBXGroup;
+			children = (
 				2A38545F244D886000F2CAEB /* Assets.xcassets */,
 				2A385461244D886000F2CAEB /* LaunchScreen.storyboard */,
 				2A385464244D886000F2CAEB /* Info.plist */,
 			);
-			path = OrgApp_V2;
+			path = AssetsGroup;
+			sourceTree = "<group>";
+		};
+		2ACB9086244D88A100C4579D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2A38545C244D885F00F2CAEB /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2ACB9087244D88AD00C4579D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2A38545A244D885F00F2CAEB /* ViewController.swift */,
+				2A385456244D885F00F2CAEB /* AppDelegate.swift */,
+				2A385458244D885F00F2CAEB /* SceneDelegate.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		EE08FB95D54FC61ABB9C191A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CB52C40C05AD17583DA563EF /* libPods-OrgApp_V2.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,6 +131,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2A385467244D886000F2CAEB /* Build configuration list for PBXNativeTarget "OrgApp_V2" */;
 			buildPhases = (
+				87A0A49C0C5FDCC688A3BC4F /* [CP] Check Pods Manifest.lock */,
 				2A38544F244D885E00F2CAEB /* Sources */,
 				2A385450244D885E00F2CAEB /* Frameworks */,
 				2A385451244D885E00F2CAEB /* Resources */,
@@ -132,6 +190,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		87A0A49C0C5FDCC688A3BC4F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OrgApp_V2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2A38544F244D885E00F2CAEB /* Sources */ = {
@@ -282,11 +365,12 @@
 		};
 		2A385468244D886000F2CAEB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C272A9DC10F63A895E7D04BE /* Pods-OrgApp_V2.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8WYZL9U7J3;
-				INFOPLIST_FILE = OrgApp_V2/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/OrgApp_V2/AssetsGroup/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -300,11 +384,12 @@
 		};
 		2A385469244D886000F2CAEB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD6109777279EB210F06EEE5 /* Pods-OrgApp_V2.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8WYZL9U7J3;
-				INFOPLIST_FILE = OrgApp_V2/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/OrgApp_V2/AssetsGroup/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
