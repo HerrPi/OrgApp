@@ -2,6 +2,11 @@ import Foundation
 import RealmSwift
 
 class Project: Object {
+	@objc dynamic var itemId: String = UUID().uuidString
+	override static func primaryKey() -> String? {
+		return "itemId"
+	}
+	@objc dynamic var name: String = ""
 	var linkedParent = LinkingObjects(fromType: Category.self, property: "projects")
 	let toDos = List<ToDo>()
 	let photos = List<Photo>()

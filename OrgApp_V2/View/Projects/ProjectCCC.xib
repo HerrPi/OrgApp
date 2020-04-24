@@ -19,19 +19,20 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8aa-lZ-8tA" userLabel="CellContentView">
                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ProjName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uJC-Zg-ohr">
-                                <rect key="frame" x="12.5" y="39.5" width="75" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="Project Title" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kyN-CE-TmJ">
+                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            </textView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="uJC-Zg-ohr" firstAttribute="centerY" secondItem="8aa-lZ-8tA" secondAttribute="centerY" id="BG0-oW-peJ"/>
-                            <constraint firstAttribute="width" constant="100" id="PkR-SI-GQ1"/>
-                            <constraint firstItem="uJC-Zg-ohr" firstAttribute="centerX" secondItem="8aa-lZ-8tA" secondAttribute="centerX" id="TYl-TN-aki"/>
-                            <constraint firstAttribute="height" constant="100" id="YS1-s7-92V"/>
+                            <constraint firstItem="kyN-CE-TmJ" firstAttribute="top" secondItem="8aa-lZ-8tA" secondAttribute="top" id="5Y9-Tl-UcB"/>
+                            <constraint firstAttribute="trailing" secondItem="kyN-CE-TmJ" secondAttribute="trailing" id="9B6-sD-tyg"/>
+                            <constraint firstItem="kyN-CE-TmJ" firstAttribute="leading" secondItem="8aa-lZ-8tA" secondAttribute="leading" id="E3I-aQ-cgJ"/>
+                            <constraint firstAttribute="bottom" secondItem="kyN-CE-TmJ" secondAttribute="bottom" id="O5G-X4-vAU"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -45,7 +46,7 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="100" height="100"/>
             <connections>
-                <outlet property="projectTitleLabel" destination="uJC-Zg-ohr" id="8ew-3I-HSH"/>
+                <outlet property="projectTitle" destination="kyN-CE-TmJ" id="Mp3-Bl-tRI"/>
             </connections>
             <point key="canvasLocation" x="-557.97101449275362" y="-143.30357142857142"/>
         </collectionViewCell>

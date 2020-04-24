@@ -1,11 +1,24 @@
 import Foundation
 
 struct K {
-	static let projectCell = "ProjectCCC"
-	static let toDoCell = "ToDoTCC"
-	static let photoCell = "PhotoCCC"
-	static let noteCell = "NoteTCC"
+	struct CustomCells {
+		static let projectCell = "ProjectCCC"
+		static let projectHeader = "ProjectHeaderCHC"
+		static let projectFooter = "ProjectFooterCFC"
+		static let toDoCell = "ToDoTCC"
+		static let photoCell = "PhotoCCC"
+		static let photoHeader = "PhotoHeaderCHC"
+		static let noteCell = "NoteTCC"
+		static let selectCategory = "SelectCategoryTCC"
+	}
+
+	struct Segues {
+		static let showProject = "ProjectDetailSegue"
+		static let addProject = "AddProjectSegue"
+	}
 
 
-	static let projectDetailSegue = "ProjectDetailSegue"
+
+
+
 }

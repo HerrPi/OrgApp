@@ -55,3 +55,251 @@ NotesVC
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+/// TEMP AREA
+
+
+
+
+/*
+
+
+//
+//  AddProjectVC.swift
+//  OrgApp_V2
+//
+//  Created by Jan Manuel Brenner on 21.04.20.
+//  Copyright © 2020 Jan Manuel Brenner. All rights reserved.
+//
+
+import UIKit
+import RealmSwift
+
+class AddProjectVC: UIViewController {
+	@IBOutlet weak var categoryTableView: UITableView!
+	@IBOutlet weak var projNameField: UITextField!
+	@IBOutlet weak var categorySearchField: UITextField!
+	@IBOutlet weak var createProjectButton: UIButton!
+	@IBOutlet weak var cancelButton: UIButton!
+	@IBOutlet weak var addCategory: UIButton!
+
+	var searchedCategorys: Results<Category>!
+	var projectsVC: ProjectsVC!
+
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		searchedCategorys = RealmFuncs.Load.categorys()
+
+		categoryTableView.delegate = self
+		categoryTableView.dataSource = self
+		categoryTableView.register(UINib(nibName: K.CustomCells.selectCategory, bundle: nil), forCellReuseIdentifier: K.CustomCells.selectCategory)
+
+		categorySearchField.delegate = self
+		categorySearchField.addTarget(self, action: #selector(didTypeSomething), for: UITextField.Event.editingChanged)
+		projNameField.delegate = self
+
+		projNameField.becomeFirstResponder()
+
+		createProjectButton.isHidden = true
+
+	}
+
+
+	@IBAction func buttonPressed(_ sender: UIButton) {
+		switch sender {
+		case createProjectButton:
+			exitAddProjectVC(save: true)
+
+		case cancelButton:
+			exitAddProjectVC(save: false)
+
+		case addCategory:
+
+			showAddCategoryVC(with: categorySearchField.text!)
+			//			categorySearchField.endEditing(true)
+			//
+			//			let newCat = Category()
+			//			newCat.name = categorySearchField.text!
+			//			RealmFuncs.Save.object(object: newCat)
+
+		default:
+			break
+		}
+	}
+
+	func showAddCategoryVC(with name: String) {
+		var categoryNameTextField = UITextField()
+		let addCategory = UIAlertController(title: "New Category?", message: "Create a new Category", preferredStyle: .alert)
+		addCategory.addTextField { (textField) in
+			textField.text = name
+			textField.autocapitalizationType = .words
+			categoryNameTextField = textField
+		}
+
+		addCategory.addAction(UIAlertAction(title: "Create", style: .default, handler: { _ in
+			if categoryNameTextField.text != "" {
+				let newCat = Category()
+				newCat.name = categoryNameTextField.text!
+				RealmFuncs.Save.object(object: newCat)
+				self.categorySearchField.text = newCat.name
+				self.categorySearchField.endEditing(true)
+
+			}else {
+				let noNameGiven = UIAlertController(title: "No Name Given", message: "You have to give a name - canceled", preferredStyle: .alert)
+				noNameGiven.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {_ in self.showAddCategoryVC(with: name)}))
+				self.present(noNameGiven, animated: true, completion: nil)
+			}
+		}))
+		addCategory.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+		present(addCategory, animated: true, completion: nil)
+	}
+
+
+	func exitAddProjectVC(save: Bool) {
+		if save {
+			let newProj = Project()
+			newProj.name = projNameField.text!
+			//			print("Try to search Category by -> \(categorySearchField.text!)")
+			let targetCategory = RealmFuncs.Search.category(name: categorySearchField.text!)
+			if RealmFuncs.Save.object(object: newProj) {
+				RealmFuncs.Edit.setParent(of: newProj, to: targetCategory) // SET CATEGORY!!!
+				print("EXIT -> \(newProj.name) & \(targetCategory.name)")
+				self.dismiss(animated: true, completion: nil)
+
+			}
+
+		}else {
+			self.dismiss(animated: true, completion: nil)
+		}
+
+	}
+
+	override func viewWillDisappear(_ animated: Bool) {
+		projectsVC.projectsCollectionView.reloadData()
+	}
+
+
+
+}
+
+
+//MARK: -  UITableView Delegate and DataSource
+extension AddProjectVC: UITableViewDelegate, UITableViewDataSource {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return searchedCategorys.count
+	}
+
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: K.CustomCells.selectCategory, for: indexPath) as! SelectCategoryTCC
+		cell.thisCategory = searchedCategorys[indexPath.row]
+		cell.categoryLabel.text = cell.thisCategory.name
+		return cell
+	}
+
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		categorySearchField.text = (categoryTableView.cellForRow(at: indexPath) as! SelectCategoryTCC).thisCategory.name
+		categorySearchField.endEditing(true)
+	}
+
+
+}
+
+
+//MARK: -  UITextfield Delegate
+extension AddProjectVC: UITextFieldDelegate {
+
+	func textFieldDidBeginEditing(_ textField: UITextField) {
+		createProjectButton.isHidden = true
+		switch textField {
+		case categorySearchField:
+			categoryTableView.isHidden = false
+			if categorySearchField.text == "" {
+				searchedCategorys = RealmFuncs.Load.categorys()
+			}else {
+				searchedCategorys = RealmFuncs.Search.categorys(beginsWith: categorySearchField.text!)
+			}
+			categoryTableView.reloadData()
+
+		case projNameField:
+			print("")
+		default:
+			break
+		}
+	}
+
+	@objc func didTypeSomething(_ sender: UITextField) {
+
+		switch sender {
+		case categorySearchField:
+			if categorySearchField.text == "" {
+				addCategory.isHidden = true
+				searchedCategorys = RealmFuncs.Load.categorys()
+			}else {
+				searchedCategorys = RealmFuncs.Search.categorys(beginsWith: categorySearchField.text!)
+				if searchedCategorys.count == 0 {
+					categoryTableView.isHidden = true
+					addCategory.isHidden = false
+				}else {
+					categoryTableView.isHidden = false
+					addCategory.isHidden = true
+				}
+			}
+			categoryTableView.reloadData()
+
+		case projNameField:
+			print("")
+		default:
+			break
+		}
+	}
+
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		textField.endEditing(true)
+		return true
+	}
+
+	func textFieldDidEndEditing(_ textField: UITextField) {
+		switch textField {
+		case categorySearchField:
+			categorySearchField.resignFirstResponder()
+			categoryTableView.isHidden = true
+
+			if !RealmFuncs.Load.categorys().contains(where: { (cat) -> Bool in
+				if cat.name == categorySearchField.text {
+					return true
+				}else {
+					return false
+				}
+			}) { categorySearchField.text = "" }
+
+
+
+		case projNameField:
+			projNameField.resignFirstResponder()
+			print("")
+
+		default:
+			break
+		}
+
+		if projNameField.text != "" && categorySearchField.text != "" {
+			createProjectButton.isHidden = false
+		}else {
+			createProjectButton.isHidden = true
+		}
+	}
+
+}
+*/
+

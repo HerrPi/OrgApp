@@ -1,5 +1,5 @@
 //
-//  ProjectsCCC.swift
+//  PhotoHeaderCHC.swift
 //  OrgApp_V2
 //
 //  Created by Jan Manuel Brenner on 20.04.20.
@@ -8,12 +8,11 @@
 
 import UIKit
 
-class ProjectCCC: UICollectionViewCell {
-	@IBOutlet weak var projectTitleLabel: UILabel!
-	
+class PhotoHeaderCHC: UICollectionReusableView {
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
 }

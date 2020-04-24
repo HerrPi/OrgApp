@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZSr-Xt-HYQ" userLabel="ProjectsCollectionView">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZSr-Xt-HYQ" userLabel="ProjectsCollectionView">
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Rc4-fh-EI4">
@@ -26,18 +26,39 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qA3-87-eUN" userLabel="AddProjectButton">
+                                <rect key="frame" x="320" y="627.5" width="50" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="279-Nv-QsE"/>
+                                    <constraint firstAttribute="height" constant="35" id="aTS-5y-P0P"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="folder.badge.plus" catalog="system"/>
+                                <connections>
+                                    <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="usQ-fb-2Ri"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="ZSr-Xt-HYQ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="4pP-1D-w9R"/>
                             <constraint firstItem="ZSr-Xt-HYQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="I67-zJ-sfg"/>
                             <constraint firstItem="ZSr-Xt-HYQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="UGr-D9-V7a"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qA3-87-eUN" secondAttribute="bottom" constant="5" id="f5x-MH-mhx"/>
                             <constraint firstItem="ZSr-Xt-HYQ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="iCr-nj-tKO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qA3-87-eUN" secondAttribute="trailing" constant="5" id="mXa-SJ-hlQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="HWJ-Ov-aDK"/>
+                    <navigationItem key="navigationItem" title="Projects" id="HWJ-Ov-aDK">
+                        <barButtonItem key="rightBarButtonItem" image="ellipsis" catalog="system" id="WiD-sw-gQt" userLabel="Edit ProjectsVC">
+                            <connections>
+                                <action selector="editProjectsVC:" destination="BYZ-38-t0r" id="C3s-QF-VEf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="addProjectButton" destination="qA3-87-eUN" id="Vb6-hX-uEv"/>
+                        <outlet property="editProjectVCButton" destination="WiD-sw-gQt" id="CVi-Lx-chH"/>
                         <outlet property="projectsCollectionView" destination="ZSr-Xt-HYQ" id="eYf-uB-nsz"/>
                         <segue destination="dLG-f5-epP" kind="show" identifier="ProjectDetailSegue" id="5RU-VS-ble"/>
                     </connections>
@@ -187,6 +208,8 @@
     </scenes>
     <resources>
         <image name="doc.text" catalog="system" width="56" height="64"/>
+        <image name="ellipsis" catalog="system" width="64" height="18"/>
+        <image name="folder.badge.plus" catalog="system" width="64" height="42"/>
         <image name="list.bullet" catalog="system" width="64" height="44"/>
         <image name="photo.on.rectangle" catalog="system" width="64" height="48"/>
     </resources>
