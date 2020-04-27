@@ -9,10 +9,16 @@
 import UIKit
 
 class NoteTCC: UITableViewCell {
-	@IBOutlet weak var noteTextField: UITextField!
+	@IBOutlet weak var titleLabel: UILabel!
+	@IBOutlet weak var contentPreviewLabel: UILabel!
+	@IBOutlet weak var textContainer: UIView!
+	
+	var thisNote: Note!
 	
     override func awakeFromNib() {
         super.awakeFromNib()
+//		titleLabel.text = thisNote.title
+//		contentPreviewLabel.text = thisNote.content
         // Initialization code
     }
 

@@ -113,15 +113,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wSv-Pm-Tau">
-                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wSv-Pm-Tau">
+                                <rect key="frame" x="0.0" y="84" width="375" height="534"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wrd-uX-1Iy">
+                                <rect key="frame" x="139" y="49" width="97" height="30"/>
+                                <state key="normal" title="Show Content"/>
+                                <connections>
+                                    <action selector="showContent:" destination="klG-94-LpV" eventType="touchUpInside" id="HSc-nX-kRg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="wSv-Pm-Tau" firstAttribute="leading" secondItem="juB-iU-Mcq" secondAttribute="leading" id="V1p-SL-vio"/>
-                            <constraint firstItem="wSv-Pm-Tau" firstAttribute="top" secondItem="juB-iU-Mcq" secondAttribute="top" id="pjT-7R-no8"/>
+                            <constraint firstItem="wSv-Pm-Tau" firstAttribute="top" secondItem="wrd-uX-1Iy" secondAttribute="bottom" constant="5" id="pjT-7R-no8"/>
+                            <constraint firstItem="wrd-uX-1Iy" firstAttribute="top" secondItem="juB-iU-Mcq" secondAttribute="top" constant="5" id="rHc-hO-oSu"/>
+                            <constraint firstItem="wrd-uX-1Iy" firstAttribute="centerX" secondItem="jtZ-B4-Qdv" secondAttribute="centerX" id="rXN-OM-JeR"/>
                             <constraint firstItem="juB-iU-Mcq" firstAttribute="bottom" secondItem="wSv-Pm-Tau" secondAttribute="bottom" id="tSB-7Z-tD2"/>
                             <constraint firstItem="juB-iU-Mcq" firstAttribute="trailing" secondItem="wSv-Pm-Tau" secondAttribute="trailing" id="y4g-gu-7YI"/>
                         </constraints>
@@ -130,11 +139,56 @@
                     <tabBarItem key="tabBarItem" title="Notes" image="doc.text" catalog="system" id="O1Q-pQ-3MC"/>
                     <connections>
                         <outlet property="notesTableView" destination="wSv-Pm-Tau" id="chh-Vg-dPv"/>
+                        <segue destination="MF5-dQ-EBm" kind="show" identifier="ShowNoteSegue" id="dVm-uR-eCs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lu9-rc-lJD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1311" y="519"/>
+            <point key="canvasLocation" x="1309.5999999999999" y="517.6911544227886"/>
+        </scene>
+        <!--Note DetailVC-->
+        <scene sceneID="u7s-Ef-6R2">
+            <objects>
+                <viewController id="MF5-dQ-EBm" customClass="NoteDetailVC" customModule="OrgApp_V2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6tp-Ci-4LI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Note Title" placeholder="Note Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ptc-Oc-5cr">
+                                <rect key="frame" x="10" y="54" width="355" height="35"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" textAlignment="justified" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fsl-Ug-foo">
+                                <rect key="frame" x="10" y="94" width="355" height="563"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes" smartDashesType="yes"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="dwa-gF-YMC" firstAttribute="bottom" secondItem="Fsl-Ug-foo" secondAttribute="bottom" constant="10" id="5ex-xl-cuc"/>
+                            <constraint firstItem="dwa-gF-YMC" firstAttribute="trailing" secondItem="ptc-Oc-5cr" secondAttribute="trailing" constant="10" id="7Dw-5e-OiS"/>
+                            <constraint firstItem="ptc-Oc-5cr" firstAttribute="leading" secondItem="dwa-gF-YMC" secondAttribute="leading" constant="10" id="Nct-fq-bS2"/>
+                            <constraint firstItem="dwa-gF-YMC" firstAttribute="trailing" secondItem="Fsl-Ug-foo" secondAttribute="trailing" constant="10" id="coG-4F-6YZ"/>
+                            <constraint firstItem="Fsl-Ug-foo" firstAttribute="top" secondItem="ptc-Oc-5cr" secondAttribute="bottom" constant="5" id="dZs-Zi-90f"/>
+                            <constraint firstItem="Fsl-Ug-foo" firstAttribute="leading" secondItem="dwa-gF-YMC" secondAttribute="leading" constant="10" id="h7m-Yv-m9h"/>
+                            <constraint firstItem="ptc-Oc-5cr" firstAttribute="top" secondItem="dwa-gF-YMC" secondAttribute="top" constant="10" id="ofn-aP-9eo"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="dwa-gF-YMC"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="42b-RR-kCU"/>
+                    <connections>
+                        <outlet property="noteContentField" destination="Fsl-Ug-foo" id="whi-nh-dLj"/>
+                        <outlet property="noteTitleField" destination="ptc-Oc-5cr" id="k5G-B0-18R"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9SP-1D-DoV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1309.5999999999999" y="1237.3313343328336"/>
         </scene>
         <!--ToDos-->
         <scene sceneID="djd-LV-E24">

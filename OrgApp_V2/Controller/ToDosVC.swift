@@ -126,7 +126,7 @@ extension ToDosVC: UITableViewDataSource, UITableViewDelegate {
 			let newToDo = ToDo()
 			newToDo.name =  "New ToDo"
 			newToDo.done = false
-			RealmFuncs.Save.object(object: newToDo)
+			_ = RealmFuncs.Save.object(object: newToDo)
 			RealmFuncs.Edit.setParent(of: newToDo, to: thisProject)
 			let lastIndex = IndexPath(row: toDosTableView.numberOfRows(inSection: 0), section: 0)
 			toDosTableView.insertRows(at: [lastIndex], with: .bottom)

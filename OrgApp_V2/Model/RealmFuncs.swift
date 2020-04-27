@@ -40,6 +40,17 @@ struct RealmFuncs {
 			}
 		}
 
+		static func setParent(of note: Note, to project: Project) {
+			let realm = try! Realm()
+			do {
+				try realm.write{
+					project.notes.append(note)
+				}
+			} catch {
+				print("Failed parenting -> \(error)")
+			}
+		}
+
 		static func renameProject(_ project: Project, newName: String) {
 			let realm = try! Realm()
 			do {
@@ -83,6 +94,29 @@ struct RealmFuncs {
 				print("Failed parenting -> \(error)")
 			}
 		}
+
+		static func renameNote(_ note: Note, newName: String) {
+			let realm = try! Realm()
+			do {
+				try realm.write{
+					note.title = newName
+				}
+			} catch {
+				print("Failed renameNote -> \(error)")
+			}
+		}
+
+		static func changeNoteContent(_ note: Note, newContent: String) {
+			let realm = try! Realm()
+			do {
+				try realm.write{
+					note.content = newContent
+				}
+			} catch {
+				print("Failed changeNoteContent -> \(error)")
+			}
+		}
+
 	}
 
 	struct Load {
@@ -114,9 +148,12 @@ struct RealmFuncs {
 			return realm.objects(Photo.self)
 		}
 
-		static func notes() -> Results<Note> {
+		static func notes(of project: Project) -> List<Note> {
 			let realm = try! Realm()
-			return realm.objects(Note.self)
+			let projectID = project.itemId
+			return realm.object(ofType: Project.self, forPrimaryKey: project.itemId)!.notes
+//			return realm.objects(Note.self).filter(NSPredicate(format: "itemID == %@", projectID))
+//			return realm.objects(Note.self)
 		}
 	}
 
