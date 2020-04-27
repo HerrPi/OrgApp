@@ -37,7 +37,7 @@
 		2A515B74244DCBBB0099AB04 /* ToDosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A515B73244DCBBB0099AB04 /* ToDosVC.swift */; };
 		2A515B76244DCBBE0099AB04 /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A515B75244DCBBE0099AB04 /* PhotosVC.swift */; };
 		2A515B78244DCBBF0099AB04 /* NotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A515B77244DCBBF0099AB04 /* NotesVC.swift */; };
-		2A896C452451B724000619E1 /* ProjectContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A896C442451B724000619E1 /* ProjectContextMenu.swift */; };
+		2AB5BA2D245461380095646C /* ProjectTabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB5BA2C245461380095646C /* ProjectTabBarVC.swift */; };
 		2AE81763244EEEE4003FBE13 /* AddProjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81762244EEEE4003FBE13 /* AddProjectVC.swift */; };
 		2AE81766244EF731003FBE13 /* SelectCategoryTCC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81764244EF731003FBE13 /* SelectCategoryTCC.swift */; };
 		2AE81767244EF731003FBE13 /* SelectCategoryTCC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AE81765244EF731003FBE13 /* SelectCategoryTCC.xib */; };
@@ -79,7 +79,7 @@
 		2A515B73244DCBBB0099AB04 /* ToDosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDosVC.swift; sourceTree = "<group>"; };
 		2A515B75244DCBBE0099AB04 /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		2A515B77244DCBBF0099AB04 /* NotesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVC.swift; sourceTree = "<group>"; };
-		2A896C442451B724000619E1 /* ProjectContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectContextMenu.swift; sourceTree = "<group>"; };
+		2AB5BA2C245461380095646C /* ProjectTabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTabBarVC.swift; sourceTree = "<group>"; };
 		2AE81762244EEEE4003FBE13 /* AddProjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectVC.swift; sourceTree = "<group>"; };
 		2AE81764244EF731003FBE13 /* SelectCategoryTCC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryTCC.swift; sourceTree = "<group>"; };
 		2AE81765244EF731003FBE13 /* SelectCategoryTCC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectCategoryTCC.xib; sourceTree = "<group>"; };
@@ -225,12 +225,12 @@
 		2ACB9087244D88AD00C4579D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				2A38545A244D885F00F2CAEB /* ProjectsVC.swift */,
+				2AE81762244EEEE4003FBE13 /* AddProjectVC.swift */,
+				2AB5BA2C245461380095646C /* ProjectTabBarVC.swift */,
 				2A515B73244DCBBB0099AB04 /* ToDosVC.swift */,
 				2A515B77244DCBBF0099AB04 /* NotesVC.swift */,
 				2A515B75244DCBBE0099AB04 /* PhotosVC.swift */,
-				2A38545A244D885F00F2CAEB /* ProjectsVC.swift */,
-				2A896C442451B724000619E1 /* ProjectContextMenu.swift */,
-				2AE81762244EEEE4003FBE13 /* AddProjectVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -367,11 +367,11 @@
 				2A515B76244DCBBE0099AB04 /* PhotosVC.swift in Sources */,
 				2A515B74244DCBBB0099AB04 /* ToDosVC.swift in Sources */,
 				2A385457244D885F00F2CAEB /* AppDelegate.swift in Sources */,
-				2A896C452451B724000619E1 /* ProjectContextMenu.swift in Sources */,
 				2A515B58244DA7CB0099AB04 /* Note.swift in Sources */,
 				2A515B71244DB1BF0099AB04 /* ToDoTCC.swift in Sources */,
 				2A515B78244DCBBF0099AB04 /* NotesVC.swift in Sources */,
 				2A0FFC90244DE18C009E7C38 /* ProjectFooterCFC.swift in Sources */,
+				2AB5BA2D245461380095646C /* ProjectTabBarVC.swift in Sources */,
 				2A0FFC88244DD004009E7C38 /* NoteTCC.swift in Sources */,
 				2A515B64244DA8B50099AB04 /* K.swift in Sources */,
 				2AE8176A244F0F32003FBE13 /* RealmFuncs.swift in Sources */,

@@ -29,6 +29,17 @@ struct RealmFuncs {
 			}
 		}
 
+		static func setParent(of toDo: ToDo, to project: Project) {
+			let realm = try! Realm()
+			do {
+				try realm.write{
+					project.toDos.append(toDo)
+				}
+			} catch {
+				print("Failed parenting -> \(error)")
+			}
+		}
+
 		static func renameProject(_ project: Project, newName: String) {
 			let realm = try! Realm()
 			do {
@@ -36,7 +47,29 @@ struct RealmFuncs {
 					project.name = newName
 				}
 			} catch {
-				print("Failed parenting -> \(error)")
+				print("Failed reanme Project -> \(error)")
+			}
+		}
+
+		static func renameToDo(_ toDo: ToDo, newName: String) {
+			let realm = try! Realm()
+			do {
+				try realm.write{
+					toDo.name = newName
+				}
+			} catch {
+				print("Failed rename toDo -> \(error)")
+			}
+		}
+
+		static func switchToDoDone(_ toDo: ToDo, done: Bool) {
+			let realm = try! Realm()
+			do {
+				try realm.write {
+					toDo.done = done
+				}
+			} catch  {
+				print("DoneSwitch failed -> \(error)")
 			}
 		}
 
@@ -63,9 +96,17 @@ struct RealmFuncs {
 			return realm.objects(Project.self).sorted(byKeyPath: "name")
 		}
 
-		static func toDos() -> Results<ToDo> {
+		static func undDoneToDos(of project: Project) -> Results<ToDo> {
 			let realm = try! Realm()
-			return realm.objects(ToDo.self)
+			return (realm.object(ofType: Project.self, forPrimaryKey: project.itemId)?.toDos.filter(NSPredicate(format: "done == false")))!
+//			return realm.objects(ToDo.self).filter(NSPredicate(format: "done == false")).sorted(byKeyPath: "name")
+		}
+
+
+		static func doneToDos(of project: Project) -> Results<ToDo> {
+			let realm = try! Realm()
+			return (realm.object(ofType: Project.self, forPrimaryKey: project.itemId)?.toDos.filter(NSPredicate(format: "done == true")))!
+//			return realm.objects(ToDo.self).filter(NSPredicate(format: "done == true")).sorted(byKeyPath: "name")
 		}
 
 		static func photos() -> Results<Photo> {

@@ -21,13 +21,12 @@
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="Project Title" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kyN-CE-TmJ">
                                 <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="kyN-CE-TmJ" firstAttribute="top" secondItem="8aa-lZ-8tA" secondAttribute="top" id="5Y9-Tl-UcB"/>
                             <constraint firstAttribute="trailing" secondItem="kyN-CE-TmJ" secondAttribute="trailing" id="9B6-sD-tyg"/>
@@ -38,10 +37,10 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="8aa-lZ-8tA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ANI-Pt-27C"/>
-                <constraint firstItem="8aa-lZ-8tA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Uas-VW-gRY"/>
-                <constraint firstAttribute="trailing" secondItem="8aa-lZ-8tA" secondAttribute="trailing" id="VvL-JS-u4p"/>
-                <constraint firstAttribute="bottom" secondItem="8aa-lZ-8tA" secondAttribute="bottom" id="kbI-2g-M9D"/>
+                <constraint firstItem="8aa-lZ-8tA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="SFP-rk-i2c"/>
+                <constraint firstItem="8aa-lZ-8tA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="XYf-RC-KAX"/>
+                <constraint firstAttribute="trailing" secondItem="8aa-lZ-8tA" secondAttribute="trailing" id="kfs-zV-yfQ"/>
+                <constraint firstAttribute="bottom" secondItem="8aa-lZ-8tA" secondAttribute="bottom" id="tjj-dD-rJY"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="100" height="100"/>

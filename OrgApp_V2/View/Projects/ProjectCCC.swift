@@ -14,12 +14,9 @@ class ProjectCCC: UICollectionViewCell {
 
 	var thisProject: Project!
 
-	
     override func awakeFromNib() {
         super.awakeFromNib()
 
-		let cellContextMenu = UIContextMenuInteraction(delegate: self)
-		self.addInteraction(cellContextMenu)
 		projectTitle.delegate = self
 		projectTitle.isUserInteractionEnabled = false
 
@@ -27,29 +24,6 @@ class ProjectCCC: UICollectionViewCell {
 
 }
 
-extension ProjectCCC: UIContextMenuInteractionDelegate {
-
-	func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-		let contextMenu = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
-			let edit = UIAction(title: "Edit") { _ in
-				self.projectTitle.isUserInteractionEnabled = true
-				self.projectTitle.becomeFirstResponder()
-			}
-
-			let delete = UIAction(title: "Delete", attributes: .destructive) { _ in
-
-				RealmFuncs.Edit.deleteObject(self.thisProject)
-				self.projectsVC.projectsCollectionView.reloadData()
-			}
-
-			return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [edit, delete])
-		}
-
-		return contextMenu
-	}
-
-
-}
 
 
 extension ProjectCCC: UITextViewDelegate {

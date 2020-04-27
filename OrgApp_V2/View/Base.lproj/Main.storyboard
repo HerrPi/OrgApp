@@ -18,7 +18,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZSr-Xt-HYQ" userLabel="ProjectsCollectionView">
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Rc4-fh-EI4">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Rc4-fh-EI4">
                                     <size key="itemSize" width="103" height="92"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -144,33 +144,52 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YMZ-wV-X9S" userLabel="ToDoTableView">
-                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YMZ-wV-X9S" userLabel="ToDoTableView">
+                                <rect key="frame" x="0.0" y="85" width="375" height="533"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YqB-po-goG">
+                                <rect key="frame" x="5" y="49" width="150" height="31"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="26"/>
+                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gua-q4-Atc">
+                                <rect key="frame" x="293" y="49" width="77" height="30"/>
+                                <state key="normal" title="show Done"/>
+                                <connections>
+                                    <action selector="showHideDoneButton:" destination="ofY-KH-dvJ" eventType="touchUpInside" id="bXB-3n-sy9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="YMZ-wV-X9S" firstAttribute="top" secondItem="Tu0-OY-vJD" secondAttribute="top" id="5ps-Sn-VRe"/>
+                            <constraint firstItem="YMZ-wV-X9S" firstAttribute="top" secondItem="YqB-po-goG" secondAttribute="bottom" constant="5" id="5ps-Sn-VRe"/>
+                            <constraint firstItem="YqB-po-goG" firstAttribute="top" secondItem="Tu0-OY-vJD" secondAttribute="top" constant="5" id="9P4-7j-zBg"/>
                             <constraint firstItem="Tu0-OY-vJD" firstAttribute="trailing" secondItem="YMZ-wV-X9S" secondAttribute="trailing" id="Cme-T6-NDU"/>
+                            <constraint firstItem="Tu0-OY-vJD" firstAttribute="trailing" secondItem="gua-q4-Atc" secondAttribute="trailing" constant="5" id="TR2-kY-ahk"/>
                             <constraint firstItem="Tu0-OY-vJD" firstAttribute="bottom" secondItem="YMZ-wV-X9S" secondAttribute="bottom" id="YlJ-iz-Rc4"/>
+                            <constraint firstItem="gua-q4-Atc" firstAttribute="top" secondItem="Tu0-OY-vJD" secondAttribute="top" constant="5" id="gPE-Vo-fFE"/>
+                            <constraint firstItem="YqB-po-goG" firstAttribute="leading" secondItem="Tu0-OY-vJD" secondAttribute="leading" constant="5" id="qPM-JC-wNm"/>
                             <constraint firstItem="YMZ-wV-X9S" firstAttribute="leading" secondItem="Tu0-OY-vJD" secondAttribute="leading" id="wnq-78-A5j"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Tu0-OY-vJD"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="To-Do's" image="list.bullet" catalog="system" id="sMY-SQ-ALy"/>
                     <connections>
+                        <outlet property="projectTitle" destination="YqB-po-goG" id="PZ5-ZO-WLD"/>
+                        <outlet property="showHideDone" destination="gua-q4-Atc" id="tSr-Q8-c3Z"/>
                         <outlet property="toDosTableView" destination="YMZ-wV-X9S" id="r3I-fD-EcT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cXR-8g-7vZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="57" y="520"/>
+            <point key="canvasLocation" x="56.799999999999997" y="519.49025487256381"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Project Tab BarVC-->
         <scene sceneID="Wyc-6v-UMk">
             <objects>
-                <tabBarController id="dLG-f5-epP" sceneMemberID="viewController">
+                <tabBarController id="dLG-f5-epP" customClass="ProjectTabBarVC" customModule="OrgApp_V2" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Dsx-Ka-xxh"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KQC-mC-QME">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>

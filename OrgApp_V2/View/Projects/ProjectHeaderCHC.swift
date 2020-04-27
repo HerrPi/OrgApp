@@ -24,6 +24,7 @@ class ProjectHeaderCHC: UICollectionReusableView {
 	@IBAction func deleteCategory(_ sender: UIButton) {
 		if thisCategory.projects.count == 0 {
 			RealmFuncs.Edit.deleteObject(thisCategory)
+
 			if projectsVC.allCategorys.count == 0 {
 				projectsVC.changeEditMode(to: false)
 			}

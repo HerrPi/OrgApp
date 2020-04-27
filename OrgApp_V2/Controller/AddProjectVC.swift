@@ -188,6 +188,7 @@ extension AddProjectVC: UITextFieldDelegate {
 
 		switch textField {
 		case categorySearchField:
+			hideCreateProjectButton(true)
 			hideCategoryList(false)
 			if categorySearchField.text == "" {
 				searchedCategorys = RealmFuncs.Load.categorys()

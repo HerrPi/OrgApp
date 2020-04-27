@@ -5,5 +5,6 @@ target 'OrgApp_V2' do
 use_modular_headers!
   # Pods for OrgApp
 pod 'RealmSwift'
+pod 'IQKeyboardManagerSwift', '~> 6.5'
 
 end
