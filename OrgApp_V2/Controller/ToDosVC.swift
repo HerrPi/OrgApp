@@ -27,6 +27,7 @@ class ToDosVC: UIViewController {
 		let emptyTap = UITapGestureRecognizer(target: self, action: #selector(tapInTable))
 		toDosTableView.addGestureRecognizer(emptyTap)
 
+
 	}
 
 

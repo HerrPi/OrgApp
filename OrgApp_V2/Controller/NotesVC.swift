@@ -3,12 +3,13 @@ import RealmSwift
 
 class NotesVC: UIViewController {
 	@IBOutlet weak var notesTableView: UITableView!
+	@IBOutlet weak var projectTitle: UILabel!
 
 	var tabBarVC: ProjectTabBarVC!
 	var notes: List<Note>!
 	var thisProject: Project!
 
-	var contentState: Bool = false
+	var hideContent: Bool = true
 
 	
     override func viewDidLoad() {
@@ -18,18 +19,13 @@ class NotesVC: UIViewController {
 		tabBarVC = self.parent as? ProjectTabBarVC
 		thisProject = tabBarVC.thisProject
 		notes = RealmFuncs.Load.notes(of: thisProject)
+		projectTitle.text = thisProject.name
 
-//		let newNote = Note()
-//		newNote.title = "Test Note"
-//		newNote.content = "Das ist der Content of der speziellen Note..."
-//		RealmFuncs.Save.object(object: newNote)
-//		RealmFuncs.Edit.setParent(of: newNote, to: thisProject)
-
-
+		notesTableView.rowHeight = UITableView.automaticDimension
+		notesTableView.estimatedRowHeight = 600
 		notesTableView.delegate = self
 		notesTableView.dataSource = self
 		notesTableView.register(UINib(nibName: K.CustomCells.noteCell, bundle: nil), forCellReuseIdentifier: K.CustomCells.noteCell)
-
 
 		let tableTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapTableNil))
 		notesTableView.addGestureRecognizer(tableTapRecognizer)
@@ -69,18 +65,22 @@ class NotesVC: UIViewController {
 		}
 	}
 
-	@IBAction func showContent(_ sender: UIButton) {
-		contentState = !contentState
 
-		if contentState {
-			sender.setTitleColor(.red, for: .normal)
+
+	@IBAction func previewNoteButton(_ sender: UIButton) {
+		hideContent = !hideContent
+
+		if hideContent {
+			sender.setTitle("Preview note", for: .normal)
+			sender.setTitleColor(.systemBlue, for: .normal)
 		}else {
-			sender.setTitleColor(.blue, for: .normal)
+			sender.setTitle("Hide Note", for: .normal)
+			sender.setTitleColor(.systemRed, for: .normal)
 		}
 
 		notesTableView.reloadData()
-
 	}
+
 }
 
 //MARK: -  TABLE VIEW DELEGATE AND DATASOURCE
@@ -91,19 +91,36 @@ extension NotesVC: UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: K.CustomCells.noteCell, for: indexPath) as! NoteTCC
-		print(cell.textContainer.frame.height)
+
 		cell.thisNote = notes[indexPath.row]
 		cell.titleLabel.text = cell.thisNote.title
 		cell.contentPreviewLabel.text = cell.thisNote.content
-				print(cell.textContainer.frame.height)
 
-//		if contentState {
-//			cell.contentPreviewLabel.isHidden = true
-//		} else {
-//			cell.contentPreviewLabel.isHidden = false
-//
-//		}
+		if hideContent {
+			cell.contentPreviewLabel.isHidden = true
+		}else {
+			cell.contentPreviewLabel.isHidden = false
+
+		}
+
 		return cell
+	}
+
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		notesTableView.deselectRow(at: indexPath, animated: true)
+		performSegue(withIdentifier: K.Segues.showNoteSegue, sender: notesTableView.cellForRow(at: indexPath))
+
+	}
+
+	func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+		let delete = UIContextualAction(style: .destructive, title: "Delete") { (_, _, _) in
+			RealmFuncs.Edit.deleteObject((self.notesTableView.cellForRow(at: indexPath) as! NoteTCC).thisNote)
+			self.notesTableView.deleteRows(at: [indexPath], with: .fade)
+//			self.notesTableView.reloadData()
+		}
+
+		return UISwipeActionsConfiguration(actions: [delete])
+
 	}
 
 

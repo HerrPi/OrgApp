@@ -76,10 +76,12 @@ extension NoteDetailVC: UITextFieldDelegate, UITextViewDelegate {
 
 	func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
 		if textField.text == "" {
+			textField.resignFirstResponder()
+
 			let noTextAlert = UIAlertController(title: "No Text", message: "You need to provide a Title for the Note.", preferredStyle: .actionSheet)
-			noTextAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+			noTextAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in textField.becomeFirstResponder()}))
 			present(noTextAlert, animated: true, completion: nil)
-			return false
+			return true
 		}else {
 			RealmFuncs.Edit.renameNote(thisNote, newName: textField.text!)
 

@@ -76,9 +76,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MTy-dE-K5X">
-                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
+                                <rect key="frame" x="0.0" y="85" width="375" height="533"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="qkr-Qi-vXM">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="qkr-Qi-vXM">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -86,24 +86,49 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N93-46-o0I">
+                                <rect key="frame" x="5" y="49" width="150" height="31"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="26"/>
+                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Fb-ak-63b">
+                                <rect key="frame" x="335" y="51" width="35" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="uoc-II-ghA"/>
+                                    <constraint firstAttribute="height" constant="35" id="zGS-0f-tsr"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="plus" catalog="system"/>
+                                <connections>
+                                    <action selector="addPhoto:" destination="ePE-td-7i6" eventType="touchUpInside" id="ZJd-jH-G93"/>
+                                    <action selector="showHideDoneButton:" destination="ofY-KH-dvJ" eventType="touchUpInside" id="Bg4-oU-bom"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="MTy-dE-K5X" firstAttribute="leading" secondItem="uSm-9h-PwI" secondAttribute="leading" id="4gO-Ps-Qc8"/>
+                            <constraint firstItem="N93-46-o0I" firstAttribute="leading" secondItem="uSm-9h-PwI" secondAttribute="leading" constant="5" id="9ZY-oO-uja"/>
                             <constraint firstItem="uSm-9h-PwI" firstAttribute="bottom" secondItem="MTy-dE-K5X" secondAttribute="bottom" id="EeC-3n-mgX"/>
+                            <constraint firstItem="N93-46-o0I" firstAttribute="top" secondItem="uSm-9h-PwI" secondAttribute="top" constant="5" id="FBd-dE-Vxl"/>
                             <constraint firstItem="uSm-9h-PwI" firstAttribute="trailing" secondItem="MTy-dE-K5X" secondAttribute="trailing" id="HVa-0i-0MD"/>
-                            <constraint firstItem="MTy-dE-K5X" firstAttribute="top" secondItem="uSm-9h-PwI" secondAttribute="top" id="qQg-4T-oqJ"/>
+                            <constraint firstItem="9Fb-ak-63b" firstAttribute="top" secondItem="uSm-9h-PwI" secondAttribute="top" constant="5" id="TEp-r3-Y7O"/>
+                            <constraint firstItem="uSm-9h-PwI" firstAttribute="trailing" secondItem="9Fb-ak-63b" secondAttribute="trailing" constant="5" id="c3L-B8-fsk"/>
+                            <constraint firstItem="MTy-dE-K5X" firstAttribute="top" secondItem="N93-46-o0I" secondAttribute="bottom" constant="5" id="qQg-4T-oqJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="uSm-9h-PwI"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Photos" image="photo.on.rectangle" catalog="system" id="bOb-6x-Tfz"/>
+                    <tabBarItem key="tabBarItem" title="PHotos" image="photo.on.rectangle" catalog="system" id="BYZ-XK-CDK"/>
+                    <navigationItem key="navigationItem" id="soU-em-gLR"/>
                     <connections>
                         <outlet property="photosCollectionView" destination="MTy-dE-K5X" id="QuF-2x-4Yh"/>
+                        <outlet property="projectTitle" destination="N93-46-o0I" id="jdt-M7-lRh"/>
+                        <segue destination="K8H-vE-Mqt" kind="show" identifier="ImportPhotoSegue" id="ZKz-qv-6ZE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6k9-5D-GNH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="687" y="519"/>
+            <point key="canvasLocation" x="686" y="493"/>
         </scene>
         <!--Notes-->
         <scene sceneID="p4a-WA-AUX">
@@ -113,25 +138,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wSv-Pm-Tau">
-                                <rect key="frame" x="0.0" y="84" width="375" height="534"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wSv-Pm-Tau">
+                                <rect key="frame" x="0.0" y="85" width="375" height="533"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wrd-uX-1Iy">
-                                <rect key="frame" x="139" y="49" width="97" height="30"/>
-                                <state key="normal" title="Show Content"/>
+                                <rect key="frame" x="274" y="49" width="91" height="30"/>
+                                <state key="normal" title="Preview Note"/>
                                 <connections>
-                                    <action selector="showContent:" destination="klG-94-LpV" eventType="touchUpInside" id="HSc-nX-kRg"/>
+                                    <action selector="previewNoteButton:" destination="klG-94-LpV" eventType="touchUpInside" id="bd5-oK-CZE"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FzD-wc-6sS">
+                                <rect key="frame" x="5" y="49" width="150" height="31"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="26"/>
+                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="juB-iU-Mcq" firstAttribute="trailing" secondItem="wrd-uX-1Iy" secondAttribute="trailing" constant="10" id="LbI-bH-JF3"/>
                             <constraint firstItem="wSv-Pm-Tau" firstAttribute="leading" secondItem="juB-iU-Mcq" secondAttribute="leading" id="V1p-SL-vio"/>
-                            <constraint firstItem="wSv-Pm-Tau" firstAttribute="top" secondItem="wrd-uX-1Iy" secondAttribute="bottom" constant="5" id="pjT-7R-no8"/>
+                            <constraint firstItem="wSv-Pm-Tau" firstAttribute="top" secondItem="FzD-wc-6sS" secondAttribute="bottom" constant="5" id="VjD-lM-FuD"/>
+                            <constraint firstItem="FzD-wc-6sS" firstAttribute="leading" secondItem="juB-iU-Mcq" secondAttribute="leading" constant="5" id="ha5-fr-dMx"/>
                             <constraint firstItem="wrd-uX-1Iy" firstAttribute="top" secondItem="juB-iU-Mcq" secondAttribute="top" constant="5" id="rHc-hO-oSu"/>
-                            <constraint firstItem="wrd-uX-1Iy" firstAttribute="centerX" secondItem="jtZ-B4-Qdv" secondAttribute="centerX" id="rXN-OM-JeR"/>
                             <constraint firstItem="juB-iU-Mcq" firstAttribute="bottom" secondItem="wSv-Pm-Tau" secondAttribute="bottom" id="tSB-7Z-tD2"/>
+                            <constraint firstItem="FzD-wc-6sS" firstAttribute="top" secondItem="juB-iU-Mcq" secondAttribute="top" constant="5" id="vJQ-qp-D9i"/>
                             <constraint firstItem="juB-iU-Mcq" firstAttribute="trailing" secondItem="wSv-Pm-Tau" secondAttribute="trailing" id="y4g-gu-7YI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="juB-iU-Mcq"/>
@@ -139,12 +172,49 @@
                     <tabBarItem key="tabBarItem" title="Notes" image="doc.text" catalog="system" id="O1Q-pQ-3MC"/>
                     <connections>
                         <outlet property="notesTableView" destination="wSv-Pm-Tau" id="chh-Vg-dPv"/>
+                        <outlet property="projectTitle" destination="FzD-wc-6sS" id="pbR-ye-w4Q"/>
                         <segue destination="MF5-dQ-EBm" kind="show" identifier="ShowNoteSegue" id="dVm-uR-eCs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lu9-rc-lJD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1309.5999999999999" y="517.6911544227886"/>
+            <point key="canvasLocation" x="1425" y="493"/>
+        </scene>
+        <!--Import PhotoVC-->
+        <scene sceneID="nBh-tA-nsI">
+            <objects>
+                <collectionViewController id="K8H-vE-Mqt" customClass="ImportPhotoVC" customModule="OrgApp_V2" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="fQZ-6Q-wYv" userLabel="AllPhotos">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="vPg-v4-onO">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells/>
+                        <connections>
+                            <outlet property="dataSource" destination="K8H-vE-Mqt" id="vJu-36-KAa"/>
+                            <outlet property="delegate" destination="K8H-vE-Mqt" id="muq-WX-IGR"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="AQA-Li-Wni">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Import selected" id="VBF-60-I0H">
+                            <connections>
+                                <action selector="importSelectedPhotos:" destination="K8H-vE-Mqt" id="nXk-fD-v2q"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="allPhotosCollView" destination="fQZ-6Q-wYv" id="Af1-Gq-Ijo"/>
+                        <outlet property="importButton" destination="VBF-60-I0H" id="ZrZ-7G-gRE"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xrU-7Q-V5S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="686" y="1228"/>
         </scene>
         <!--Note DetailVC-->
         <scene sceneID="u7s-Ef-6R2">
@@ -154,7 +224,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Note Title" placeholder="Note Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ptc-Oc-5cr">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Note Title" placeholder="Note Title" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ptc-Oc-5cr">
                                 <rect key="frame" x="10" y="54" width="355" height="35"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
@@ -188,7 +258,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9SP-1D-DoV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1309.5999999999999" y="1237.3313343328336"/>
+            <point key="canvasLocation" x="1425" y="1181"/>
         </scene>
         <!--ToDos-->
         <scene sceneID="djd-LV-E24">
@@ -238,13 +308,15 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cXR-8g-7vZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="56.799999999999997" y="519.49025487256381"/>
+            <point key="canvasLocation" x="-100" y="493"/>
         </scene>
         <!--Project Tab BarVC-->
         <scene sceneID="Wyc-6v-UMk">
             <objects>
                 <tabBarController id="dLG-f5-epP" customClass="ProjectTabBarVC" customModule="OrgApp_V2" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="Dsx-Ka-xxh"/>
+                    <navigationItem key="navigationItem" id="Dsx-Ka-xxh">
+                        <barButtonItem key="rightBarButtonItem" title="DERTEST" id="N6R-nA-79r"/>
+                    </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KQC-mC-QME">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -252,7 +324,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="ofY-KH-dvJ" kind="relationship" relationship="viewControllers" id="cfu-3v-cvr"/>
-                        <segue destination="ePE-td-7i6" kind="relationship" relationship="viewControllers" id="obb-Qu-KcZ"/>
+                        <segue destination="ePE-td-7i6" kind="relationship" relationship="viewControllers" id="wxh-Rc-2e1"/>
                         <segue destination="klG-94-LpV" kind="relationship" relationship="viewControllers" id="c6a-3D-1F4"/>
                     </connections>
                 </tabBarController>
@@ -285,5 +357,6 @@
         <image name="folder.badge.plus" catalog="system" width="64" height="42"/>
         <image name="list.bullet" catalog="system" width="64" height="44"/>
         <image name="photo.on.rectangle" catalog="system" width="64" height="48"/>
+        <image name="plus" catalog="system" width="64" height="56"/>
     </resources>
 </document>

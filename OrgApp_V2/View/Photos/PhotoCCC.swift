@@ -10,10 +10,11 @@ import UIKit
 
 class PhotoCCC: UICollectionViewCell {
 	@IBOutlet weak var photoView: UIImageView!
-	
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+	@IBOutlet weak var selectOverlay: UIView!
+	@IBOutlet weak var selectCheckMark: UIImageView!
+
+	var imageIdentifier: String!
+
+
 
 }

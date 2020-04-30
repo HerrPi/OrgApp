@@ -117,6 +117,17 @@ struct RealmFuncs {
 			}
 		}
 
+		static func setParent(of photo: Photo, to project: Project) {
+			let realm = try! Realm()
+			do {
+				try realm.write{
+					project.photos.append(photo)
+				}
+			} catch {
+				print("Failed parenting -> \(error)")
+			}
+		}
+
 	}
 
 	struct Load {
@@ -143,17 +154,15 @@ struct RealmFuncs {
 //			return realm.objects(ToDo.self).filter(NSPredicate(format: "done == true")).sorted(byKeyPath: "name")
 		}
 
-		static func photos() -> Results<Photo> {
+		static func photos(of project: Project) -> List<Photo> {
 			let realm = try! Realm()
-			return realm.objects(Photo.self)
+			return realm.object(ofType: Project.self, forPrimaryKey: project.itemId)!.photos
 		}
 
 		static func notes(of project: Project) -> List<Note> {
 			let realm = try! Realm()
-			let projectID = project.itemId
 			return realm.object(ofType: Project.self, forPrimaryKey: project.itemId)!.notes
-//			return realm.objects(Note.self).filter(NSPredicate(format: "itemID == %@", projectID))
-//			return realm.objects(Note.self)
+
 		}
 	}
 
@@ -169,8 +178,13 @@ struct RealmFuncs {
 			let realm = try! Realm()
 			let tempCat = realm.objects(Category.self).filter(searchPredicate)
 			return tempCat.first!
+		}
 
-
+		static func photo(identifier: String) -> Photo {
+			let searchPredicate = NSPredicate(format: "photoLocalIdentifier == %@", identifier)
+			let realm = try! Realm()
+			let tempCat = realm.objects(Photo.self).filter(searchPredicate)
+			return tempCat.first!
 		}
 	}
 

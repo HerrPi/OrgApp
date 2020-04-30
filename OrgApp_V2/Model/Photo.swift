@@ -7,7 +7,6 @@ class Photo: Object {
 		return "itemId"
 	}
 	
-//	@objc dynamic var image: Image
-	@objc dynamic var image: String = ""
+	@objc dynamic var photoLocalIdentifier: String = ""
 	var linkedParent = LinkingObjects(fromType: Project.self, property: "photos")
 }

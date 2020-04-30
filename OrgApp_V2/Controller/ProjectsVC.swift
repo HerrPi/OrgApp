@@ -17,7 +17,7 @@ class ProjectsVC: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		preBuildApp()
+//		preBuildApp()
 
 		allProjects = RealmFuncs.Load.projects()
 		allCategorys = RealmFuncs.Load.categorys()
