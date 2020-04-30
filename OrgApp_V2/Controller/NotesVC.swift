@@ -3,13 +3,13 @@ import RealmSwift
 
 class NotesVC: UIViewController {
 	@IBOutlet weak var notesTableView: UITableView!
-	@IBOutlet weak var projectTitle: UILabel!
 
 	var tabBarVC: ProjectTabBarVC!
 	var notes: List<Note>!
 	var thisProject: Project!
 
 	var hideContent: Bool = true
+	var editNotesButton: UIBarButtonItem!
 
 	
     override func viewDidLoad() {
@@ -19,7 +19,6 @@ class NotesVC: UIViewController {
 		tabBarVC = self.parent as? ProjectTabBarVC
 		thisProject = tabBarVC.thisProject
 		notes = RealmFuncs.Load.notes(of: thisProject)
-		projectTitle.text = thisProject.name
 
 		notesTableView.rowHeight = UITableView.automaticDimension
 		notesTableView.estimatedRowHeight = 600
@@ -32,6 +31,25 @@ class NotesVC: UIViewController {
     }
 
 	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(true)
+		hideContent = true
+		notesTableView.reloadData()
+
+		self.parent?.navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Show note", style: .plain, target: self, action: #selector(previewNoteButton))]
+		editNotesButton = self.parent?.navigationItem.rightBarButtonItem
+
+	}
+
+
+	@objc func previewNoteButton() {
+		hideContent = !hideContent
+		if hideContent {
+			editNotesButton.title = "Show note"
+
+		}else {
+			editNotesButton.title = "Hide note"
+		}
+
 		notesTableView.reloadData()
 	}
 
@@ -45,8 +63,8 @@ class NotesVC: UIViewController {
 			}else {
 				noteDetail.thisNote = sender as? Note
 			}
-			
-			
+
+
 		}
 	}
 
@@ -66,20 +84,6 @@ class NotesVC: UIViewController {
 	}
 
 
-
-	@IBAction func previewNoteButton(_ sender: UIButton) {
-		hideContent = !hideContent
-
-		if hideContent {
-			sender.setTitle("Preview note", for: .normal)
-			sender.setTitleColor(.systemBlue, for: .normal)
-		}else {
-			sender.setTitle("Hide Note", for: .normal)
-			sender.setTitleColor(.systemRed, for: .normal)
-		}
-
-		notesTableView.reloadData()
-	}
 
 }
 

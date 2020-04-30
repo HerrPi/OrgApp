@@ -3,8 +3,6 @@ import RealmSwift
 
 class ToDosVC: UIViewController {
 	@IBOutlet weak var toDosTableView: UITableView!
-	@IBOutlet weak var showHideDone: UIButton!
-	@IBOutlet weak var projectTitle: UILabel!
 
 	var tabBarVC: ProjectTabBarVC!
 	var thisProject: Project!
@@ -12,11 +10,12 @@ class ToDosVC: UIViewController {
 	var unDoneToDos: Results<ToDo>!
 	var hideDone: Bool = true
 
+	var editToDosButton: UIBarButtonItem!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 		tabBarVC = self.parent as? ProjectTabBarVC
 		thisProject = tabBarVC.thisProject
-		projectTitle.text = thisProject.name
 		doneToDos = RealmFuncs.Load.doneToDos(of: thisProject)
 		unDoneToDos = RealmFuncs.Load.undDoneToDos(of: thisProject)
 
@@ -26,10 +25,19 @@ class ToDosVC: UIViewController {
 
 		let emptyTap = UITapGestureRecognizer(target: self, action: #selector(tapInTable))
 		toDosTableView.addGestureRecognizer(emptyTap)
-
-
 	}
 
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(true)
+		self.parent?.navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Show Done", style: .plain, target: self, action: #selector(showHidePressed))]
+		editToDosButton = self.parent?.navigationItem.rightBarButtonItem
+	}
+
+	@objc func showHidePressed() {
+		hideDone = !hideDone
+		hideDone ? (editToDosButton.title = "Show Done") : (editToDosButton.title = "Hide Done")
+		toDosTableView.reloadData()
+	}
 
 
 	func markCellDoneUndone (cell: ToDoTCC) {
@@ -46,11 +54,6 @@ class ToDosVC: UIViewController {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 			self.toDosTableView.reloadData()
 		}
-	}
-	@IBAction func showHideDoneButton(_ sender: UIButton) {
-		hideDone = !hideDone
-		hideDone ? showHideDone.setTitle("show Done", for: .normal) : showHideDone.setTitle("hide Done", for: .normal)
-		toDosTableView.reloadData()
 	}
 
 }
@@ -170,11 +173,11 @@ extension ToDosVC: UITextFieldDelegate {
 			RealmFuncs.Edit.deleteObject(toDo)
 			toDosTableView.deleteRows(at: [toDosTableView.indexPath(for: cell)!], with: .left)
 		}
-		showHideDone.isHidden = false
+		editToDosButton.isEnabled = true
 	}
 
 	func textFieldDidBeginEditing(_ textField: UITextField, toDo: ToDo) {
-		showHideDone.isHidden = true
+		editToDosButton.isEnabled = false
 	}
 
 }

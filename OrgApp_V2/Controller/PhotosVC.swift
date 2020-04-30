@@ -4,7 +4,6 @@ import Photos
 
 class PhotosVC: UIViewController {
 	@IBOutlet weak var photosCollectionView: UICollectionView!
-	@IBOutlet weak var projectTitle: UILabel!
 
 	var tabBarVC: ProjectTabBarVC!
 	var thisProject: Project!
@@ -14,19 +13,15 @@ class PhotosVC: UIViewController {
 	var photoSize = CGSize(width: 0, height: 0)
 	var imageManager = PHImageManager()
 
+	var deleteEditMode: Bool = false
+	var editPhotosButton: UIBarButtonItem!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 		tabBarVC = self.parent as? ProjectTabBarVC
 		thisProject = tabBarVC.thisProject
-		projectTitle.text = thisProject.name
 		photos = RealmFuncs.Load.photos(of: thisProject)
 
-
-//		let editBarButton = UIBarButtonItem(title: "Edit", style: .plain, target: nil, action: #selector(editModeSwitch))
-//		navigationItem.setRightBarButtonItems([editBarButton], animated: true)
-//		self.navigationItem.rightBarButtonItem = editBarButton
-
-		
 		let collectionFlowLayout = photosCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
 		let cellSize = CGSize(width: ((photosCollectionView.frame.width - 6) / 3), height: ((photosCollectionView.frame.width - 6) / 3))
 		collectionFlowLayout.itemSize = cellSize
@@ -36,17 +31,51 @@ class PhotosVC: UIViewController {
 		photosCollectionView.delegate = self
 		photosCollectionView.dataSource = self
 		photosCollectionView.register(UINib(nibName: K.CustomCells.photoCell, bundle: nil), forCellWithReuseIdentifier: K.CustomCells.photoCell)
+		photosCollectionView.allowsMultipleSelection = true
 
 	}
 
-	@objc func editModeSwitch() {
-
-	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
 		syncRealmWithPhotos()
+		self.parent?.navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editThis))]
+		editPhotosButton = self.parent?.navigationItem.rightBarButtonItem
+		editPhotosButton.isEnabled = photos.count == 0 ? false : true
+		changeEditMode(to: false)
+
 	}
+
+	@objc func editThis() {
+		if deleteEditMode {
+			for index in photosCollectionView.indexPathsForSelectedItems! {
+				let cell = photosCollectionView.cellForItem(at: index) as! PhotoCCC
+				let photoObject = RealmFuncs.Search.photo(identifier: cell.imageIdentifier)
+				RealmFuncs.Edit.deleteObject(photoObject)
+			}
+			syncRealmWithPhotos()
+			changeEditMode(to: !deleteEditMode)
+		}else {
+			changeEditMode(to: !deleteEditMode)
+		}
+	}
+
+	func changeEditMode(to editMode: Bool) {
+		if editMode {
+			editPhotosButton.tintColor = .systemRed
+			editPhotosButton.style = .done
+			editPhotosButton.title = "Cancel"
+			deleteEditMode = true
+		}else {
+			editPhotosButton.tintColor = .systemBlue
+			editPhotosButton.style = .plain
+			editPhotosButton.title = "Edit"
+			deleteEditMode = false
+		}
+		editPhotosButton.isEnabled = photos.count == 0 ? false : true
+		photosCollectionView.reloadData()
+	}
+
 
 	func syncRealmWithPhotos() {
 		var photoIdentifiers: [String] = []
@@ -62,6 +91,7 @@ class PhotosVC: UIViewController {
 
 
 	@IBAction func addPhoto(_ sender: UIButton) {
+		changeEditMode(to: false)
 		let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 		alert.addAction(UIAlertAction(title: "From Library", style: .default, handler: { _ in
 			self.performSegue(withIdentifier: K.Segues.importPhotoSegue, sender: nil)
@@ -69,6 +99,11 @@ class PhotosVC: UIViewController {
 
 		alert.addAction(UIAlertAction(title: "From Camera", style: .default, handler: { _ in
 		}))
+
+		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+		
+
 
 		present(alert, animated: true, completion: nil)
 	}
@@ -98,33 +133,42 @@ extension PhotosVC: UICollectionViewDelegate, UICollectionViewDataSource {
 			cell.photoView.image = image
 			cell.imageIdentifier = self.photoAssets[indexPath.item].localIdentifier
 		}
+
+		cell.selectOverlay.isHidden = !cell.isSelected
+
 		return cell
 	}
 
-	func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+//	func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+//
+//	}
+
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		if deleteEditMode {
+			let cell = photosCollectionView.cellForItem(at: indexPath) as! PhotoCCC
+			cell.selectOverlay.isHidden = false
+			editPhotosButton.title = "Delete \(photosCollectionView.indexPathsForSelectedItems!.count) Photos!"
+		}else {
+
+
+		}
+	}
+
+	func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
 		let cell = photosCollectionView.cellForItem(at: indexPath) as! PhotoCCC
-		let contextMenu = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-
-			let delete = UIAction(title: "Delete", attributes: .destructive) { _ in
-				let photoObject = RealmFuncs.Search.photo(identifier: cell.imageIdentifier)
-				cell.isHidden = true
-				self.deleteAndReloadWithDelay(photoObject, indexPath)
-				cell.isHidden = false
-			}
-
-			let thisMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [delete])
-			return thisMenu
-		}
-		return contextMenu
+		cell.selectOverlay.isHidden = true
+		return true
 	}
 
-	func deleteAndReloadWithDelay(_ photo: Photo, _ indexPath: IndexPath) {
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-			RealmFuncs.Edit.deleteObject(photo)
-			self.syncRealmWithPhotos()
-
+	func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+		if photosCollectionView.indexPathsForSelectedItems?.count == 0 {
+			editPhotosButton.title = "Cancel"
+		}else {
+			editPhotosButton.title = "Delete \(photosCollectionView.indexPathsForSelectedItems!.count) Photos!"
 		}
 	}
+
 
 
 }
+

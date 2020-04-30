@@ -17,8 +17,6 @@ class ProjectsVC: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-//		preBuildApp()
-
 		allProjects = RealmFuncs.Load.projects()
 		allCategorys = RealmFuncs.Load.categorys()
 
@@ -41,100 +39,7 @@ class ProjectsVC: UIViewController {
 	}
 
 
-	func preBuildApp() {
-		do {
-			try orgaData.write{
-				orgaData.deleteAll()
-			}
-		} catch  {
-			print("WRROR EDELET ALL")
-		}
-		let cat1 = Category()
-		cat1.name = "Hausbau"
-		RealmFuncs.Save.object(object: cat1)
-		let proj1 = Project()
-		proj1.name = "Garten"
-		RealmFuncs.Save.object(object: proj1)
-		RealmFuncs.Edit.setParent(of: proj1, to: cat1)
-		let proj2 = Project()
-		proj2.name = "Küche"
-		RealmFuncs.Save.object(object: proj2)
-		RealmFuncs.Edit.setParent(of: proj2, to: cat1)
-
-		let proj3 = Project()
-		proj3.name = "Balkon"
-		RealmFuncs.Save.object(object: proj3)
-		RealmFuncs.Edit.setParent(of: proj3, to: cat1)
-
-		let cat2 = Category()
-		cat2.name = "Freizeit"
-		RealmFuncs.Save.object(object: cat2)
-
-		let proj4 = Project()
-		proj4.name = "Waldspiele"
-		RealmFuncs.Save.object(object: proj4)
-		RealmFuncs.Edit.setParent(of: proj4, to: cat2)
-
-		let cat3 = Category()
-		cat3.name = "Urlaub"
-		RealmFuncs.Save.object(object: cat3)
-		let proj5 = Project()
-		proj5.name = "Malle"
-		RealmFuncs.Save.object(object: proj5)
-		RealmFuncs.Edit.setParent(of: proj5, to: cat3)
-
-		let proj6 = Project()
-		proj6.name = "Griechenland"
-		RealmFuncs.Save.object(object: proj6)
-		RealmFuncs.Edit.setParent(of: proj6, to: cat3)
-
-
-		let cat4 = Category()
-		cat4.name = "Arbeit"
-		RealmFuncs.Save.object(object: cat4)
-
-		let proj7 = Project()
-		proj7.name = "Audio"
-		RealmFuncs.Save.object(object: proj7)
-		RealmFuncs.Edit.setParent(of: proj7, to: cat4)
-		let proj8 = Project()
-		proj8.name = "Programming"
-		RealmFuncs.Save.object(object: proj8)
-		RealmFuncs.Edit.setParent(of: proj8, to: cat4)
-
-		let warenListe = ["Bier",
-						  "Eisenerz",
-						  "Eisenwaren",
-						  "Felle",
-						  "Fisch",
-						  "Fleisch",
-						  "Getreide",
-						  "Gewurze"]
-
-		for toDo in warenListe {
-			let newToDo = ToDo()
-			newToDo.name = toDo
-			switch toDo {
-			case "Eisenerz", "Felle", "Fisch", "Getreide":
-				newToDo.done = true
-			default:
-				break
-			}
-			RealmFuncs.Save.object(object: newToDo)
-			RealmFuncs.Edit.setParent(of: newToDo, to: proj2)
-			
-		}
-
-	}
-
-
-
-
-
-
-
 //MARK: -  USER INTERACTIVE FUNCTIONS
-
 	@IBAction func editProjectsVC(_ sender: UIBarButtonItem) {
 		if sender == editProjectVCButton {
 			for categ in allCategorys {

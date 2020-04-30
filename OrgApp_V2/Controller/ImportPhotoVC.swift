@@ -112,7 +112,6 @@ extension ImportPhotoVC {
 		let cell = allPhotosCollView.cellForItem(at: indexPath) as! PhotoCCC
 		cell.selectCheckMark.isHidden = true
 		cell.selectOverlay.isHidden = true
-
 		return true
 	}
 
