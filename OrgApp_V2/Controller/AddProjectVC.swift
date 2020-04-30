@@ -230,9 +230,14 @@ extension AddProjectVC: UITextFieldDelegate {
 
 	func textFieldDidEndEditing(_ textField: UITextField) {
 		if textField == categorySearchField {
-			if RealmFuncs.Search.categorys(contains: categorySearchField.text!).count == 0 {
-				categorySearchField.text = ""
-				_ = tryCheckOut()
+			if RealmFuncs.Search.categorys(contains: categorySearchField.text!).count == 0 && categorySearchField.text != "" {
+				let newCat = Category()
+				newCat.name = categorySearchField.text!
+				_ = RealmFuncs.Save.object(object: newCat)
+				denyAddCategory(true)
+				hideCategoryList(true)
+				categoryTableView.reloadData()
+				_ = self.tryCheckOut()
 			}
 		}
 	}

@@ -16,6 +16,9 @@ class PhotosVC: UIViewController {
 	var deleteEditMode: Bool = false
 	var editPhotosButton: UIBarButtonItem!
 
+	var photoIdentifiers: [String] = []
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 		tabBarVC = self.parent as? ProjectTabBarVC
@@ -78,7 +81,7 @@ class PhotosVC: UIViewController {
 
 
 	func syncRealmWithPhotos() {
-		var photoIdentifiers: [String] = []
+		photoIdentifiers = []
 		for photo in photos {
 			photoIdentifiers.append(photo.photoLocalIdentifier)
 		}
@@ -94,7 +97,7 @@ class PhotosVC: UIViewController {
 		changeEditMode(to: false)
 		let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 		alert.addAction(UIAlertAction(title: "From Library", style: .default, handler: { _ in
-			self.performSegue(withIdentifier: K.Segues.importPhotoSegue, sender: nil)
+			self.performSegue(withIdentifier: K.Segues.importPhoto, sender: nil)
 		}))
 
 		alert.addAction(UIAlertAction(title: "From Camera", style: .default, handler: { _ in
@@ -113,6 +116,14 @@ class PhotosVC: UIViewController {
 			let dest = segue.destination as! ImportPhotoVC
 			dest.thisProject = thisProject
 			dest.photosVC = self
+		}
+
+		if segue.destination is FullSizePhotoVC {
+			let dest = segue.destination as! FullSizePhotoVC
+			let indexPath = sender as! IndexPath
+			dest.selectedPhoto = indexPath.item
+			dest.photoAssets = photoAssets
+			dest.photoIdentifiers = photoIdentifiers
 		}
 	}
 
@@ -139,18 +150,14 @@ extension PhotosVC: UICollectionViewDelegate, UICollectionViewDataSource {
 		return cell
 	}
 
-//	func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-//
-//	}
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let cell = photosCollectionView.cellForItem(at: indexPath) as! PhotoCCC
 		if deleteEditMode {
-			let cell = photosCollectionView.cellForItem(at: indexPath) as! PhotoCCC
 			cell.selectOverlay.isHidden = false
 			editPhotosButton.title = "Delete \(photosCollectionView.indexPathsForSelectedItems!.count) Photos!"
 		}else {
-
-
+			performSegue(withIdentifier: K.Segues.fullSizePhoto, sender: indexPath)
 		}
 	}
 

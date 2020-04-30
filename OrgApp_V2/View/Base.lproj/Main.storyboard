@@ -114,6 +114,7 @@
                     <connections>
                         <outlet property="photosCollectionView" destination="MTy-dE-K5X" id="QuF-2x-4Yh"/>
                         <segue destination="K8H-vE-Mqt" kind="show" identifier="ImportPhotoSegue" id="ZKz-qv-6ZE"/>
+                        <segue destination="q1p-OV-UDc" kind="show" identifier="FullSizePhotoSegue" id="23a-u8-x5T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6k9-5D-GNH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -186,7 +187,37 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xrU-7Q-V5S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="375" y="1263"/>
+            <point key="canvasLocation" x="361" y="1262"/>
+        </scene>
+        <!--FullSizePhoto-->
+        <scene sceneID="lZV-cD-6db">
+            <objects>
+                <viewController title="FullSizePhoto" id="q1p-OV-UDc" customClass="FullSizePhotoVC" customModule="OrgApp_V2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dUM-BL-NK8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sVY-Xa-wOP" userLabel="FullSizePhoto">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="sVY-Xa-wOP" secondAttribute="bottom" id="HgC-LU-cuh"/>
+                            <constraint firstItem="sVY-Xa-wOP" firstAttribute="top" secondItem="dUM-BL-NK8" secondAttribute="top" id="e5n-dr-8ru"/>
+                            <constraint firstItem="sVY-Xa-wOP" firstAttribute="leading" secondItem="V6N-KP-SWI" secondAttribute="leading" id="fE5-FO-Af3"/>
+                            <constraint firstItem="V6N-KP-SWI" firstAttribute="trailing" secondItem="sVY-Xa-wOP" secondAttribute="trailing" id="yHJ-UD-zbK"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="V6N-KP-SWI"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="v9H-FI-XM6"/>
+                    <connections>
+                        <outlet property="fullSizePhotoImageView" destination="sVY-Xa-wOP" id="YXs-gw-Ot1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r0Y-Zz-3hk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1010" y="1262"/>
         </scene>
         <!--Note DetailVC-->
         <scene sceneID="u7s-Ef-6R2">

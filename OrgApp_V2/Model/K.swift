@@ -15,8 +15,9 @@ struct K {
 	struct Segues {
 		static let showProject = "ProjectDetailSegue"
 		static let addProject = "AddProjectSegue"
-		static let showNoteSegue = "ShowNoteSegue"
-		static let importPhotoSegue = "ImportPhotoSegue"
+		static let showNote = "ShowNoteSegue"
+		static let importPhoto = "ImportPhotoSegue"
+		static let fullSizePhoto = "FullSizePhotoSegue"
 	}
 
 

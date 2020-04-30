@@ -38,6 +38,7 @@
 		2A515B76244DCBBE0099AB04 /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A515B75244DCBBE0099AB04 /* PhotosVC.swift */; };
 		2A515B78244DCBBF0099AB04 /* NotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A515B77244DCBBF0099AB04 /* NotesVC.swift */; };
 		2A6A4BAE2458337100FDC7A3 /* ImportPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6A4BAD2458337100FDC7A3 /* ImportPhotoVC.swift */; };
+		2A7EBB7E245AF1C70015BBCF /* FullSizePhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7EBB7D245AF1C70015BBCF /* FullSizePhotoVC.swift */; };
 		2AA78E542456FB7900C79B19 /* NoteDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA78E532456FB7900C79B19 /* NoteDetailVC.swift */; };
 		2AB5BA2D245461380095646C /* ProjectTabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB5BA2C245461380095646C /* ProjectTabBarVC.swift */; };
 		2AE81763244EEEE4003FBE13 /* AddProjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81762244EEEE4003FBE13 /* AddProjectVC.swift */; };
@@ -82,6 +83,7 @@
 		2A515B75244DCBBE0099AB04 /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		2A515B77244DCBBF0099AB04 /* NotesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVC.swift; sourceTree = "<group>"; };
 		2A6A4BAD2458337100FDC7A3 /* ImportPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPhotoVC.swift; sourceTree = "<group>"; };
+		2A7EBB7D245AF1C70015BBCF /* FullSizePhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullSizePhotoVC.swift; sourceTree = "<group>"; };
 		2AA78E532456FB7900C79B19 /* NoteDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailVC.swift; sourceTree = "<group>"; };
 		2AB5BA2C245461380095646C /* ProjectTabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTabBarVC.swift; sourceTree = "<group>"; };
 		2AE81762244EEEE4003FBE13 /* AddProjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectVC.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				2A515B77244DCBBF0099AB04 /* NotesVC.swift */,
 				2AA78E532456FB7900C79B19 /* NoteDetailVC.swift */,
 				2A515B75244DCBBE0099AB04 /* PhotosVC.swift */,
+				2A7EBB7D245AF1C70015BBCF /* FullSizePhotoVC.swift */,
 				2A6A4BAD2458337100FDC7A3 /* ImportPhotoVC.swift */,
 			);
 			path = Controller;
@@ -373,6 +376,7 @@
 				2A515B76244DCBBE0099AB04 /* PhotosVC.swift in Sources */,
 				2A515B74244DCBBB0099AB04 /* ToDosVC.swift in Sources */,
 				2A385457244D885F00F2CAEB /* AppDelegate.swift in Sources */,
+				2A7EBB7E245AF1C70015BBCF /* FullSizePhotoVC.swift in Sources */,
 				2A515B58244DA7CB0099AB04 /* Note.swift in Sources */,
 				2A515B71244DB1BF0099AB04 /* ToDoTCC.swift in Sources */,
 				2A515B78244DCBBF0099AB04 /* NotesVC.swift in Sources */,

@@ -55,7 +55,7 @@ class NotesVC: UIViewController {
 
 
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == K.Segues.showNoteSegue {
+		if segue.identifier == K.Segues.showNote {
 			let noteDetail = segue.destination as! NoteDetailVC
 			noteDetail.thisProject = thisProject
 			if sender is NoteTCC {
@@ -75,10 +75,10 @@ class NotesVC: UIViewController {
 			newNote.title = ""
 			newNote.content = "Your Content..."
 			RealmFuncs.Edit.setParent(of: newNote, to: thisProject)
-			performSegue(withIdentifier: K.Segues.showNoteSegue, sender: newNote)
+			performSegue(withIdentifier: K.Segues.showNote, sender: newNote)
 
 		}else {
-			performSegue(withIdentifier: K.Segues.showNoteSegue, sender: notesTableView.cellForRow(at: tappedIndexPath!))
+			performSegue(withIdentifier: K.Segues.showNote, sender: notesTableView.cellForRow(at: tappedIndexPath!))
 
 		}
 	}
@@ -112,7 +112,7 @@ extension NotesVC: UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		notesTableView.deselectRow(at: indexPath, animated: true)
-		performSegue(withIdentifier: K.Segues.showNoteSegue, sender: notesTableView.cellForRow(at: indexPath))
+		performSegue(withIdentifier: K.Segues.showNote, sender: notesTableView.cellForRow(at: indexPath))
 
 	}
 

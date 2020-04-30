@@ -46,13 +46,13 @@ class ImportPhotoVC: UICollectionViewController {
 				if !photosVC.photoAssets.contains(allPhotos[index.item]) {
 					let newPhoto = Photo()
 					newPhoto.photoLocalIdentifier = allPhotos[index.item].localIdentifier
-					RealmFuncs.Save.object(object: newPhoto)
+					_ = RealmFuncs.Save.object(object: newPhoto)
 					RealmFuncs.Edit.setParent(of: newPhoto, to: thisProject)
 				}
 			}else {
 				let newPhoto = Photo()
 				newPhoto.photoLocalIdentifier = allPhotos[index.item].localIdentifier
-				RealmFuncs.Save.object(object: newPhoto)
+				_ = RealmFuncs.Save.object(object: newPhoto)
 				RealmFuncs.Edit.setParent(of: newPhoto, to: thisProject)
 			}
 		}

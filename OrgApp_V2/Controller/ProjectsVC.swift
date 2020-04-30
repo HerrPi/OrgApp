@@ -28,13 +28,8 @@ class ProjectsVC: UIViewController {
 		let collectionFlowLayout = projectsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
 		collectionFlowLayout.itemSize = CGSize(width: ((view.frame.size.width - 20) / 3), height: ((view.frame.size.width - 20) / 3))
 
-
-
 		let addProjCatContext = UIContextMenuInteraction(delegate: self)
 		addProjectButton.addInteraction(addProjCatContext)
-
-
-
 
 	}
 
@@ -49,12 +44,6 @@ class ProjectsVC: UIViewController {
 				}
 			}
 
-//			if allCategorys.count > 0 {
-//				changeEditMode(to: !editMode)
-//
-//			}else {
-//				changeEditMode(to: false)
-//			}
 		}
 	}
 
@@ -193,10 +182,13 @@ extension ProjectsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICo
 	// CELLS AND ITEMS
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.CustomCells.projectCell, for: indexPath) as! ProjectCCC
+		cell.isHidden = false
 		cell.thisProject = allCategorys[indexPath.section].projects[indexPath.row]
 		cell.projectsVC = self
 		cell.projectTitle.text = cell.thisProject.name
 		cell.projectTitle.backgroundColor = .systemOrange
+
+
 		return cell
 	}
 
@@ -224,6 +216,7 @@ extension ProjectsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICo
 				self.projectsCollectionView.cellForItem(at: indexPath)?.isHidden = true
 				RealmFuncs.Edit.deleteObject(thisCell.thisProject)
 				self.projectsCollectionView.deleteItems(at: [indexPath])
+
 
 			}
 
