@@ -73,6 +73,19 @@ struct RealmFuncs {
 			}
 		}
 
+
+		static func changeToDoDescription(_ toDo: ToDo, description: String) {
+			let realm = try! Realm()
+			do {
+				try realm.write{
+					toDo.toDoDescription = description
+				}
+			} catch {
+				print("Failed rename toDo -> \(error)")
+			}
+		}
+
+
 		static func switchToDoDone(_ toDo: ToDo, done: Bool) {
 			let realm = try! Realm()
 			do {
@@ -141,17 +154,15 @@ struct RealmFuncs {
 			return realm.objects(Project.self).sorted(byKeyPath: "name")
 		}
 
-		static func undDoneToDos(of project: Project) -> Results<ToDo> {
+		static func undDoneToDos(of project: Project) -> List<ToDo> {
 			let realm = try! Realm()
-			return (realm.object(ofType: Project.self, forPrimaryKey: project.itemId)?.toDos.filter(NSPredicate(format: "done == false")))!
-//			return realm.objects(ToDo.self).filter(NSPredicate(format: "done == false")).sorted(byKeyPath: "name")
+			return (realm.object(ofType: Project.self, forPrimaryKey: project.itemId)!.toDos) //.filter(NSPredicate(format: "done == false")))!
 		}
 
 
 		static func doneToDos(of project: Project) -> Results<ToDo> {
 			let realm = try! Realm()
 			return (realm.object(ofType: Project.self, forPrimaryKey: project.itemId)?.toDos.filter(NSPredicate(format: "done == true")))!
-//			return realm.objects(ToDo.self).filter(NSPredicate(format: "done == true")).sorted(byKeyPath: "name")
 		}
 
 		static func photos(of project: Project) -> List<Photo> {

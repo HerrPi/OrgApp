@@ -1,16 +1,18 @@
 import UIKit
 import RealmSwift
 
-class ToDosVC: UIViewController {
+class ToDosVC: UITableViewController {
 	@IBOutlet weak var toDosTableView: UITableView!
 
 	var tabBarVC: ProjectTabBarVC!
 	var thisProject: Project!
 	var doneToDos: Results<ToDo>!
-	var unDoneToDos: Results<ToDo>!
+	var unDoneToDos: List<ToDo>!
 	var hideDone: Bool = true
+	var activeCell: ToDoTCC?
 
-	var editToDosButton: UIBarButtonItem!
+	var optionsBarButton: UIBarButtonItem!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,53 +21,80 @@ class ToDosVC: UIViewController {
 		doneToDos = RealmFuncs.Load.doneToDos(of: thisProject)
 		unDoneToDos = RealmFuncs.Load.undDoneToDos(of: thisProject)
 
-		toDosTableView.delegate = self
-		toDosTableView.dataSource = self
 		toDosTableView.register(UINib(nibName: K.CustomCells.toDoCell, bundle: nil), forCellReuseIdentifier: K.CustomCells.toDoCell)
 
 		let emptyTap = UITapGestureRecognizer(target: self, action: #selector(tapInTable))
 		toDosTableView.addGestureRecognizer(emptyTap)
+
 	}
+
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
-		self.parent?.navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Show Done", style: .plain, target: self, action: #selector(showHidePressed))]
-		editToDosButton = self.parent?.navigationItem.rightBarButtonItem
+		self.parent?.navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "...", style: .plain, target: self, action: #selector(optionsButton))]
+		optionsBarButton = self.parent?.navigationItem.rightBarButtonItem
+
 	}
 
-	@objc func showHidePressed() {
-		hideDone = !hideDone
-		hideDone ? (editToDosButton.title = "Show Done") : (editToDosButton.title = "Hide Done")
+
+	@objc func optionsButton() {
+		if toDosTableView.isEditing {
+			toDosTableView.isEditing = !toDosTableView.isEditing
+			optionsBarButton.title = "..."
+
+		}else {
+
+			let optionsAlert = UIAlertController(title: "Options", message: nil, preferredStyle: .actionSheet)
+			let showHideDone = UIAlertAction(title: "Show Hide Done", style: .default) { (_) in
+				self.hideDone = !self.hideDone
+				self.toDosTableView.reloadData()
+			}
+
+			let rearrange = UIAlertAction(title: "Rearrange", style: .default) { (_) in
+				self.toDosTableView.isEditing = !self.toDosTableView.isEditing
+				self.optionsBarButton.title = "Done"
+			}
+
+			let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+			optionsAlert.addAction(showHideDone)
+			optionsAlert.addAction(rearrange)
+			optionsAlert.addAction(cancel)
+			present(optionsAlert, animated: true, completion: nil)
+		}
+
+
+
+
+	}
+
+
+	func switchCellDoneState(toDo: ToDo, cell: ToDoTCC) {
+		print(#function)
+		RealmFuncs.Edit.switchToDoDone(toDo, done: !toDo.done)
 		toDosTableView.reloadData()
 	}
 
 
-	func markCellDoneUndone (cell: ToDoTCC) {
-		let cellIndex = toDosTableView.indexPath(for: cell)
-		RealmFuncs.Edit.switchToDoDone(cell.thisToDo, done: !cell.thisToDo.done)
-		if cell.thisToDo.done {
-			if !hideDone {
-				toDosTableView.moveRow(at: cellIndex!, to: IndexPath(row: doneToDos.index(of: cell.thisToDo)!, section: 1))
-			}
-		}else {
-			toDosTableView.moveRow(at: cellIndex!, to: IndexPath(row: unDoneToDos.index(of: cell.thisToDo)!, section: 0))
-		}
 
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-			self.toDosTableView.reloadData()
+	func toDoInfoButton(toDo: ToDo){
+//		performSegue(withIdentifier: K.Segues.toDoDetail, sender: toDo)
+	}
+
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.destination is ToDoDetailVC {
+			let dest = segue.destination as! ToDoDetailVC
+			dest.thisToDo = sender as? ToDo
+			dest.toDosVC = self
 		}
 	}
 
-}
-
-
-//MARK: -  TABLE VIEW DELEGATE AND DATASOURCE
-extension ToDosVC: UITableViewDataSource, UITableViewDelegate {
-	func numberOfSections(in tableView: UITableView) -> Int {
+	//MARK: -  TABLE VIEW DELEGATE AND DATASOURCE
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return hideDone ? 1 : 2
 	}
 
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		switch section {
 		case 0:
 			return unDoneToDos.count
@@ -77,7 +106,7 @@ extension ToDosVC: UITableViewDataSource, UITableViewDelegate {
 	}
 
 
-	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		switch section {
 		case 0:
 			return "To Do..."
@@ -89,20 +118,39 @@ extension ToDosVC: UITableViewDataSource, UITableViewDelegate {
 
 	}
 
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//		print("\(#function) -> \(indexPath)")
+
 		let cell = tableView.dequeueReusableCell(withIdentifier: K.CustomCells.toDoCell, for: indexPath) as! ToDoTCC
 		cell.toDosVC = self
 		switch indexPath.section {
 		case 0:
-			cell.thisToDo = unDoneToDos[indexPath.row]
-			cell.toDoText.text = cell.thisToDo.name
-			cell.doneButton.setImage(UIImage(systemName: "circle"), for: .normal)
+			cell.showsReorderControl = tableView.isEditing ? true : false
+			cell.thisToDo = unDoneToDos[indexPath.row] // give Cell a referenced ToDo from ToDoArray
+			cell.toDoTitle.text = cell.thisToDo.name // set its title to the toDoName
+
+			if cell.thisToDo.toDoDescription == "" { // If there is no description, hide it
+				cell.descriptionLabel.isHidden = true
+			}else { // Or fill it and unHide it
+				cell.descriptionLabel.text = cell.thisToDo.toDoDescription
+				cell.descriptionLabel.isHidden = false
+			}
+
+			cell.doneButton.setBackgroundImage(UIImage(systemName: "circle"), for: .normal) // Mark CellDoneButton as unfilled
 			return cell
+
 		case 1:
-			cell.thisToDo = doneToDos[indexPath.row]
-			cell.toDoText.text = cell.thisToDo.name
-			cell.doneButton.setImage(UIImage(systemName: "circle.fill"), for: .normal)
-			cell.isHidden = hideDone ? true : false
+			cell.thisToDo = doneToDos[indexPath.row] // give Cell a referenced ToDo from ToDoarray
+			cell.toDoTitle.text = cell.thisToDo.name // show Title
+
+			if cell.thisToDo.toDoDescription == "" { // Description Hide
+				cell.descriptionLabel.isHidden = true
+			}else { // or noHide
+				cell.descriptionLabel.text = cell.thisToDo.toDoDescription
+				cell.descriptionLabel.isHidden = false
+			}
+
+			cell.doneButton.setBackgroundImage(UIImage(systemName: "circle.fill"), for: .normal) // Fill DoneButton
 			return cell
 		default:
 			return cell
@@ -110,74 +158,171 @@ extension ToDosVC: UITableViewDataSource, UITableViewDelegate {
 
 	}
 
-	func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-		let delete = UIContextualAction(style: .destructive, title: "Delete") { (_, _, _) in
-			RealmFuncs.Edit.deleteObject((self.toDosTableView.cellForRow(at: indexPath) as! ToDoTCC).thisToDo)
-			self.toDosTableView.deleteRows(at: [indexPath], with: .none)
+	override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+		if activeCell != nil {
+			return nil
+		}else {
+			let delete = UIContextualAction(style: .destructive, title: "Delete") { (_, _, _) in
+				RealmFuncs.Edit.deleteObject((self.toDosTableView.cellForRow(at: indexPath) as! ToDoTCC).thisToDo)
+				self.toDosTableView.deleteRows(at: [indexPath], with: .none)
+			}
+
+			let config = UISwipeActionsConfiguration(actions: [delete])
+			return config
 		}
 
-		let moreInfo = UIContextualAction(style: .normal, title: "More...") { (_, _, _) in
-			print("More Info")
-		}
-		let config = UISwipeActionsConfiguration(actions: [delete, moreInfo])
-		return config
 	}
+
+	override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+		return .none
+	}
+
+
+	override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+		return false
+	}
+
+	override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+		let realm = try! Realm()
+		do {
+			try realm.write {
+				unDoneToDos.move(from: sourceIndexPath.row, to: destinationIndexPath.row)
+			}
+		} catch  {
+			print("Error while Moveing -> \(error)")
+		}
+	}
+
+	override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+		return true
+	}
+
+
+
+
+
+
+
 
 
 
 	@objc func tapInTable(gesture: UITapGestureRecognizer) {
 		if toDosTableView.indexPathForRow(at: gesture.location(in: toDosTableView)) == nil {
-			let newToDo = ToDo()
-			newToDo.name =  "New ToDo"
-			newToDo.done = false
-			_ = RealmFuncs.Save.object(object: newToDo)
-			RealmFuncs.Edit.setParent(of: newToDo, to: thisProject)
-			let lastIndex = IndexPath(row: toDosTableView.numberOfRows(inSection: 0), section: 0)
-			toDosTableView.insertRows(at: [lastIndex], with: .bottom)
-			(toDosTableView.cellForRow(at: IndexPath(row: lastIndex.row, section: 0)) as! ToDoTCC).toDoText.text = ""
-			(toDosTableView.cellForRow(at: IndexPath(row: lastIndex.row, section: 0)) as! ToDoTCC).toDoText.becomeFirstResponder()
+			deactivateCell(resign: false)
+			createNewToDo(at: nil)
+		}
 
+	}
+
+	func createNewToDo(at row: Int?) {
+
+//		print(#function)
+		let newtoDo = ToDo()
+		newtoDo.name = ""
+		newtoDo.toDoDescription = ""
+		newtoDo.done = false
+		RealmFuncs.Edit.setParent(of: newtoDo, to: thisProject)
+		let realm = try! Realm()
+		do {
+			try realm.write {
+				if row != nil {
+					unDoneToDos.move(from: unDoneToDos.index(of: newtoDo)!, to: row!)
+				}
+			}
+		} catch {
+			print("Error new ToDo -> \(error)")
+		}
+
+		toDosTableView.reloadData()
+		if let trueRow = row {
+			(toDosTableView.cellForRow(at: IndexPath(row: trueRow, section: 0)) as! ToDoTCC).toDoTitle.becomeFirstResponder()
+		}else {
+			let lastIndex = IndexPath(row: toDosTableView.numberOfRows(inSection: 0) - 1, section: 0)
+			(toDosTableView.cellForRow(at: lastIndex) as! ToDoTCC).toDoTitle.becomeFirstResponder()
 		}
 
 	}
 
 
+	func deactivateCell(resign: Bool) {
+//		print(#function)
 
-
-
-
+		if activeCell != nil {
+			if resign {
+//				print("RESIGN IT!!!!")
+				activeCell?.toDoTitle.resignFirstResponder()
+			}
+			activeCell = nil
+		}
+	}
 
 }
 
 
+
+
 extension ToDosVC: UITextFieldDelegate {
-	func textFieldShouldReturn(_ textField: UITextField, toDo: ToDo) -> Bool {
-		textField.endEditing(true)
-		textField.resignFirstResponder()
+	func textFieldShouldReturn(_ textField: UITextField, toDo: ToDo, cell: ToDoTCC) -> Bool {
+//		print(#function)
+
+		if let cellIndexPath = toDosTableView.indexPath(for: cell) {
+//			print("reuturn with cellIndexPath")
+			if textField.text == "" {
+//				print("From Return -> resign true")
+				deactivateCell(resign: true)
+			}else {
+//				print("From Return -> resign false")
+
+				deactivateCell(resign: false)
+				createNewToDo(at: cellIndexPath.row + 1)
+			}
+		}else {
+//			print("return with no cellIndexPath -> resign true")
+			deactivateCell(resign: true)
+		}
 		return true
 	}
 
-	func textFieldDidEndEditing(_ textField: UITextField, toDo: ToDo, cell: ToDoTCC) {
-		if textField.text != "" {
-			let sourcePath = toDosTableView.indexPath(for: cell)
-			RealmFuncs.Edit.renameToDo(toDo, newName: textField.text!)
-			if toDo.done {
-				if !hideDone {
-					toDosTableView.moveRow(at: sourcePath!, to: IndexPath(row: doneToDos.index(of: toDo)!, section: 1))
-				}
-			}else {
-				toDosTableView.moveRow(at: sourcePath!, to: IndexPath(row: unDoneToDos.index(of: toDo)!, section: 0))
-			}
 
-		}else {
+
+	func textFieldDidEndEditing(_ textField: UITextField, toDo: ToDo, cell: ToDoTCC) {
+//		print(#function)
+		cell.infoButton.isHidden = true
+
+		if textField.text == "" {
 			RealmFuncs.Edit.deleteObject(toDo)
-			toDosTableView.deleteRows(at: [toDosTableView.indexPath(for: cell)!], with: .left)
+			if toDosTableView.visibleCells.contains(cell) {
+				toDosTableView.deleteRows(at: [toDosTableView.indexPath(for: cell)!], with: .left)
+			}
+			toDosTableView.reloadData()
 		}
-		editToDosButton.isEnabled = true
+		optionsBarButton.isEnabled = true
+
 	}
 
-	func textFieldDidBeginEditing(_ textField: UITextField, toDo: ToDo) {
-		editToDosButton.isEnabled = false
+	func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+		if toDosTableView.isEditing {
+			return false
+		}else {
+			return true
+		}
+	}
+
+	func textFieldDidBeginEditing(_ textField: UITextField, toDo: ToDo, cell: ToDoTCC) {
+//		print(#function)
+		cell.infoButton.isHidden = false
+		optionsBarButton.isEnabled = false
+		activeCell = cell
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+			self.toDosTableView.scrollToRow(at: self.toDosTableView.indexPath(for: cell)!, at: .bottom, animated: false)
+		}
+	}
+
+
+	func textEditChanged(toDo: ToDo, text: String) {
+//		print(#function)
+
+		RealmFuncs.Edit.renameToDo(toDo, newName: text)
 	}
 
 }

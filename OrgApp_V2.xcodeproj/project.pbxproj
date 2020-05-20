@@ -13,6 +13,7 @@
 		2A0FFC8D244DE17B009E7C38 /* ProjectHeaderCHC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A0FFC8B244DE17B009E7C38 /* ProjectHeaderCHC.xib */; };
 		2A0FFC90244DE18C009E7C38 /* ProjectFooterCFC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0FFC8E244DE18C009E7C38 /* ProjectFooterCFC.swift */; };
 		2A0FFC91244DE18C009E7C38 /* ProjectFooterCFC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A0FFC8F244DE18C009E7C38 /* ProjectFooterCFC.xib */; };
+		2A234D44245B262200EFB75B /* ToDoDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A234D43245B262200EFB75B /* ToDoDetailVC.swift */; };
 		2A385457244D885F00F2CAEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A385456244D885F00F2CAEB /* AppDelegate.swift */; };
 		2A385459244D885F00F2CAEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A385458244D885F00F2CAEB /* SceneDelegate.swift */; };
 		2A38545B244D885F00F2CAEB /* ProjectsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A38545A244D885F00F2CAEB /* ProjectsVC.swift */; };
@@ -46,6 +47,7 @@
 		2AE81767244EF731003FBE13 /* SelectCategoryTCC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AE81765244EF731003FBE13 /* SelectCategoryTCC.xib */; };
 		2AE8176A244F0F32003FBE13 /* RealmFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81769244F0F32003FBE13 /* RealmFuncs.swift */; };
 		2AE8176E244F1FFF003FBE13 /* AddProjectVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AE8176D244F1FFF003FBE13 /* AddProjectVC.xib */; };
+		2AF554542472D8FC0096F232 /* ToDosVC copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF554532472D8FC0096F232 /* ToDosVC copy.swift */; };
 		2EBF1AD0A65BFFDDDDCC8326 /* libPods-OrgApp_V2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB52C40C05AD17583DA563EF /* libPods-OrgApp_V2.a */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +58,7 @@
 		2A0FFC8B244DE17B009E7C38 /* ProjectHeaderCHC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProjectHeaderCHC.xib; sourceTree = "<group>"; };
 		2A0FFC8E244DE18C009E7C38 /* ProjectFooterCFC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectFooterCFC.swift; sourceTree = "<group>"; };
 		2A0FFC8F244DE18C009E7C38 /* ProjectFooterCFC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProjectFooterCFC.xib; sourceTree = "<group>"; };
+		2A234D43245B262200EFB75B /* ToDoDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoDetailVC.swift; sourceTree = "<group>"; };
 		2A385453244D885F00F2CAEB /* OrgApp_V2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrgApp_V2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A385456244D885F00F2CAEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2A385458244D885F00F2CAEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +94,7 @@
 		2AE81765244EF731003FBE13 /* SelectCategoryTCC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectCategoryTCC.xib; sourceTree = "<group>"; };
 		2AE81769244F0F32003FBE13 /* RealmFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmFuncs.swift; sourceTree = "<group>"; };
 		2AE8176D244F1FFF003FBE13 /* AddProjectVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddProjectVC.xib; sourceTree = "<group>"; };
+		2AF554532472D8FC0096F232 /* ToDosVC copy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDosVC copy.swift"; sourceTree = "<group>"; };
 		C272A9DC10F63A895E7D04BE /* Pods-OrgApp_V2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrgApp_V2.debug.xcconfig"; path = "Target Support Files/Pods-OrgApp_V2/Pods-OrgApp_V2.debug.xcconfig"; sourceTree = "<group>"; };
 		CB52C40C05AD17583DA563EF /* libPods-OrgApp_V2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrgApp_V2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD6109777279EB210F06EEE5 /* Pods-OrgApp_V2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrgApp_V2.release.xcconfig"; path = "Target Support Files/Pods-OrgApp_V2/Pods-OrgApp_V2.release.xcconfig"; sourceTree = "<group>"; };
@@ -235,6 +239,8 @@
 				2AE81762244EEEE4003FBE13 /* AddProjectVC.swift */,
 				2AB5BA2C245461380095646C /* ProjectTabBarVC.swift */,
 				2A515B73244DCBBB0099AB04 /* ToDosVC.swift */,
+				2AF554532472D8FC0096F232 /* ToDosVC copy.swift */,
+				2A234D43245B262200EFB75B /* ToDoDetailVC.swift */,
 				2A515B77244DCBBF0099AB04 /* NotesVC.swift */,
 				2AA78E532456FB7900C79B19 /* NoteDetailVC.swift */,
 				2A515B75244DCBBE0099AB04 /* PhotosVC.swift */,
@@ -371,10 +377,12 @@
 			files = (
 				2A515B5C244DA7F90099AB04 /* Category.swift in Sources */,
 				2A0FFC8C244DE17B009E7C38 /* ProjectHeaderCHC.swift in Sources */,
+				2AF554542472D8FC0096F232 /* ToDosVC copy.swift in Sources */,
 				2AE81763244EEEE4003FBE13 /* AddProjectVC.swift in Sources */,
 				2A38545B244D885F00F2CAEB /* ProjectsVC.swift in Sources */,
 				2A515B76244DCBBE0099AB04 /* PhotosVC.swift in Sources */,
 				2A515B74244DCBBB0099AB04 /* ToDosVC.swift in Sources */,
+				2A234D44245B262200EFB75B /* ToDoDetailVC.swift in Sources */,
 				2A385457244D885F00F2CAEB /* AppDelegate.swift in Sources */,
 				2A7EBB7E245AF1C70015BBCF /* FullSizePhotoVC.swift in Sources */,
 				2A515B58244DA7CB0099AB04 /* Note.swift in Sources */,

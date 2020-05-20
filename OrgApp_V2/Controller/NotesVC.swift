@@ -19,6 +19,7 @@ class NotesVC: UIViewController {
 		tabBarVC = self.parent as? ProjectTabBarVC
 		thisProject = tabBarVC.thisProject
 		notes = RealmFuncs.Load.notes(of: thisProject)
+		title = thisProject.name
 
 		notesTableView.rowHeight = UITableView.automaticDimension
 		notesTableView.estimatedRowHeight = 600
@@ -73,7 +74,7 @@ class NotesVC: UIViewController {
 		if tappedIndexPath == nil {
 			let newNote = Note()
 			newNote.title = ""
-			newNote.content = "Your Content..."
+			newNote.content = "Input Content here..."
 			RealmFuncs.Edit.setParent(of: newNote, to: thisProject)
 			performSegue(withIdentifier: K.Segues.showNote, sender: newNote)
 

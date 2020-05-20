@@ -83,8 +83,14 @@ class PhotosVC: UIViewController {
 	func syncRealmWithPhotos() {
 		photoIdentifiers = []
 		for photo in photos {
+			if photo.photoLocalIdentifier == "" {
+				RealmFuncs.Edit.deleteObject(photo)
+				continue
+			}
 			photoIdentifiers.append(photo.photoLocalIdentifier)
 		}
+		print("All IDS -> \(photoIdentifiers)")
+
 		let options = PHFetchOptions()
 		options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
 		photoAssets = PHAsset.fetchAssets(withLocalIdentifiers: photoIdentifiers, options: options)
@@ -101,6 +107,12 @@ class PhotosVC: UIViewController {
 		}))
 
 		alert.addAction(UIAlertAction(title: "From Camera", style: .default, handler: { _ in
+//			self.performSegue(withIdentifier: K.Segues.shootPhoto, sender: nil)
+			let iPicker = UIImagePickerController()
+			iPicker.sourceType = .camera
+			iPicker.delegate = self
+
+			self.present(iPicker, animated: true, completion: nil)
 		}))
 
 		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -125,6 +137,7 @@ class PhotosVC: UIViewController {
 			dest.photoAssets = photoAssets
 			dest.photoIdentifiers = photoIdentifiers
 		}
+
 	}
 
 
@@ -179,3 +192,31 @@ extension PhotosVC: UICollectionViewDelegate, UICollectionViewDataSource {
 
 }
 
+
+extension PhotosVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+		let theImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+		var theImageID: String = ""
+
+		PHPhotoLibrary.shared().performChanges({
+			let request = PHAssetChangeRequest.creationRequestForAsset(from: theImage)
+			theImageID = request.placeholderForCreatedAsset!.localIdentifier
+			print("Single ID -> \(theImageID)")
+		})
+
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+			let newPhoto = Photo()
+			newPhoto.photoLocalIdentifier = theImageID
+			_ = RealmFuncs.Save.object(object: newPhoto)
+			RealmFuncs.Edit.setParent(of: newPhoto, to: self.thisProject)
+			self.syncRealmWithPhotos()
+			picker.dismiss(animated: true, completion: nil)
+
+		}
+
+
+
+
+	}
+
+}

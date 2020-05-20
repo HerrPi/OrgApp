@@ -10,14 +10,17 @@ import UIKit
 
 class ToDoTCC: UITableViewCell {
 	@IBOutlet weak var doneButton: UIButton!
-	@IBOutlet weak var toDoText: UITextField!
-
+	@IBOutlet weak var toDoTitle: UITextField!
+	@IBOutlet weak var descriptionLabel: UILabel!
+	@IBOutlet weak var infoButton: UIButton!
+	
 	var toDosVC: ToDosVC!
 	var thisToDo: ToDo!
 
 	override func awakeFromNib() {
         super.awakeFromNib()
-		toDoText.delegate = self
+		toDoTitle.delegate = self
+		toDoTitle.addTarget(self, action: #selector(textEditChanged), for: .editingChanged)
         // Initialization code
     }
 
@@ -28,40 +31,34 @@ class ToDoTCC: UITableViewCell {
     }
     
 	@IBAction func markAsDone(_ sender: UIButton) {
-		if toDoText.text == "" {
-			if toDoText.isFirstResponder {
-				toDoText.resignFirstResponder()
-			}
-		}else {
-			if toDoText.isFirstResponder {
-				toDoText.resignFirstResponder()
-			}
-			toDosVC.markCellDoneUndone(cell: self)
-		}
-
-
-//		if toDoText.isFirstResponder {
-//			if toDoText.text != "" {
-//				toDoText.resignFirstResponder()
-//			}
-//		}
+		toDosVC.switchCellDoneState(toDo: thisToDo, cell: self)
 	}
 
 
+	@IBAction func infoButton(_ sender: UIButton) {
+		toDosVC.toDoInfoButton(toDo: thisToDo)
+	}
 }
 
 
 extension ToDoTCC: UITextFieldDelegate {
 	func textFieldDidBeginEditing(_ textField: UITextField) {
-		toDosVC.textFieldDidBeginEditing(textField, toDo: thisToDo)
+		toDosVC.textFieldDidBeginEditing(textField, toDo: thisToDo, cell: self)
 	}
 
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-		toDosVC.textFieldShouldReturn(textField, toDo: thisToDo)
+		toDosVC.textFieldShouldReturn(textField, toDo: thisToDo, cell: self)
 	}
 
 	func textFieldDidEndEditing(_ textField: UITextField) {
-		toDosVC.textFieldDidEndEditing(textField, toDo: thisToDo, cell: self)
+		return toDosVC.textFieldDidEndEditing(textField, toDo: thisToDo, cell: self)
+	}
 
+	func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+		return toDosVC.textFieldShouldBeginEditing(textField)
+	}
+
+	@objc func textEditChanged(_ textField: UITextField) {
+		toDosVC.textEditChanged(toDo: self.thisToDo, text: textField.text!)
 	}
 }

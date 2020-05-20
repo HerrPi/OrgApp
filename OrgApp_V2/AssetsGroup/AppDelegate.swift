@@ -18,11 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		do {
 			_ = try Realm()
+//			print(realm.configuration.fileURL)
 		} catch let error as NSError {
 			print("Error creating Realm on Launch -> \(error)")
 		}
-
-		IQKeyboardManager.shared.enable = true
 
 
 		return true

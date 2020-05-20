@@ -2,15 +2,11 @@ import UIKit
 import RealmSwift
 
 class ProjectsVC: UIViewController {
-	var orgaData = try! Realm()
-
 	@IBOutlet weak var projectsCollectionView: UICollectionView!
 	@IBOutlet weak var addProjectButton: UIButton!
-	@IBOutlet weak var editProjectVCButton: UIBarButtonItem!
 
 	var allProjects: Results<Project> = RealmFuncs.Load.projects()
 	var allCategorys: Results<Category> = RealmFuncs.Load.categorys()
-	var editMode: Bool = false
 
 	let toDelete = Project()
 
@@ -35,36 +31,8 @@ class ProjectsVC: UIViewController {
 
 
 //MARK: -  USER INTERACTIVE FUNCTIONS
-	@IBAction func editProjectsVC(_ sender: UIBarButtonItem) {
-		if sender == editProjectVCButton {
-			for categ in allCategorys {
-				if categ.projects.count == 0  || editMode {
-					changeEditMode(to: !editMode)
-					break
-				}
-			}
-
-		}
-	}
-
-	func changeEditMode(to mode: Bool) {
-		editMode = mode
-		if editMode {
-			editProjectVCButton.image = nil
-			editProjectVCButton.title = "Done"
-			editProjectVCButton.tintColor = .systemRed
-		}else {
-			editProjectVCButton.title = ""
-			editProjectVCButton.image = UIImage(systemName: "ellipsis")
-			editProjectVCButton.tintColor = .systemBlue
-		}
-		projectsCollectionView.reloadData()
-	}
-
-
 	@IBAction func buttonPressed(_ sender: UIButton) {
 		if sender == addProjectButton {
-			changeEditMode(to: false)
 			showAddProjectVC()
 		}
 	}
@@ -108,7 +76,6 @@ class ProjectsVC: UIViewController {
 
 
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		changeEditMode(to: false)
 		switch segue.identifier {
 		case K.Segues.showProject:
 			let tabBarVC = segue.destination as! ProjectTabBarVC
@@ -159,16 +126,16 @@ extension ProjectsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICo
 			header.headerLabel.textColor = .secondaryLabel
 
 			header.projectsVC = self
-			if editMode && header.thisCategory.projects.count == 0 {
+
+			if header.thisCategory.projects.count == 0 {
 				header.deleteCategory.isHidden = false
-				header.headerLabel.textColor = .systemRed
 			}else {
-				header.headerLabel.textColor = .secondaryLabel
 				header.deleteCategory.isHidden = true
 			}
 
 			header.backgroundColor = .none
 			return header
+
 		case UICollectionView.elementKindSectionFooter:
 			let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: K.CustomCells.projectFooter, for: indexPath) as! ProjectFooterCFC
 			return footer
@@ -187,8 +154,6 @@ extension ProjectsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICo
 		cell.projectsVC = self
 		cell.projectTitle.text = cell.thisProject.name
 		cell.projectTitle.backgroundColor = .systemOrange
-
-
 		return cell
 	}
 
@@ -201,9 +166,6 @@ extension ProjectsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICo
 	}
 
 	func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-		if editMode {
-			return nil
-		}
 		let thisCell = projectsCollectionView.cellForItem(at: indexPath) as! ProjectCCC
 
 		let contextMenu = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
@@ -216,6 +178,7 @@ extension ProjectsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICo
 				self.projectsCollectionView.cellForItem(at: indexPath)?.isHidden = true
 				RealmFuncs.Edit.deleteObject(thisCell.thisProject)
 				self.projectsCollectionView.deleteItems(at: [indexPath])
+				self.projectsCollectionView.reloadSections([indexPath.section])
 
 
 			}
@@ -233,7 +196,6 @@ extension ProjectsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICo
 extension ProjectsVC: UIContextMenuInteractionDelegate {
 
 	func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-		changeEditMode(to: false)
 		projectsCollectionView.reloadData()
 
 		let contextMenu = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
