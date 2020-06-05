@@ -3,6 +3,7 @@ import RealmSwift
 
 class NotesVC: UIViewController {
 	@IBOutlet weak var notesTableView: UITableView!
+	@IBOutlet weak var addNoteButton: UIButton!
 
 	var tabBarVC: ProjectTabBarVC!
 	var notes: List<Note>!
@@ -11,7 +12,8 @@ class NotesVC: UIViewController {
 	var hideContent: Bool = true
 	var editNotesButton: UIBarButtonItem!
 
-	
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,6 +44,12 @@ class NotesVC: UIViewController {
 	}
 
 
+	@IBAction func addNoteAction(_ sender: UIButton) {
+		performSegue(withIdentifier: K.Segues.showNote, sender: createNewNote())
+	}
+
+
+
 	@objc func previewNoteButton() {
 		hideContent = !hideContent
 		if hideContent {
@@ -69,14 +77,20 @@ class NotesVC: UIViewController {
 		}
 	}
 
+	func createNewNote() -> Note {
+		let newNote = Note()
+		newNote.title = ""
+		newNote.content = "Input content here..."
+		RealmFuncs.Edit.setParent(of: newNote, to: thisProject)
+		return newNote
+
+	}
+
 	@objc func tapTableNil(tap: UITapGestureRecognizer) {
 		let tappedIndexPath: IndexPath? = notesTableView.indexPathForRow(at: tap.location(in: notesTableView))
 		if tappedIndexPath == nil {
-			let newNote = Note()
-			newNote.title = ""
-			newNote.content = "Input Content here..."
-			RealmFuncs.Edit.setParent(of: newNote, to: thisProject)
-			performSegue(withIdentifier: K.Segues.showNote, sender: newNote)
+
+			performSegue(withIdentifier: K.Segues.showNote, sender: createNewNote())
 
 		}else {
 			performSegue(withIdentifier: K.Segues.showNote, sender: notesTableView.cellForRow(at: tappedIndexPath!))
@@ -121,7 +135,6 @@ extension NotesVC: UITableViewDelegate, UITableViewDataSource {
 		let delete = UIContextualAction(style: .destructive, title: "Delete") { (_, _, _) in
 			RealmFuncs.Edit.deleteObject((self.notesTableView.cellForRow(at: indexPath) as! NoteTCC).thisNote)
 			self.notesTableView.deleteRows(at: [indexPath], with: .fade)
-//			self.notesTableView.reloadData()
 		}
 
 		return UISwipeActionsConfiguration(actions: [delete])

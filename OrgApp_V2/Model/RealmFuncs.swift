@@ -31,9 +31,14 @@ struct RealmFuncs {
 
 		static func setParent(of toDo: ToDo, to project: Project) {
 			let realm = try! Realm()
+
 			do {
 				try realm.write{
-					project.toDos.append(toDo)
+					if type(of: toDo) == UnDoneToDo.self {
+						project.unDoneToDos.append(toDo as! UnDoneToDo)
+					}else if type(of: toDo) == DoneToDo.self {
+						project.doneToDos.append(toDo as! DoneToDo)
+					}
 				}
 			} catch {
 				print("Failed parenting -> \(error)")
@@ -86,11 +91,26 @@ struct RealmFuncs {
 		}
 
 
-		static func switchToDoDone(_ toDo: ToDo, done: Bool) {
+		static func switchToDoDone(_ toDo: ToDo, in project: Project) {
 			let realm = try! Realm()
 			do {
 				try realm.write {
-					toDo.done = done
+					if type(of: toDo) == UnDoneToDo.self {
+						let newToDo = DoneToDo()
+						newToDo.name = toDo.name
+						realm.delete(toDo)
+
+						project.doneToDos.append(newToDo)
+//						realm.add(newToDo)
+					}else if type(of: toDo) == DoneToDo.self {
+						let newToDo = UnDoneToDo()
+						newToDo.name = toDo.name
+						realm.delete(toDo)
+
+						project.unDoneToDos.append(newToDo)
+//						realm.add(newToDo)
+					}
+
 				}
 			} catch  {
 				print("DoneSwitch failed -> \(error)")
@@ -154,15 +174,15 @@ struct RealmFuncs {
 			return realm.objects(Project.self).sorted(byKeyPath: "name")
 		}
 
-		static func undDoneToDos(of project: Project) -> List<ToDo> {
+		static func undDoneToDos(of project: Project) -> List<UnDoneToDo> {
 			let realm = try! Realm()
-			return (realm.object(ofType: Project.self, forPrimaryKey: project.itemId)!.toDos) //.filter(NSPredicate(format: "done == false")))!
+			return realm.object(ofType: Project.self, forPrimaryKey: project.itemId)!.unDoneToDos
 		}
 
 
-		static func doneToDos(of project: Project) -> Results<ToDo> {
+		static func doneToDos(of project: Project) -> List<DoneToDo> {
 			let realm = try! Realm()
-			return (realm.object(ofType: Project.self, forPrimaryKey: project.itemId)?.toDos.filter(NSPredicate(format: "done == true")))!
+			return realm.object(ofType: Project.self, forPrimaryKey: project.itemId)!.doneToDos
 		}
 
 		static func photos(of project: Project) -> List<Photo> {

@@ -6,12 +6,13 @@ class ToDosVC: UITableViewController {
 
 	var tabBarVC: ProjectTabBarVC!
 	var thisProject: Project!
-	var doneToDos: Results<ToDo>!
-	var unDoneToDos: List<ToDo>!
+	var doneToDos: List<DoneToDo>!
+	var unDoneToDos: List<UnDoneToDo>!
 	var hideDone: Bool = true
 	var activeCell: ToDoTCC?
 
 	var optionsBarButton: UIBarButtonItem!
+	var keyBoardToolBar = UIToolbar()
 
 
     override func viewDidLoad() {
@@ -26,12 +27,16 @@ class ToDosVC: UITableViewController {
 		let emptyTap = UITapGestureRecognizer(target: self, action: #selector(tapInTable))
 		toDosTableView.addGestureRecognizer(emptyTap)
 
+		keyBoardToolBar.sizeToFit()
+		let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+		let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(doneButtonPressed))
+		keyBoardToolBar.setItems([flexibleSpace,doneButton], animated: true)
 	}
 
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
-		self.parent?.navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "...", style: .plain, target: self, action: #selector(optionsButton))]
+		self.parent?.navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(optionsButton))]
 		optionsBarButton = self.parent?.navigationItem.rightBarButtonItem
 
 	}
@@ -71,14 +76,17 @@ class ToDosVC: UITableViewController {
 
 	func switchCellDoneState(toDo: ToDo, cell: ToDoTCC) {
 		print(#function)
-		RealmFuncs.Edit.switchToDoDone(toDo, done: !toDo.done)
-		toDosTableView.reloadData()
+		if activeCell == nil {
+			RealmFuncs.Edit.switchToDoDone(toDo, in: thisProject)
+			toDosTableView.reloadData()
+		}
 	}
 
 
 
 	func toDoInfoButton(toDo: ToDo){
-//		performSegue(withIdentifier: K.Segues.toDoDetail, sender: toDo)
+		deactivateCell(resign: true)
+		performSegue(withIdentifier: K.Segues.toDoDetail, sender: toDo)
 	}
 
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -217,10 +225,9 @@ class ToDosVC: UITableViewController {
 	func createNewToDo(at row: Int?) {
 
 //		print(#function)
-		let newtoDo = ToDo()
+		let newtoDo = UnDoneToDo()
 		newtoDo.name = ""
 		newtoDo.toDoDescription = ""
-		newtoDo.done = false
 		RealmFuncs.Edit.setParent(of: newtoDo, to: thisProject)
 		let realm = try! Realm()
 		do {
@@ -249,9 +256,16 @@ class ToDosVC: UITableViewController {
 
 		if activeCell != nil {
 			if resign {
-//				print("RESIGN IT!!!!")
+				print("RESIGN IT!!!!")
 				activeCell?.toDoTitle.resignFirstResponder()
 			}
+			activeCell = nil
+		}
+	}
+
+	@objc func doneButtonPressed() {
+		if activeCell != nil {
+			activeCell?.toDoTitle.resignFirstResponder()
 			activeCell = nil
 		}
 	}
@@ -304,6 +318,7 @@ extension ToDosVC: UITextFieldDelegate {
 		if toDosTableView.isEditing {
 			return false
 		}else {
+			textField.inputAccessoryView = keyBoardToolBar
 			return true
 		}
 	}

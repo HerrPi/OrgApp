@@ -12,16 +12,21 @@ class NoteDetailVC: UIViewController {
 
 	@IBOutlet weak var noteTitleField: UITextField!
 	@IBOutlet weak var noteContentField: UITextView!
-	
+	@IBOutlet weak var deleteNoteButton: UIBarButtonItem!
+
 	var thisProject: Project!
 	var thisNote: Note!
 
-	var editState: Bool = true
 
     override func viewDidLoad() {
 		super.viewDidLoad()
 
+		K.Funcs.createKeyboardToolbar(style: .done, target: noteContentField, execute: #selector(doneEditing))
+		K.Funcs.createKeyboardToolbar(style: .done, target: noteTitleField, execute: #selector(doneEditing))
+
+
 		self.title = thisNote.title
+
 		noteTitleField.text = thisNote.title
 		noteContentField.text = thisNote.content
 
@@ -34,64 +39,79 @@ class NoteDetailVC: UIViewController {
 
 	}
 
+
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(true)
+
+	}
+
+	@objc func doneEditing() {
+		if noteTitleField.isFirstResponder {
+			noteTitleField.resignFirstResponder()
+		}
+		if noteContentField.isFirstResponder {
+			noteContentField.resignFirstResponder()
+		}
+
+	}
+
+
+	@IBAction func deleteNoteButtonPress(_ sender: UIBarButtonItem) {
+		if noteTitleField.isFirstResponder {
+			noteTitleField.resignFirstResponder()
+		}
+		if noteContentField.isFirstResponder {
+			noteContentField.resignFirstResponder()
+		}
+		
+		self.navigationController?.popViewController(animated: true)
+		print("Noch ausführen")
+		RealmFuncs.Edit.deleteObject(thisNote)
+	}
+
+
+
 }
 
 extension NoteDetailVC: UITextFieldDelegate, UITextViewDelegate {
 
-	func hideBackButton(_ state: Bool) {
-		self.navigationItem.setHidesBackButton(state, animated: true)
-	}
-
 	func textViewDidBeginEditing(_ textView: UITextView) {
-		if textView.text == "Input Content here..." {
+		if textView.text == "Input content here..." {
 			textView.text = ""
 		}
-		hideBackButton(true)
 
-	}
-
-	func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-		if textView.text == "" {
-			textView.text = "Input Content here..."
-		}else {
-			RealmFuncs.Edit.changeNoteContent(thisNote, newContent: textView.text)
-		}
-		return true
 	}
 
 	func textViewDidEndEditing(_ textView: UITextView) {
+		if textView.text == "" {
+			RealmFuncs.Edit.changeNoteContent(thisNote, newContent: "No content")
+		}else {
+			RealmFuncs.Edit.changeNoteContent(thisNote, newContent: textView.text)
+		}
 		textView.resignFirstResponder()
-		hideBackButton(false)
 	}
 
 
 	func textFieldDidBeginEditing(_ textField: UITextField) {
-		hideBackButton(true)
-
 	}
 
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-		textField.endEditing(true)
-	}
-
-	func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-		if textField.text == "" {
-			textField.resignFirstResponder()
-			let noTextAlert = UIAlertController(title: "No Text", message: "You need to provide a Title for the Note.", preferredStyle: .actionSheet)
-			noTextAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in textField.becomeFirstResponder()}))
-
-			present(noTextAlert, animated: true, completion: nil)
-			return false
-
-		}else {
-			RealmFuncs.Edit.renameNote(thisNote, newName: textField.text!)
-			return true
-		}
+		noteContentField.becomeFirstResponder()
+		return true
 	}
 
 
 	func textFieldDidEndEditing(_ textField: UITextField) {
+		if textField.text == "" {
+			RealmFuncs.Edit.renameNote(thisNote, newName: "No Name")
+			textField.text = thisNote.title
+			self.title = thisNote.title
+		}else {
+			RealmFuncs.Edit.renameNote(thisNote, newName: textField.text!)
+			self.title = thisNote.title
+		}
 		textField.resignFirstResponder()
-		hideBackButton(false)
+
 	}
 }

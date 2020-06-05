@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="bKK-pF-MXN">
-                        <rect key="frame" x="10" y="10" width="561" height="112"/>
+                        <rect key="frame" x="10" y="5" width="561" height="122"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="97B-uj-cvR" userLabel="Done">
                                 <rect key="frame" x="0.0" y="0.5" width="30" height="29"/>
@@ -33,8 +33,8 @@
                                     <action selector="markAsDone:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="kfz-wM-nBs"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="oTs-gQ-BB8">
-                                <rect key="frame" x="50" y="0.0" width="511" height="112"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="oTs-gQ-BB8">
+                                <rect key="frame" x="50" y="0.0" width="511" height="122"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="top" text="To Do Title" placeholder="ToDoName" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="B5g-mU-MRh">
                                         <rect key="frame" x="0.0" y="0.0" width="511" height="23"/>
@@ -42,13 +42,22 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Das ist eine BEschreibung des ToDos..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oxt-KX-jte" userLabel="DescriptionLabel">
-                                        <rect key="frame" x="0.0" y="23" width="205" height="89"/>
+                                        <rect key="frame" x="0.0" y="65.5" width="511" height="13.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="79X-8P-mvI">
+                                        <rect key="frame" x="0.0" y="121" width="511" height="1"/>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="slz-Rb-WfG"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="79X-8P-mvI" secondAttribute="trailing" id="Bz0-7Q-0vY"/>
+                                    <constraint firstAttribute="trailing" secondItem="oxt-KX-jte" secondAttribute="trailing" id="DUb-uS-O9w"/>
                                     <constraint firstAttribute="trailing" secondItem="B5g-mU-MRh" secondAttribute="trailing" id="PRP-AA-eFP"/>
                                 </constraints>
                             </stackView>
@@ -72,8 +81,8 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="bKK-pF-MXN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="4MU-XV-aLu"/>
-                    <constraint firstItem="bKK-pF-MXN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="DE4-pW-AEM"/>
-                    <constraint firstAttribute="bottom" secondItem="bKK-pF-MXN" secondAttribute="bottom" constant="10" id="Qb7-PI-xyD"/>
+                    <constraint firstItem="bKK-pF-MXN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="DE4-pW-AEM"/>
+                    <constraint firstAttribute="bottom" secondItem="bKK-pF-MXN" secondAttribute="bottom" constant="5" id="Qb7-PI-xyD"/>
                     <constraint firstAttribute="trailing" secondItem="bKK-pF-MXN" secondAttribute="trailing" constant="10" id="kFE-pi-4xE"/>
                 </constraints>
             </tableViewCellContentView>
@@ -88,7 +97,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="circle" catalog="system" width="64" height="60"/>
-        <image name="info.circle" catalog="system" width="64" height="60"/>
+        <image name="circle" catalog="system" width="128" height="121"/>
+        <image name="info.circle" catalog="system" width="128" height="121"/>
     </resources>
 </document>
