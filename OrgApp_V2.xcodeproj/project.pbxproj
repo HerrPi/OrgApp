@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -46,12 +46,13 @@
 		2A9F806E247FE5BB00F944BB /* ToDoDetailTCC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A9F806C247FE5BB00F944BB /* ToDoDetailTCC.xib */; };
 		2AA78E542456FB7900C79B19 /* NoteDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA78E532456FB7900C79B19 /* NoteDetailVC.swift */; };
 		2AB5BA2D245461380095646C /* ProjectTabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB5BA2C245461380095646C /* ProjectTabBarVC.swift */; };
+		2AD635D824A24997006291F0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2AD635D724A24997006291F0 /* GoogleService-Info.plist */; };
 		2AE81763244EEEE4003FBE13 /* AddProjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81762244EEEE4003FBE13 /* AddProjectVC.swift */; };
 		2AE81766244EF731003FBE13 /* SelectCategoryTCC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81764244EF731003FBE13 /* SelectCategoryTCC.swift */; };
 		2AE81767244EF731003FBE13 /* SelectCategoryTCC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AE81765244EF731003FBE13 /* SelectCategoryTCC.xib */; };
 		2AE8176A244F0F32003FBE13 /* RealmFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81769244F0F32003FBE13 /* RealmFuncs.swift */; };
 		2AE8176E244F1FFF003FBE13 /* AddProjectVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AE8176D244F1FFF003FBE13 /* AddProjectVC.xib */; };
-		2EBF1AD0A65BFFDDDDCC8326 /* libPods-OrgApp_V2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB52C40C05AD17583DA563EF /* libPods-OrgApp_V2.a */; };
+		F37B64AEC1E6E0B7F65D54EA /* Pods_OrgApp_V2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387A113ED5438C74AA478936 /* Pods_OrgApp_V2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,13 +97,14 @@
 		2A9F806C247FE5BB00F944BB /* ToDoDetailTCC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToDoDetailTCC.xib; sourceTree = "<group>"; };
 		2AA78E532456FB7900C79B19 /* NoteDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailVC.swift; sourceTree = "<group>"; };
 		2AB5BA2C245461380095646C /* ProjectTabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTabBarVC.swift; sourceTree = "<group>"; };
+		2AD635D724A24997006291F0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2AE81762244EEEE4003FBE13 /* AddProjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectVC.swift; sourceTree = "<group>"; };
 		2AE81764244EF731003FBE13 /* SelectCategoryTCC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryTCC.swift; sourceTree = "<group>"; };
 		2AE81765244EF731003FBE13 /* SelectCategoryTCC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectCategoryTCC.xib; sourceTree = "<group>"; };
 		2AE81769244F0F32003FBE13 /* RealmFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmFuncs.swift; sourceTree = "<group>"; };
 		2AE8176D244F1FFF003FBE13 /* AddProjectVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddProjectVC.xib; sourceTree = "<group>"; };
+		387A113ED5438C74AA478936 /* Pods_OrgApp_V2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OrgApp_V2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C272A9DC10F63A895E7D04BE /* Pods-OrgApp_V2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrgApp_V2.debug.xcconfig"; path = "Target Support Files/Pods-OrgApp_V2/Pods-OrgApp_V2.debug.xcconfig"; sourceTree = "<group>"; };
-		CB52C40C05AD17583DA563EF /* libPods-OrgApp_V2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrgApp_V2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD6109777279EB210F06EEE5 /* Pods-OrgApp_V2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrgApp_V2.release.xcconfig"; path = "Target Support Files/Pods-OrgApp_V2/Pods-OrgApp_V2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,7 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EBF1AD0A65BFFDDDDCC8326 /* libPods-OrgApp_V2.a in Frameworks */,
+				F37B64AEC1E6E0B7F65D54EA /* Pods_OrgApp_V2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +227,7 @@
 				2A38545F244D886000F2CAEB /* Assets.xcassets */,
 				2A385461244D886000F2CAEB /* LaunchScreen.storyboard */,
 				2A385464244D886000F2CAEB /* Info.plist */,
+				2AD635D724A24997006291F0 /* GoogleService-Info.plist */,
 			);
 			path = AssetsGroup;
 			sourceTree = "<group>";
@@ -272,7 +275,7 @@
 		EE08FB95D54FC61ABB9C191A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CB52C40C05AD17583DA563EF /* libPods-OrgApp_V2.a */,
+				387A113ED5438C74AA478936 /* Pods_OrgApp_V2.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				2A38544F244D885E00F2CAEB /* Sources */,
 				2A385450244D885E00F2CAEB /* Frameworks */,
 				2A385451244D885E00F2CAEB /* Resources */,
+				1E43844AB3B2E337A5C0EE34 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -338,6 +342,7 @@
 			files = (
 				2AE8176E244F1FFF003FBE13 /* AddProjectVC.xib in Resources */,
 				2A385463244D886000F2CAEB /* LaunchScreen.storyboard in Resources */,
+				2AD635D824A24997006291F0 /* GoogleService-Info.plist in Resources */,
 				2A0FFC8D244DE17B009E7C38 /* ProjectHeaderCHC.xib in Resources */,
 				2A515B68244DB1160099AB04 /* ProjectCCC.xib in Resources */,
 				2A515B6E244DB1590099AB04 /* PhotoCCC.xib in Resources */,
@@ -356,6 +361,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1E43844AB3B2E337A5C0EE34 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OrgApp_V2/Pods-OrgApp_V2-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OrgApp_V2/Pods-OrgApp_V2-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OrgApp_V2/Pods-OrgApp_V2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		87A0A49C0C5FDCC688A3BC4F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

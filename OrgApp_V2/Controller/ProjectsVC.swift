@@ -1,5 +1,6 @@
 import UIKit
 import RealmSwift
+import Firebase
 
 class ProjectsVC: UIViewController {
 	@IBOutlet weak var projectsCollectionView: UICollectionView!
@@ -12,6 +13,11 @@ class ProjectsVC: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+
+		var data = Database.database().reference()
+		data.observeSingleEvent(of: .value) { (snap) in
+			print(snap)
+		}
 
 		allProjects = RealmFuncs.Load.projects()
 		allCategorys = RealmFuncs.Load.categorys()

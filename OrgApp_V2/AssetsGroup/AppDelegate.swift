@@ -8,7 +8,7 @@
 
 import UIKit
 import RealmSwift
-import IQKeyboardManagerSwift
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		} catch let error as NSError {
 			print("Error creating Realm on Launch -> \(error)")
 		}
+
+		FirebaseApp.configure()
 
 
 		return true
