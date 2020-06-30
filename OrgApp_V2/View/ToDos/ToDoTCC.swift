@@ -5,7 +5,7 @@
 //  Created by Jan Manuel Brenner on 20.04.20.
 //  Copyright © 2020 Jan Manuel Brenner. All rights reserved.
 //
-
+/*
 import UIKit
 
 class ToDoTCC: UITableViewCell {
@@ -62,3 +62,4 @@ extension ToDoTCC: UITextFieldDelegate {
 		toDosVC.textEditChanged(toDo: self.thisToDo, text: textField.text!)
 	}
 }
+ */

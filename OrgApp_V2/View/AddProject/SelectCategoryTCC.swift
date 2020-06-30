@@ -10,7 +10,7 @@ import UIKit
 
 class SelectCategoryTCC: UITableViewCell {
 	@IBOutlet weak var categoryLabel: UILabel!
-	var thisCategory: Category!
+	var thisCategory: FBCategory!
 	@IBOutlet weak var addCatButton: UIButton!
 	
     override func awakeFromNib() {

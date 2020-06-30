@@ -40,13 +40,18 @@
 		2A515B74244DCBBB0099AB04 /* ToDosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A515B73244DCBBB0099AB04 /* ToDosVC.swift */; };
 		2A515B76244DCBBE0099AB04 /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A515B75244DCBBE0099AB04 /* PhotosVC.swift */; };
 		2A515B78244DCBBF0099AB04 /* NotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A515B77244DCBBF0099AB04 /* NotesVC.swift */; };
+		2A5F381E24A48BCC00411FDB /* FBK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F381D24A48BCC00411FDB /* FBK.swift */; };
 		2A6A4BAE2458337100FDC7A3 /* ImportPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6A4BAD2458337100FDC7A3 /* ImportPhotoVC.swift */; };
+		2A6C48CC24AB2D73008E60B3 /* S.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6C48CB24AB2D73008E60B3 /* S.swift */; };
+		2A6C48CE24AB3AF3008E60B3 /* FBNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6C48CD24AB3AF3008E60B3 /* FBNote.swift */; };
 		2A7EBB7E245AF1C70015BBCF /* FullSizePhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7EBB7D245AF1C70015BBCF /* FullSizePhotoVC.swift */; };
 		2A9F806D247FE5BB00F944BB /* ToDoDetailTCC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9F806B247FE5BB00F944BB /* ToDoDetailTCC.swift */; };
 		2A9F806E247FE5BB00F944BB /* ToDoDetailTCC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A9F806C247FE5BB00F944BB /* ToDoDetailTCC.xib */; };
 		2AA78E542456FB7900C79B19 /* NoteDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA78E532456FB7900C79B19 /* NoteDetailVC.swift */; };
 		2AB5BA2D245461380095646C /* ProjectTabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB5BA2C245461380095646C /* ProjectTabBarVC.swift */; };
 		2AD635D824A24997006291F0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2AD635D724A24997006291F0 /* GoogleService-Info.plist */; };
+		2AD635DB24A24EC6006291F0 /* FBProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD635DA24A24EC6006291F0 /* FBProject.swift */; };
+		2AD635DD24A24ECA006291F0 /* FBCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD635DC24A24EC9006291F0 /* FBCategory.swift */; };
 		2AE81763244EEEE4003FBE13 /* AddProjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81762244EEEE4003FBE13 /* AddProjectVC.swift */; };
 		2AE81766244EF731003FBE13 /* SelectCategoryTCC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81764244EF731003FBE13 /* SelectCategoryTCC.swift */; };
 		2AE81767244EF731003FBE13 /* SelectCategoryTCC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AE81765244EF731003FBE13 /* SelectCategoryTCC.xib */; };
@@ -91,13 +96,18 @@
 		2A515B73244DCBBB0099AB04 /* ToDosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDosVC.swift; sourceTree = "<group>"; };
 		2A515B75244DCBBE0099AB04 /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		2A515B77244DCBBF0099AB04 /* NotesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVC.swift; sourceTree = "<group>"; };
+		2A5F381D24A48BCC00411FDB /* FBK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBK.swift; sourceTree = "<group>"; };
 		2A6A4BAD2458337100FDC7A3 /* ImportPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPhotoVC.swift; sourceTree = "<group>"; };
+		2A6C48CB24AB2D73008E60B3 /* S.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S.swift; sourceTree = "<group>"; };
+		2A6C48CD24AB3AF3008E60B3 /* FBNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBNote.swift; sourceTree = "<group>"; };
 		2A7EBB7D245AF1C70015BBCF /* FullSizePhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullSizePhotoVC.swift; sourceTree = "<group>"; };
 		2A9F806B247FE5BB00F944BB /* ToDoDetailTCC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoDetailTCC.swift; sourceTree = "<group>"; };
 		2A9F806C247FE5BB00F944BB /* ToDoDetailTCC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToDoDetailTCC.xib; sourceTree = "<group>"; };
 		2AA78E532456FB7900C79B19 /* NoteDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailVC.swift; sourceTree = "<group>"; };
 		2AB5BA2C245461380095646C /* ProjectTabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTabBarVC.swift; sourceTree = "<group>"; };
 		2AD635D724A24997006291F0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2AD635DA24A24EC6006291F0 /* FBProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBProject.swift; sourceTree = "<group>"; };
+		2AD635DC24A24EC9006291F0 /* FBCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBCategory.swift; sourceTree = "<group>"; };
 		2AE81762244EEEE4003FBE13 /* AddProjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectVC.swift; sourceTree = "<group>"; };
 		2AE81764244EF731003FBE13 /* SelectCategoryTCC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryTCC.swift; sourceTree = "<group>"; };
 		2AE81765244EF731003FBE13 /* SelectCategoryTCC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectCategoryTCC.xib; sourceTree = "<group>"; };
@@ -175,7 +185,8 @@
 		2A385455244D885F00F2CAEB /* OrgApp_V2 */ = {
 			isa = PBXGroup;
 			children = (
-				2A38546A244D887400F2CAEB /* Model */,
+				2AD635D924A24EB1006291F0 /* FirebaseModel */,
+				2A38546A244D887400F2CAEB /* RealmModel */,
 				2ACB9086244D88A100C4579D /* View */,
 				2ACB9087244D88AD00C4579D /* Controller */,
 				2A515B51244D89BE0099AB04 /* AssetsGroup */,
@@ -183,7 +194,7 @@
 			path = OrgApp_V2;
 			sourceTree = "<group>";
 		};
-		2A38546A244D887400F2CAEB /* Model */ = {
+		2A38546A244D887400F2CAEB /* RealmModel */ = {
 			isa = PBXGroup;
 			children = (
 				2A515B63244DA8B50099AB04 /* K.swift */,
@@ -196,7 +207,7 @@
 				2A515B61244DA7FC0099AB04 /* Photo.swift */,
 				2A515B57244DA7CB0099AB04 /* Note.swift */,
 			);
-			path = Model;
+			path = RealmModel;
 			sourceTree = "<group>";
 		};
 		2A4E80C0244DE37100608E0C /* Notes */ = {
@@ -251,15 +262,27 @@
 				2A38545A244D885F00F2CAEB /* ProjectsVC.swift */,
 				2AE81762244EEEE4003FBE13 /* AddProjectVC.swift */,
 				2AB5BA2C245461380095646C /* ProjectTabBarVC.swift */,
-				2A515B73244DCBBB0099AB04 /* ToDosVC.swift */,
-				2A234D43245B262200EFB75B /* ToDoDetailVC.swift */,
 				2A515B77244DCBBF0099AB04 /* NotesVC.swift */,
 				2AA78E532456FB7900C79B19 /* NoteDetailVC.swift */,
+				2A515B73244DCBBB0099AB04 /* ToDosVC.swift */,
+				2A234D43245B262200EFB75B /* ToDoDetailVC.swift */,
 				2A515B75244DCBBE0099AB04 /* PhotosVC.swift */,
 				2A7EBB7D245AF1C70015BBCF /* FullSizePhotoVC.swift */,
 				2A6A4BAD2458337100FDC7A3 /* ImportPhotoVC.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		2AD635D924A24EB1006291F0 /* FirebaseModel */ = {
+			isa = PBXGroup;
+			children = (
+				2AD635DC24A24EC9006291F0 /* FBCategory.swift */,
+				2AD635DA24A24EC6006291F0 /* FBProject.swift */,
+				2A6C48CD24AB3AF3008E60B3 /* FBNote.swift */,
+				2A5F381D24A48BCC00411FDB /* FBK.swift */,
+				2A6C48CB24AB2D73008E60B3 /* S.swift */,
+			);
+			path = FirebaseModel;
 			sourceTree = "<group>";
 		};
 		2AE81768244EF73D003FBE13 /* AddProject */ = {
@@ -409,14 +432,17 @@
 			files = (
 				2A515B5C244DA7F90099AB04 /* Category.swift in Sources */,
 				2A0FFC8C244DE17B009E7C38 /* ProjectHeaderCHC.swift in Sources */,
+				2AD635DB24A24EC6006291F0 /* FBProject.swift in Sources */,
 				2AE81763244EEEE4003FBE13 /* AddProjectVC.swift in Sources */,
 				2A4B8FD924751F750076228D /* DoneToDo.swift in Sources */,
 				2A38545B244D885F00F2CAEB /* ProjectsVC.swift in Sources */,
 				2A9F806D247FE5BB00F944BB /* ToDoDetailTCC.swift in Sources */,
 				2A515B76244DCBBE0099AB04 /* PhotosVC.swift in Sources */,
 				2A515B74244DCBBB0099AB04 /* ToDosVC.swift in Sources */,
+				2AD635DD24A24ECA006291F0 /* FBCategory.swift in Sources */,
 				2A234D44245B262200EFB75B /* ToDoDetailVC.swift in Sources */,
 				2A385457244D885F00F2CAEB /* AppDelegate.swift in Sources */,
+				2A6C48CE24AB3AF3008E60B3 /* FBNote.swift in Sources */,
 				2A7EBB7E245AF1C70015BBCF /* FullSizePhotoVC.swift in Sources */,
 				2A515B58244DA7CB0099AB04 /* Note.swift in Sources */,
 				2A515B71244DB1BF0099AB04 /* ToDoTCC.swift in Sources */,
@@ -428,12 +454,14 @@
 				2A6A4BAE2458337100FDC7A3 /* ImportPhotoVC.swift in Sources */,
 				2A515B64244DA8B50099AB04 /* K.swift in Sources */,
 				2AE8176A244F0F32003FBE13 /* RealmFuncs.swift in Sources */,
+				2A6C48CC24AB2D73008E60B3 /* S.swift in Sources */,
 				2A385459244D885F00F2CAEB /* SceneDelegate.swift in Sources */,
 				2A515B62244DA7FD0099AB04 /* Photo.swift in Sources */,
 				2A4E80BE244DE31500608E0C /* PhotoHeaderCHC.swift in Sources */,
 				2A515B60244DA7FB0099AB04 /* ToDo.swift in Sources */,
 				2A515B5E244DA7FA0099AB04 /* Project.swift in Sources */,
 				2A515B6D244DB1590099AB04 /* PhotoCCC.swift in Sources */,
+				2A5F381E24A48BCC00411FDB /* FBK.swift in Sources */,
 				2AE81766244EF731003FBE13 /* SelectCategoryTCC.swift in Sources */,
 				2A515B67244DB1160099AB04 /* ProjectCCC.swift in Sources */,
 				2AA78E542456FB7900C79B19 /* NoteDetailVC.swift in Sources */,

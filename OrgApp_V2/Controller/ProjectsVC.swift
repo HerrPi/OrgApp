@@ -1,26 +1,42 @@
 import UIKit
-import RealmSwift
+//import RealmSwift
 import Firebase
 
 class ProjectsVC: UIViewController {
 	@IBOutlet weak var projectsCollectionView: UICollectionView!
 	@IBOutlet weak var addProjectButton: UIButton!
+	@IBOutlet weak var dummyButton: UIBarButtonItem!
 
-	var allProjects: Results<Project> = RealmFuncs.Load.projects()
-	var allCategorys: Results<Category> = RealmFuncs.Load.categorys()
 
-	let toDelete = Project()
+	var allCategorys: [FBCategory] = []
+
+	var categoryRef: DatabaseReference!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		var data = Database.database().reference()
-		data.observeSingleEvent(of: .value) { (snap) in
-			print(snap)
-		}
+		categoryRef = Database.database().reference().child(S.categorys)
 
-		allProjects = RealmFuncs.Load.projects()
-		allCategorys = RealmFuncs.Load.categorys()
+		categoryRef.observe(.value) { (snap) in
+			self.allCategorys.removeAll()
+			for catSnapEnum in snap.children {
+				let cat = catSnapEnum as! DataSnapshot
+				let newCat = FBCategory(uID: cat.key, name: cat.childSnapshot(forPath: S.name).value as! String)
+
+
+				for projEnum in cat.childSnapshot(forPath: S.projects).children {
+					let proj = projEnum as! DataSnapshot
+					let newProject = FBProject(uID: proj.key, name: proj.value as! String, parentCategoryUID: newCat.uID)
+					newCat.projects.append(newProject)
+				}
+
+
+				self.allCategorys.append(newCat)
+			}
+			DispatchQueue.main.async {
+				self.projectsCollectionView.reloadData()
+			}
+		}
 
 		projectsCollectionView.delegate = self
 		projectsCollectionView.dataSource = self
@@ -33,8 +49,19 @@ class ProjectsVC: UIViewController {
 		let addProjCatContext = UIContextMenuInteraction(delegate: self)
 		addProjectButton.addInteraction(addProjCatContext)
 
+
+
+
+
 	}
 
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(true)
+
+	}
+
+	@IBAction func dummyButtonPressed(_ sender: UIBarButtonItem) {
+	}
 
 //MARK: -  USER INTERACTIVE FUNCTIONS
 	@IBAction func buttonPressed(_ sender: UIButton) {
@@ -55,9 +82,7 @@ class ProjectsVC: UIViewController {
 
 		addCategory.addAction(UIAlertAction(title: "Create", style: .default, handler: { _ in
 			if categoryNameTextField.text != "" {
-				let newCat = Category()
-				newCat.name = categoryNameTextField.text!
-				_ = RealmFuncs.Save.object(object: newCat)
+				_ = FBK.Functions.createNewCategory(named: categoryNameTextField.text!)
 				self.projectsCollectionView.reloadData()
 			}else {
 				let noNameGiven = UIAlertController(title: "No Name Given", message: "You have to give a name - canceled", preferredStyle: .alert)
@@ -86,7 +111,7 @@ class ProjectsVC: UIViewController {
 		case K.Segues.showProject:
 			let tabBarVC = segue.destination as! ProjectTabBarVC
 			tabBarVC.projectsVC = self
-			tabBarVC.thisProject = sender as? Project
+			tabBarVC.thisProject = Database.database().reference().child("\(S.projects)/\(sender as! String)")
 
 		default:
 			break
@@ -167,7 +192,13 @@ extension ProjectsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICo
 
 	// COLLECTION FUNCTIONS
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		performSegue(withIdentifier: K.Segues.showProject, sender: (projectsCollectionView.cellForItem(at: indexPath) as! ProjectCCC).thisProject)
+//		print((projectsCollectionView.cellForItem(at: indexPath) as! ProjectCCC).thisProject.uID)
+//		let projData = Database.database().reference().child("\(S.projects)/\((projectsCollectionView.cellForItem(at: indexPath) as! ProjectCCC).thisProject.uID)")
+
+		//		print("Print Log To Prepare:")
+//		print("ProjData ->  \(projData)")
+//		print("ProjNAme -> \(projData.value(forKey: S.name))")
+		performSegue(withIdentifier: K.Segues.showProject, sender: (projectsCollectionView.cellForItem(at: indexPath) as! ProjectCCC).thisProject.uID)
 
 	}
 
@@ -178,14 +209,13 @@ extension ProjectsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICo
 			let edit = UIAction(title: "Edit") { _ in
 				thisCell.projectTitle.isUserInteractionEnabled = true
 				thisCell.projectTitle.becomeFirstResponder()
+
+				print("DUMMY EDIT SWIPE")
 			}
 
 			let delete = UIAction(title: "Delete", attributes: .destructive) { _ in
 				self.projectsCollectionView.cellForItem(at: indexPath)?.isHidden = true
-				RealmFuncs.Edit.deleteObject(thisCell.thisProject)
-				self.projectsCollectionView.deleteItems(at: [indexPath])
-				self.projectsCollectionView.reloadSections([indexPath.section])
-
+				FBK.Functions.deleteProject(project: thisCell.thisProject)
 
 			}
 

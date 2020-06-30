@@ -12,7 +12,9 @@ class ProjectHeaderCHC: UICollectionReusableView {
 	@IBOutlet weak var headerLabel: UILabel!
 	@IBOutlet weak var deleteCategory: UIButton!
 
-	var thisCategory: Category!
+	//	var thisCategory: Category!
+		var thisCategory: FBCategory!
+
 	var projectsVC: ProjectsVC!
 
     override func awakeFromNib() {
@@ -21,8 +23,10 @@ class ProjectHeaderCHC: UICollectionReusableView {
     }
 
 	@IBAction func deleteCategory(_ sender: UIButton) {
-		RealmFuncs.Edit.deleteObject(thisCategory)
-		projectsVC.projectsCollectionView.reloadData()
+//		RealmFuncs.Edit.deleteObject(thisCategory)
+//		projectsVC.projectsCollectionView.reloadData()
+		FBK.Functions.deleteCategory(withID: thisCategory.uID)
+//		print("DUMMY BUTTON DELETE CATEGORY")
 	}
 
     

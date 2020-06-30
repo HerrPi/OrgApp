@@ -1,13 +1,5 @@
-//
-//  AddProjectVC.swift
-//  OrgApp_V2
-//
-//  Created by Jan Manuel Brenner on 21.04.20.
-//  Copyright © 2020 Jan Manuel Brenner. All rights reserved.
-//
-
 import UIKit
-import RealmSwift
+import Firebase
 
 class AddProjectVC: UIViewController {
 	@IBOutlet weak var categoryTableView: UITableView!
@@ -16,14 +8,27 @@ class AddProjectVC: UIViewController {
 	@IBOutlet weak var createProjectButton: UIButton!
 	@IBOutlet weak var cancelButton: UIButton!
 
-	var searchedCategorys: Results<Category>!
+	var allCategorys: [FBCategory] = []
+	var filteredCategorys: [FBCategory] = []
+	var categoryRef: DatabaseReference!
+
+
 	var projectsVC: ProjectsVC!
 	var denyAddCategoryState: Bool = false
 	
 
 	override func viewDidLoad() {
         super.viewDidLoad()
-		searchedCategorys = RealmFuncs.Load.categorys()
+
+		categoryRef = Database.database().reference().child(S.categorys)
+		categoryRef.observeSingleEvent(of: .value) { (snap) in
+			self.allCategorys.removeAll()
+			for catSnapEnum in snap.children {
+				let cat = catSnapEnum as! DataSnapshot
+				self.allCategorys.append(FBCategory(uID: cat.key, name: cat.childSnapshot(forPath: S.name).value as! String))
+			}
+		}
+
 
 		categoryTableView.delegate = self
 		categoryTableView.dataSource = self
@@ -42,92 +47,28 @@ class AddProjectVC: UIViewController {
 		denyAddCategory(true)
     }
 
-
-	@IBAction func buttonPressed(_ sender: UIButton) {
-		switch sender {
-		case createProjectButton:
-			exitAddProjectVC(save: true)
-
-		case cancelButton:
-			exitAddProjectVC(save: false)
-
-		default:
-			break
-		}
-	}
-
-	func exitAddProjectVC(save: Bool) {
-		if save {
-			let newProj = Project()
-			let targetCategory = RealmFuncs.Search.category(name: categorySearchField.text!)
-			newProj.name = projNameField.text!
-			_ = RealmFuncs.Save.object(object: newProj)
-			RealmFuncs.Edit.setParent(of: newProj, to: targetCategory) // SET CATEGORY!!!
-			self.dismiss(animated: true, completion: nil)
-
-		}else {
-			self.dismiss(animated: true, completion: nil)
-		}
-
-	}
-
-	func categoryExists(name: String) -> Bool {
-		return RealmFuncs.Load.categorys().contains(where: { (cat) -> Bool in
-			if cat.name == name {
-				return true
-			}else {
-				return false
-			}
-		})
-	}
-
 	override func viewWillDisappear(_ animated: Bool) {
 		projectsVC.projectsCollectionView.reloadData()
 	}
 
-	func hideCreateProjectButton(_ hide: Bool) {
-		createProjectButton.isHidden = hide
-
-	}
-
-	func hideCategoryList(_ hide: Bool) {
-		categoryTableView.isHidden = hide
-	}
-
-	func denyAddCategory(_ deny: Bool) {
-		denyAddCategoryState = deny
-	}
-
-	func tryCheckOut() -> Bool {
-		if categoryExists(name: categorySearchField.text!) && projNameField.text != "" {
-			denyAddCategory(true)
-			hideCategoryList(true)
-			hideCreateProjectButton(false)
-			return true
-		}else {
-			hideCategoryList(true)
-			hideCreateProjectButton(true)
-			return false
-		}
-	}
-
-
 
 }
+
+
 
 
 //MARK: -  UITableView Delegate and DataSource
 extension AddProjectVC: UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return denyAddCategoryState ? (searchedCategorys.count) : (searchedCategorys.count + 1)
+		return denyAddCategoryState ? (allCategorys.count) : (filteredCategorys.count + 1)
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: K.CustomCells.selectCategory, for: indexPath) as! SelectCategoryTCC
 		
 		if denyAddCategoryState {
-			cell.thisCategory = searchedCategorys[indexPath.row]
+			cell.thisCategory = allCategorys[indexPath.row]
 			cell.categoryLabel.text = cell.thisCategory.name
 			cell.categoryLabel.textColor = .label
 			cell.addCatButton.isHidden = true
@@ -138,7 +79,7 @@ extension AddProjectVC: UITableViewDelegate, UITableViewDataSource {
 				cell.categoryLabel.textColor = .systemBlue
 				cell.addCatButton.isHidden = false
 			}else {
-				cell.thisCategory = searchedCategorys[indexPath.row - 1]
+				cell.thisCategory = filteredCategorys[indexPath.row - 1]
 				cell.categoryLabel.textColor = .label
 				cell.categoryLabel.text = cell.thisCategory.name
 				cell.addCatButton.isHidden = true
@@ -150,13 +91,10 @@ extension AddProjectVC: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if !denyAddCategoryState {
 			if indexPath.row == 0 {
-				let newCat = Category()
-				newCat.name = categorySearchField.text!
-				_ = RealmFuncs.Save.object(object: newCat)
+				allCategorys.append(FBCategory(uID: "Temp", name: categorySearchField.text!))
 				categorySearchField.endEditing(true)
 				denyAddCategory(true)
 				hideCategoryList(true)
-				categoryTableView.reloadData()
 				_ = self.tryCheckOut()
 
 
@@ -183,7 +121,6 @@ extension AddProjectVC: UITableViewDelegate, UITableViewDataSource {
 extension AddProjectVC: UITextFieldDelegate {
 
 	func textFieldDidBeginEditing(_ textField: UITextField) {
-//		hideCreateProjectButton(true)
 		denyAddCategory(true)
 
 		switch textField {
@@ -191,10 +128,9 @@ extension AddProjectVC: UITextFieldDelegate {
 			hideCreateProjectButton(true)
 			hideCategoryList(false)
 			if categorySearchField.text == "" {
-				searchedCategorys = RealmFuncs.Load.categorys()
 				denyAddCategory(true)
 			}else {
-				searchedCategorys = RealmFuncs.Search.categorys(contains: categorySearchField.text!)
+				filteredCategorys = FBK.Functions.returnCategoryWhich(contains: categorySearchField.text!, of: allCategorys)
 				denyAddCategory(categoryExists(name: categorySearchField.text!))
 			}
 			categoryTableView.reloadData()
@@ -212,10 +148,9 @@ extension AddProjectVC: UITextFieldDelegate {
 		case categorySearchField:
 			hideCategoryList(false)
 			if categorySearchField.text == "" {
-				searchedCategorys = RealmFuncs.Load.categorys()
 				denyAddCategory(true)
 			}else {
-				searchedCategorys = RealmFuncs.Search.categorys(contains: categorySearchField.text!)
+				filteredCategorys = FBK.Functions.returnCategoryWhich(contains: categorySearchField.text!, of: allCategorys)
 				denyAddCategory(categoryExists(name: categorySearchField.text!))
 			}
 			categoryTableView.reloadData()
@@ -230,13 +165,10 @@ extension AddProjectVC: UITextFieldDelegate {
 
 	func textFieldDidEndEditing(_ textField: UITextField) {
 		if textField == categorySearchField {
-			if RealmFuncs.Search.categorys(contains: categorySearchField.text!).count == 0 && categorySearchField.text != "" {
-				let newCat = Category()
-				newCat.name = categorySearchField.text!
-				_ = RealmFuncs.Save.object(object: newCat)
+			if FBK.Functions.returnCategoryWhich(contains: categorySearchField.text!, of: allCategorys).count == 0 && categorySearchField.text != "" {
+				allCategorys.append(FBCategory(uID: "Temp", name: categorySearchField.text!))
 				denyAddCategory(true)
 				hideCategoryList(true)
-				categoryTableView.reloadData()
 				_ = self.tryCheckOut()
 			}
 		}
@@ -255,8 +187,83 @@ extension AddProjectVC: UITextFieldDelegate {
 
 }
 
+//MARK: -  User Actions and Functions
+extension AddProjectVC {
+	@IBAction func buttonPressed(_ sender: UIButton) {
+		switch sender {
+		case createProjectButton:
+			exitAddProjectVC(save: true)
+
+		case cancelButton:
+			exitAddProjectVC(save: false)
+
+		default:
+			break
+		}
+	}
+
+	func exitAddProjectVC(save: Bool) {
+		if save {
+			for tempCat in allCategorys.filter({ (cat) -> Bool in
+				return cat.uID == "Temp"
+			}) {
+				tempCat.uID = FBK.Functions.createNewCategory(named: tempCat.name)
+
+			}
+			let selectedCat = allCategorys.filter { (cat) -> Bool in
+				return cat.name == categorySearchField.text!
+				}
+			if selectedCat.count > 0 {
+				FBK.Functions.createNewProject(named: projNameField.text!, in: selectedCat.first!)
+			}
+			projectsVC.projectsCollectionView.reloadData()
+			self.dismiss(animated: true, completion: nil)
+
+		}else {
+			self.dismiss(animated: true, completion: nil)
+		}
+
+	}
+
+	func categoryExists(name: String) -> Bool {
+		return allCategorys.contains(where: { (cat) -> Bool in
+			if cat.name == name {
+				return true
+			}else {
+				return false
+			}
+		})
+	}
 
 
+
+
+	func hideCreateProjectButton(_ hide: Bool) {
+		createProjectButton.isHidden = hide
+
+	}
+
+	func hideCategoryList(_ hide: Bool) {
+		categoryTableView.isHidden = hide
+	}
+
+	func denyAddCategory(_ deny: Bool) {
+		denyAddCategoryState = deny
+	}
+
+	func tryCheckOut() -> Bool {
+		if categoryExists(name: categorySearchField.text!) && projNameField.text != "" {
+			denyAddCategory(true)
+			hideCategoryList(true)
+			hideCreateProjectButton(false)
+			return true
+		}else {
+			hideCategoryList(true)
+			hideCreateProjectButton(true)
+			return false
+		}
+	}
+}
 
 
 

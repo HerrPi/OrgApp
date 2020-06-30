@@ -12,7 +12,7 @@ class ProjectCCC: UICollectionViewCell {
 	@IBOutlet weak var projectTitle: UITextView!
 	var projectsVC: ProjectsVC!
 
-	var thisProject: Project!
+	var thisProject: FBProject!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,8 +33,9 @@ extension ProjectCCC: UITextViewDelegate {
 		if textView.text == "" {
 			textView.text = thisProject.name
 		}else {
-			RealmFuncs.Edit.renameProject(thisProject, newName: textView.text)
-			projectsVC.projectsCollectionView.reloadData()
+			FBK.Functions.renameProject(withID: thisProject.uID, to: textView.text!)
+//			RealmFuncs.Edit.renameProject(thisProject, newName: textView.text)
+			print("DUMMY TEXT CHANGED")
 		}
 	}
 

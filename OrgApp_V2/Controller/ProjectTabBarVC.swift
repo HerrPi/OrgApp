@@ -7,14 +7,16 @@
 //
 
 import UIKit
+import Firebase
 
 class ProjectTabBarVC: UITabBarController {
 	var projectsVC: ProjectsVC!
-	var thisProject: Project!
+	var thisProject: DatabaseReference!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		self.title = thisProject.name
+
+//		self.title = (thisProject.value(forKey: S.name) as! String) ---- Geht so nicht. braucht einen Observer. Eventeull Title woanders einstellen
 
         // Do any additional setup after loading the view.
     }

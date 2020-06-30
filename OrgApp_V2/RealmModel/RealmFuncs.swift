@@ -132,7 +132,7 @@ struct RealmFuncs {
 			let realm = try! Realm()
 			do {
 				try realm.write{
-					note.title = newName
+					note.name = newName
 				}
 			} catch {
 				print("Failed renameNote -> \(error)")

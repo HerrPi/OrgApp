@@ -7,7 +7,7 @@ class Note: Object {
 		return "itemId"
 	}
 	
-	@objc dynamic var title: String = ""
+	@objc dynamic var name: String = ""
 	@objc dynamic var content: String = ""
 	var linkedParent = LinkingObjects(fromType: Project.self, property: "notes")
 }

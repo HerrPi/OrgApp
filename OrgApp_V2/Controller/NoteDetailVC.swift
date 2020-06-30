@@ -25,9 +25,9 @@ class NoteDetailVC: UIViewController {
 		K.Funcs.createKeyboardToolbar(style: .done, target: noteTitleField, execute: #selector(doneEditing))
 
 
-		self.title = thisNote.title
+		self.title = thisNote.name
 
-		noteTitleField.text = thisNote.title
+		noteTitleField.text = thisNote.name
 		noteContentField.text = thisNote.content
 
 		noteTitleField.delegate = self
@@ -105,11 +105,11 @@ extension NoteDetailVC: UITextFieldDelegate, UITextViewDelegate {
 	func textFieldDidEndEditing(_ textField: UITextField) {
 		if textField.text == "" {
 			RealmFuncs.Edit.renameNote(thisNote, newName: "No Name")
-			textField.text = thisNote.title
-			self.title = thisNote.title
+			textField.text = thisNote.name
+			self.title = thisNote.name
 		}else {
 			RealmFuncs.Edit.renameNote(thisNote, newName: textField.text!)
-			self.title = thisNote.title
+			self.title = thisNote.name
 		}
 		textField.resignFirstResponder()
 
