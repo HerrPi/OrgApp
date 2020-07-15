@@ -25,7 +25,7 @@ class ProjectHeaderCHC: UICollectionReusableView {
 	@IBAction func deleteCategory(_ sender: UIButton) {
 //		RealmFuncs.Edit.deleteObject(thisCategory)
 //		projectsVC.projectsCollectionView.reloadData()
-		FBK.Functions.deleteCategory(withID: thisCategory.uID)
+		FBK.Categorys.deleteCategory(withID: thisCategory.uID)
 //		print("DUMMY BUTTON DELETE CATEGORY")
 	}
 

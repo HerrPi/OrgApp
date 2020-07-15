@@ -8,8 +8,10 @@ class AddProjectVC: UIViewController {
 	@IBOutlet weak var createProjectButton: UIButton!
 	@IBOutlet weak var cancelButton: UIButton!
 
-	var allCategorys: [FBCategory] = []
+	var allTempCategorys: [FBCategory] = []
 	var filteredCategorys: [FBCategory] = []
+
+	var newCategorys: [FBCategory] = []
 	var categoryRef: DatabaseReference!
 
 
@@ -21,13 +23,13 @@ class AddProjectVC: UIViewController {
         super.viewDidLoad()
 
 		categoryRef = Database.database().reference().child(S.categorys)
-		categoryRef.observeSingleEvent(of: .value) { (snap) in
-			self.allCategorys.removeAll()
-			for catSnapEnum in snap.children {
-				let cat = catSnapEnum as! DataSnapshot
-				self.allCategorys.append(FBCategory(uID: cat.key, name: cat.childSnapshot(forPath: S.name).value as! String))
-			}
-		}
+//		categoryRef.observeSingleEvent(of: .value) { (snap) in
+//			self.allCategorys.removeAll()
+//			for catSnapEnum in snap.children {
+//				let cat = catSnapEnum as! DataSnapshot
+//				self.allCategorys.append(FBCategory(uID: cat.key, name: cat.childSnapshot(forPath: S.name).value as! String))
+//			}
+//		}
 
 
 		categoryTableView.delegate = self
@@ -61,14 +63,14 @@ class AddProjectVC: UIViewController {
 extension AddProjectVC: UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return denyAddCategoryState ? (allCategorys.count) : (filteredCategorys.count + 1)
+		return denyAddCategoryState ? (allTempCategorys.count) : (filteredCategorys.count + 1)
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: K.CustomCells.selectCategory, for: indexPath) as! SelectCategoryTCC
 		
 		if denyAddCategoryState {
-			cell.thisCategory = allCategorys[indexPath.row]
+			cell.thisCategory = allTempCategorys[indexPath.row]
 			cell.categoryLabel.text = cell.thisCategory.name
 			cell.categoryLabel.textColor = .label
 			cell.addCatButton.isHidden = true
@@ -91,7 +93,7 @@ extension AddProjectVC: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if !denyAddCategoryState {
 			if indexPath.row == 0 {
-				allCategorys.append(FBCategory(uID: "Temp", name: categorySearchField.text!))
+				allTempCategorys.append(FBCategory(uID: S.tempCategoryUID, name: categorySearchField.text!))
 				categorySearchField.endEditing(true)
 				denyAddCategory(true)
 				hideCategoryList(true)
@@ -130,7 +132,10 @@ extension AddProjectVC: UITextFieldDelegate {
 			if categorySearchField.text == "" {
 				denyAddCategory(true)
 			}else {
-				filteredCategorys = FBK.Functions.returnCategoryWhich(contains: categorySearchField.text!, of: allCategorys)
+//				filteredCategorys = FBK.Categorys.returnCategoryWhich(contains: categorySearchField.text!, of: allCategorys)
+				filteredCategorys = allTempCategorys.filter({ (category) -> Bool in
+					return category.name.contains(categorySearchField.text!)
+				})
 				denyAddCategory(categoryExists(name: categorySearchField.text!))
 			}
 			categoryTableView.reloadData()
@@ -150,7 +155,9 @@ extension AddProjectVC: UITextFieldDelegate {
 			if categorySearchField.text == "" {
 				denyAddCategory(true)
 			}else {
-				filteredCategorys = FBK.Functions.returnCategoryWhich(contains: categorySearchField.text!, of: allCategorys)
+				filteredCategorys = allTempCategorys.filter({ (category) -> Bool in
+					return category.name.contains(categorySearchField.text!)
+				})
 				denyAddCategory(categoryExists(name: categorySearchField.text!))
 			}
 			categoryTableView.reloadData()
@@ -165,8 +172,12 @@ extension AddProjectVC: UITextFieldDelegate {
 
 	func textFieldDidEndEditing(_ textField: UITextField) {
 		if textField == categorySearchField {
-			if FBK.Functions.returnCategoryWhich(contains: categorySearchField.text!, of: allCategorys).count == 0 && categorySearchField.text != "" {
-				allCategorys.append(FBCategory(uID: "Temp", name: categorySearchField.text!))
+			filteredCategorys = allTempCategorys.filter({ (category) -> Bool in
+				return category.name.contains(categorySearchField.text!)
+			})
+
+			if filteredCategorys.count == 0 && categorySearchField.text != "" {
+				allTempCategorys.append(FBCategory(uID: S.tempCategoryUID, name: categorySearchField.text!))
 				denyAddCategory(true)
 				hideCategoryList(true)
 				_ = self.tryCheckOut()
@@ -203,35 +214,38 @@ extension AddProjectVC {
 	}
 
 	func exitAddProjectVC(save: Bool) {
+		// NUR wenn gesaved wird und nicht abgebrochen werden alle Temporären Categorys und das neue Projekt erstellt
 		if save {
-			for tempCat in allCategorys.filter({ (cat) -> Bool in
-				return cat.uID == "Temp"
-			}) {
-				tempCat.uID = FBK.Functions.createNewCategory(named: tempCat.name)
 
+			// UPLOAD erst alle neu erstellten Categorys
+			for tempCat in allTempCategorys.filter({ (cat) -> Bool in
+				return cat.uID == S.tempCategoryUID
+			}) {
+				tempCat.uID = FBK.Categorys.createNewCategory(named: tempCat.name)
 			}
-			let selectedCat = allCategorys.filter { (cat) -> Bool in
+
+
+			// Speicher die aktuell ausgewählte Category zwischen
+			let selectedCat = allTempCategorys.filter { (cat) -> Bool in
 				return cat.name == categorySearchField.text!
 				}
-			if selectedCat.count > 0 {
-				FBK.Functions.createNewProject(named: projNameField.text!, in: selectedCat.first!)
+
+			// wenn es diese Category gibt
+			if selectedCat.count != 0 {
+				FBK.Projects.createNewProject(named: projNameField.text!, in: selectedCat.first!)
 			}
-			projectsVC.projectsCollectionView.reloadData()
+//			projectsVC.projectsCollectionView.reloadData()
 			self.dismiss(animated: true, completion: nil)
 
-		}else {
+		}else { // Ansonsten wird alles verworfen und die Categorys löschen sich selbst weil OutOfScope
 			self.dismiss(animated: true, completion: nil)
 		}
 
 	}
 
 	func categoryExists(name: String) -> Bool {
-		return allCategorys.contains(where: { (cat) -> Bool in
-			if cat.name == name {
-				return true
-			}else {
-				return false
-			}
+		return allTempCategorys.contains(where: { (cat) -> Bool in
+			return cat.name == name
 		})
 	}
 

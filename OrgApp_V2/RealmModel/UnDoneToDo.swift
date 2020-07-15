@@ -1,6 +1,6 @@
 import Foundation
 import RealmSwift
-
+/*
 class UnDoneToDo: ToDo {
 	@objc dynamic var itemId: String = UUID().uuidString
 	override static func primaryKey() -> String? {
@@ -9,3 +9,4 @@ class UnDoneToDo: ToDo {
 	var linkedParent = LinkingObjects(fromType: Project.self, property: "unDoneToDos")
 
 }
+*/

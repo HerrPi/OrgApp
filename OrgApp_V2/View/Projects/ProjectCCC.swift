@@ -33,7 +33,7 @@ extension ProjectCCC: UITextViewDelegate {
 		if textView.text == "" {
 			textView.text = thisProject.name
 		}else {
-			FBK.Functions.renameProject(withID: thisProject.uID, to: textView.text!)
+			FBK.Projects.renameProject(withID: thisProject.uID, to: textView.text!)
 //			RealmFuncs.Edit.renameProject(thisProject, newName: textView.text)
 			print("DUMMY TEXT CHANGED")
 		}

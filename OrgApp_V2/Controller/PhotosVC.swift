@@ -6,27 +6,27 @@ import Photos
 
 class PhotosVC: UIViewController {
 	@IBOutlet weak var photosCollectionView: UICollectionView!
-//
-//	var tabBarVC: ProjectTabBarVC!
-//	var thisProject: FBProject!
-//	var photos: List<Photo>!
-//	var photoAssets: PHFetchResult<PHAsset>!
-//
-//	var photoSize = CGSize(width: 0, height: 0)
-//	var imageManager = PHImageManager()
-//
-//	var deleteEditMode: Bool = false
-//	var editPhotosButton: UIBarButtonItem!
-//
-//	var photoIdentifiers: [String] = []
+
+	var tabBarVC: ProjectTabBarVC!
+	var thisProject: FBProject!
+	var photos: List<Photo>!
+	var photoAssets: PHFetchResult<PHAsset>!
+
+	var photoSize = CGSize(width: 0, height: 0)
+	var imageManager = PHImageManager()
+
+	var deleteEditMode: Bool = false
+	var editPhotosButton: UIBarButtonItem!
+
+	var photoIdentifiers: [String] = []
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//		tabBarVC = self.parent as? ProjectTabBarVC
+		tabBarVC = self.parent as? ProjectTabBarVC
 //		thisProject = tabBarVC.thisProject
 //		photos = RealmFuncs.Load.photos(of: thisProject)
-//
+
 //		let collectionFlowLayout = photosCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
 //		let cellSize = CGSize(width: ((photosCollectionView.frame.width - 6) / 3), height: ((photosCollectionView.frame.width - 6) / 3))
 //		collectionFlowLayout.itemSize = cellSize
@@ -51,7 +51,7 @@ class PhotosVC: UIViewController {
 //
 //	}
 //
-//	@objc func editThis() {
+	@objc func editThis() {
 //		if deleteEditMode {
 //			for index in photosCollectionView.indexPathsForSelectedItems! {
 //				let cell = photosCollectionView.cellForItem(at: index) as! PhotoCCC
@@ -63,7 +63,7 @@ class PhotosVC: UIViewController {
 //		}else {
 //			changeEditMode(to: !deleteEditMode)
 //		}
-//	}
+	}
 //
 //	func changeEditMode(to editMode: Bool) {
 //		if editMode {
@@ -101,7 +101,7 @@ class PhotosVC: UIViewController {
 //    
 //
 //
-//	@IBAction func addPhoto(_ sender: UIButton) {
+	@IBAction func addPhoto(_ sender: UIButton) {
 //		changeEditMode(to: false)
 //		let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 //		alert.addAction(UIAlertAction(title: "From Library", style: .default, handler: { _ in
@@ -123,7 +123,7 @@ class PhotosVC: UIViewController {
 //
 //
 //		present(alert, animated: true, completion: nil)
-//	}
+	}
 //
 //	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //		if segue.destination is ImportPhotoVC {

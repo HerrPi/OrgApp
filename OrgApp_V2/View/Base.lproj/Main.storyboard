@@ -403,8 +403,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="klG-94-LpV" kind="relationship" relationship="viewControllers" id="c6a-3D-1F4"/>
                         <segue destination="4b1-fc-N4T" kind="relationship" relationship="viewControllers" id="NFb-oS-S39"/>
+                        <segue destination="klG-94-LpV" kind="relationship" relationship="viewControllers" id="c6a-3D-1F4"/>
                         <segue destination="ePE-td-7i6" kind="relationship" relationship="viewControllers" id="wxh-Rc-2e1"/>
                     </connections>
                 </tabBarController>

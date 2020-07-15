@@ -5,7 +5,7 @@
 //  Created by Jan Manuel Brenner on 20.04.20.
 //  Copyright © 2020 Jan Manuel Brenner. All rights reserved.
 //
-/*
+
 import UIKit
 
 class ToDoTCC: UITableViewCell {
@@ -15,12 +15,11 @@ class ToDoTCC: UITableViewCell {
 	@IBOutlet weak var infoButton: UIButton!
 	
 	var toDosVC: ToDosVC!
-	var thisToDo: ToDo!
+	var thisToDo: FBToDo!
 
 	override func awakeFromNib() {
         super.awakeFromNib()
 		toDoTitle.delegate = self
-		toDoTitle.addTarget(self, action: #selector(textEditChanged), for: .editingChanged)
         // Initialization code
     }
 
@@ -58,8 +57,5 @@ extension ToDoTCC: UITextFieldDelegate {
 		return toDosVC.textFieldShouldBeginEditing(textField)
 	}
 
-	@objc func textEditChanged(_ textField: UITextField) {
-		toDosVC.textEditChanged(toDo: self.thisToDo, text: textField.text!)
-	}
 }
- */
+

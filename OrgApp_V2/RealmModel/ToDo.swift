@@ -1,6 +1,6 @@
 import Foundation
 import RealmSwift
-
+/*
 class ToDo: Object {
 //	@objc dynamic var itemId: String = UUID().uuidString
 //	override static func primaryKey() -> String? {
@@ -14,3 +14,4 @@ class ToDo: Object {
 
 }
 
+*/

@@ -8,7 +8,7 @@ class NotesVC: UIViewController {
 
 	var tabBarVC: ProjectTabBarVC!
 
-	var notesDataBase: DatabaseReference!
+//	var notesDataBase: DatabaseReference!
 	var thisProject: DatabaseReference!
 	var notes: [FBNote] = []
 
@@ -23,17 +23,17 @@ class NotesVC: UIViewController {
 		tabBarVC = self.parent as? ProjectTabBarVC
 		thisProject = tabBarVC.thisProject
 
-		notesDataBase = Database.database().reference().child("\(S.notes)")
-
-		thisProject.child(S.notes).observeSingleEvent(of: .value) { (notes) in
-			self.notes.removeAll()
-			for noteEnum in notes.children {
-				let noteUID = noteEnum as! DataSnapshot
-				let note = self.notesDataBase.child(noteUID.key)
-				let newNote = FBNote(uID: note.key!, name: note.value(forKey: S.name) as! String, content: note.value(forKey: S.content) as! String, parentProjectUID: note.value(forKey: S.parentProject) as! String)
-				self.notes.append(newNote)
-			}
+//		notesDataBase = Database.database().reference().child(S.notes)
+		let mainDispatcher = DispatchGroup()
+		mainDispatcher.enter()
+		FBK.Notes.loadAllNotes(of: thisProject, mainDispatcher: mainDispatcher, noteVC: self)
+		mainDispatcher.notify(queue: .main) {
+			self.notesTableView.reloadData()
+			FBK.Notes.childAddedObserver(notesVC: self)
+			FBK.Notes.childChangedObserver(notesVC: self)
+			FBK.Notes.childRemovedObserver(notesVC: self)
 		}
+
 
 
 
@@ -50,7 +50,6 @@ class NotesVC: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
 		hideContent = true
-		notesTableView.reloadData()
 
 		self.parent?.navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Show note", style: .plain, target: self, action: #selector(previewNoteButton))]
 		editNotesButton = self.parent?.navigationItem.rightBarButtonItem
@@ -59,8 +58,7 @@ class NotesVC: UIViewController {
 
 
 	@IBAction func addNoteAction(_ sender: UIButton) {
-//		performSegue(withIdentifier: K.Segues.showNote, sender: createNewNote())
-		print("Dummy Add Note")
+		performSegue(withIdentifier: K.Segues.showNote, sender: nil)
 	}
 
 
@@ -79,39 +77,26 @@ class NotesVC: UIViewController {
 
 
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		print("Dummy Note Detail")
-//		if segue.identifier == K.Segues.showNote {
-//			let noteDetail = segue.destination as! NoteDetailVC
-//			noteDetail.thisProject = thisProject
-//			if sender is NoteTCC {
-//				noteDetail.thisNote = (sender as! NoteTCC).thisNote
-//			}else {
-//				noteDetail.thisNote = sender as? Note
-//			}
-//
-//
-//		}
-	}
+		if segue.identifier == K.Segues.showNote {
+			let noteDetail = segue.destination as! NoteDetailVC
+			noteDetail.thisProjectRef = thisProject
+			if sender is NoteTCC {
+				noteDetail.thisNote = (sender as! NoteTCC).thisNote
+			}else {
+				noteDetail.thisNote = FBNote(uID: "NewNote", name: "", content: "", parentProjectUID: thisProject.key!)
+			}
 
-	func createNewNote() -> Note {
-		print("Dummy Create Note")
-		let newNote = Note()
-		newNote.name = ""
-		newNote.content = "Input content here..."
-//		RealmFuncs.Edit.setParent(of: newNote, to: thisProject)
-		return Note()
 
+		}
 	}
 
 	@objc func tapTableNil(tap: UITapGestureRecognizer) {
 		let tappedIndexPath: IndexPath? = notesTableView.indexPathForRow(at: tap.location(in: notesTableView))
 		if tappedIndexPath == nil {
-			print("Tapped in Nil -> Create NEw Note")
-//			performSegue(withIdentifier: K.Segues.showNote, sender: createNewNote())
+			performSegue(withIdentifier: K.Segues.showNote, sender: nil)
 
 		}else {
-			print("Tapped a Note -> Go to DetailVC")
-//			performSegue(withIdentifier: K.Segues.showNote, sender: notesTableView.cellForRow(at: tappedIndexPath!))
+			performSegue(withIdentifier: K.Segues.showNote, sender: notesTableView.cellForRow(at: tappedIndexPath!))
 
 		}
 	}
@@ -145,16 +130,15 @@ extension NotesVC: UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		notesTableView.deselectRow(at: indexPath, animated: true)
-		print("Dummy Select")
-//		performSegue(withIdentifier: K.Segues.showNote, sender: notesTableView.cellForRow(at: indexPath))
+		performSegue(withIdentifier: K.Segues.showNote, sender: notesTableView.cellForRow(at: indexPath))
 
 	}
 
 	func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 		let delete = UIContextualAction(style: .destructive, title: "Delete") { (_, _, _) in
-//			RealmFuncs.Edit.deleteObject((self.notesTableView.cellForRow(at: indexPath) as! NoteTCC).thisNote)
-//			self.notesTableView.deleteRows(at: [indexPath], with: .fade)
-			print("Dummy Delete")
+			let noteToDelete = (self.notesTableView.cellForRow(at: indexPath) as! NoteTCC).thisNote!
+			FBK.Notes.deleteNote(with: noteToDelete.uID, in: self.thisProject.key!)
+
 		}
 
 		return UISwipeActionsConfiguration(actions: [delete])

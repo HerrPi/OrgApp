@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class NoteDetailVC: UIViewController {
 
@@ -14,16 +15,18 @@ class NoteDetailVC: UIViewController {
 	@IBOutlet weak var noteContentField: UITextView!
 	@IBOutlet weak var deleteNoteButton: UIBarButtonItem!
 
-	var thisProject: Project!
-	var thisNote: Note!
+
+	var thisNote: FBNote!
+	var thisProjectRef: DatabaseReference!
+	var thisNoteReference: DatabaseReference!
 
 
     override func viewDidLoad() {
 		super.viewDidLoad()
 
+		thisNoteReference = Database.database().reference().child("\(S.notes)/\(thisNote.uID)")
 		K.Funcs.createKeyboardToolbar(style: .done, target: noteContentField, execute: #selector(doneEditing))
 		K.Funcs.createKeyboardToolbar(style: .done, target: noteTitleField, execute: #selector(doneEditing))
-
 
 		self.title = thisNote.name
 
@@ -43,6 +46,27 @@ class NoteDetailVC: UIViewController {
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
+	}
+
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(true)
+		if noteTitleField.isFirstResponder {
+			noteTitleField.resignFirstResponder()
+		}
+		if noteContentField.isFirstResponder {
+			noteContentField.resignFirstResponder()
+		}
+		
+		if thisNote.name == "MARKEDFORDELETION" {
+			
+			FBK.Notes.deleteNote(with: thisNote.uID, in: thisProjectRef.key!)
+		}else {
+			if thisNote.uID == "NewNote" {
+				FBK.Notes.saveNew(note: thisNote, in: thisProjectRef.key!)
+			}else {
+				FBK.Notes.updateExisting(note: thisNote, in: thisProjectRef)
+			}
+		}
 
 	}
 
@@ -65,9 +89,8 @@ class NoteDetailVC: UIViewController {
 			noteContentField.resignFirstResponder()
 		}
 		
+		thisNote.name = "MARKEDFORDELETION"
 		self.navigationController?.popViewController(animated: true)
-		print("Noch ausführen")
-		RealmFuncs.Edit.deleteObject(thisNote)
 	}
 
 
@@ -76,23 +99,7 @@ class NoteDetailVC: UIViewController {
 
 extension NoteDetailVC: UITextFieldDelegate, UITextViewDelegate {
 
-	func textViewDidBeginEditing(_ textView: UITextView) {
-		if textView.text == "Input content here..." {
-			textView.text = ""
-		}
-
-	}
-
-	func textViewDidEndEditing(_ textView: UITextView) {
-		if textView.text == "" {
-			RealmFuncs.Edit.changeNoteContent(thisNote, newContent: "No content")
-		}else {
-			RealmFuncs.Edit.changeNoteContent(thisNote, newContent: textView.text)
-		}
-		textView.resignFirstResponder()
-	}
-
-
+	//MARK: -  Text FIELD is for Title
 	func textFieldDidBeginEditing(_ textField: UITextField) {
 	}
 
@@ -104,14 +111,35 @@ extension NoteDetailVC: UITextFieldDelegate, UITextViewDelegate {
 
 	func textFieldDidEndEditing(_ textField: UITextField) {
 		if textField.text == "" {
-			RealmFuncs.Edit.renameNote(thisNote, newName: "No Name")
+			thisNote.name = "Need Name!"
 			textField.text = thisNote.name
 			self.title = thisNote.name
 		}else {
-			RealmFuncs.Edit.renameNote(thisNote, newName: textField.text!)
+			thisNote.name = textField.text!
 			self.title = thisNote.name
 		}
 		textField.resignFirstResponder()
 
 	}
+
+
+
+
+
+
+
+	//MARK: -  Text VIEW is for Content
+	func textViewDidBeginEditing(_ textView: UITextView) {
+		if textView.text == "Input content here..." {
+			textView.text = ""
+		}
+
+	}
+
+	func textViewDidEndEditing(_ textView: UITextView) {
+		thisNote.content = textView.text
+		textView.resignFirstResponder()
+	}
+
+
 }

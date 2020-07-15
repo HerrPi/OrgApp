@@ -29,21 +29,21 @@ struct RealmFuncs {
 			}
 		}
 
-		static func setParent(of toDo: ToDo, to project: Project) {
-			let realm = try! Realm()
-
-			do {
-				try realm.write{
-					if type(of: toDo) == UnDoneToDo.self {
-						project.unDoneToDos.append(toDo as! UnDoneToDo)
-					}else if type(of: toDo) == DoneToDo.self {
-						project.doneToDos.append(toDo as! DoneToDo)
-					}
-				}
-			} catch {
-				print("Failed parenting -> \(error)")
-			}
-		}
+//		static func setParent(of toDo: ToDo, to project: Project) {
+//			let realm = try! Realm()
+//
+//			do {
+//				try realm.write{
+//					if type(of: toDo) == UnDoneToDo.self {
+//						project.unDoneToDos.append(toDo as! UnDoneToDo)
+//					}else if type(of: toDo) == DoneToDo.self {
+//						project.doneToDos.append(toDo as! DoneToDo)
+//					}
+//				}
+//			} catch {
+//				print("Failed parenting -> \(error)")
+//			}
+//		}
 
 		static func setParent(of note: Note, to project: Project) {
 			let realm = try! Realm()
@@ -66,7 +66,7 @@ struct RealmFuncs {
 				print("Failed reanme Project -> \(error)")
 			}
 		}
-
+/*
 		static func renameToDo(_ toDo: ToDo, newName: String) {
 			let realm = try! Realm()
 			do {
@@ -116,7 +116,7 @@ struct RealmFuncs {
 				print("DoneSwitch failed -> \(error)")
 			}
 		}
-
+*/
 		static func deleteObject(_ object: Object) {
 			let realm = try! Realm()
 			do {
@@ -173,17 +173,17 @@ struct RealmFuncs {
 			let realm = try! Realm()
 			return realm.objects(Project.self).sorted(byKeyPath: "name")
 		}
-
-		static func undDoneToDos(of project: Project) -> List<UnDoneToDo> {
-			let realm = try! Realm()
-			return realm.object(ofType: Project.self, forPrimaryKey: project.itemId)!.unDoneToDos
-		}
-
-
-		static func doneToDos(of project: Project) -> List<DoneToDo> {
-			let realm = try! Realm()
-			return realm.object(ofType: Project.self, forPrimaryKey: project.itemId)!.doneToDos
-		}
+//
+//		static func undDoneToDos(of project: Project) -> List<UnDoneToDo> {
+//			let realm = try! Realm()
+//			return realm.object(ofType: Project.self, forPrimaryKey: project.itemId)!.unDoneToDos
+//		}
+//
+//
+//		static func doneToDos(of project: Project) -> List<DoneToDo> {
+//			let realm = try! Realm()
+//			return realm.object(ofType: Project.self, forPrimaryKey: project.itemId)!.doneToDos
+//		}
 
 		static func photos(of project: Project) -> List<Photo> {
 			let realm = try! Realm()

@@ -10,32 +10,20 @@ class ProjectsVC: UIViewController {
 
 	var allCategorys: [FBCategory] = []
 
-	var categoryRef: DatabaseReference!
+
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		categoryRef = Database.database().reference().child(S.categorys)
-
-		categoryRef.observe(.value) { (snap) in
-			self.allCategorys.removeAll()
-			for catSnapEnum in snap.children {
-				let cat = catSnapEnum as! DataSnapshot
-				let newCat = FBCategory(uID: cat.key, name: cat.childSnapshot(forPath: S.name).value as! String)
-
-
-				for projEnum in cat.childSnapshot(forPath: S.projects).children {
-					let proj = projEnum as! DataSnapshot
-					let newProject = FBProject(uID: proj.key, name: proj.value as! String, parentCategoryUID: newCat.uID)
-					newCat.projects.append(newProject)
-				}
-
-
-				self.allCategorys.append(newCat)
-			}
-			DispatchQueue.main.async {
-				self.projectsCollectionView.reloadData()
-			}
+		let loadCategoryDispatcher = DispatchGroup()
+		loadCategoryDispatcher.enter()
+		FBK.Categorys.loadAllCategorysAndProjects(projectsVC: self, loadingDispatcher: loadCategoryDispatcher)
+		loadCategoryDispatcher.notify(queue: .main) {
+			FBK.Categorys.childAddedObserver(projectsVC: self)
+			FBK.Categorys.childRemovedObserver(projectsVC: self)
+			FBK.Projects.childAddedObserver(projectsVC: self)
+			FBK.Projects.childRemovedObserver(projectsVC: self)
+			self.projectsCollectionView.reloadData()
 		}
 
 		projectsCollectionView.delegate = self
@@ -61,6 +49,17 @@ class ProjectsVC: UIViewController {
 	}
 
 	@IBAction func dummyButtonPressed(_ sender: UIBarButtonItem) {
+//		var dataBase =  Database.database().reference().child("TestArea")
+//		dataBase.child("Counter \(upCounter)").setValue("Debug Down \(downCounter)", andPriority: downCounter) { (_, _) in
+//			self.downCounter -= 1
+//			self.upCounter += 1
+//		}
+
+//		dataBase.child("Counter \(upCounter)").setValue("Debug Down \(downCounter)") { (_, _) in
+//			self.downCounter -= 1
+//			self.upCounter += 1
+//		}
+		print(allCategorys.count)
 	}
 
 //MARK: -  USER INTERACTIVE FUNCTIONS
@@ -73,6 +72,7 @@ class ProjectsVC: UIViewController {
 	func showAddProjectVC() {
 		let addVC = AddProjectVC()
 		addVC.projectsVC = self
+		addVC.allTempCategorys = allCategorys
 		present(addVC, animated: true, completion: nil)
 	}
 
@@ -82,8 +82,7 @@ class ProjectsVC: UIViewController {
 
 		addCategory.addAction(UIAlertAction(title: "Create", style: .default, handler: { _ in
 			if categoryNameTextField.text != "" {
-				_ = FBK.Functions.createNewCategory(named: categoryNameTextField.text!)
-				self.projectsCollectionView.reloadData()
+				_ = FBK.Categorys.createNewCategory(named: categoryNameTextField.text!)
 			}else {
 				let noNameGiven = UIAlertController(title: "No Name Given", message: "You have to give a name - canceled", preferredStyle: .alert)
 				noNameGiven.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {_ in self.showAddCategoryVC(with: nil)}))
@@ -192,14 +191,7 @@ extension ProjectsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICo
 
 	// COLLECTION FUNCTIONS
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//		print((projectsCollectionView.cellForItem(at: indexPath) as! ProjectCCC).thisProject.uID)
-//		let projData = Database.database().reference().child("\(S.projects)/\((projectsCollectionView.cellForItem(at: indexPath) as! ProjectCCC).thisProject.uID)")
-
-		//		print("Print Log To Prepare:")
-//		print("ProjData ->  \(projData)")
-//		print("ProjNAme -> \(projData.value(forKey: S.name))")
 		performSegue(withIdentifier: K.Segues.showProject, sender: (projectsCollectionView.cellForItem(at: indexPath) as! ProjectCCC).thisProject.uID)
-
 	}
 
 	func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
@@ -210,12 +202,11 @@ extension ProjectsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICo
 				thisCell.projectTitle.isUserInteractionEnabled = true
 				thisCell.projectTitle.becomeFirstResponder()
 
-				print("DUMMY EDIT SWIPE")
 			}
 
 			let delete = UIAction(title: "Delete", attributes: .destructive) { _ in
 				self.projectsCollectionView.cellForItem(at: indexPath)?.isHidden = true
-				FBK.Functions.deleteProject(project: thisCell.thisProject)
+				FBK.Projects.deleteProject(project: thisCell.thisProject)
 
 			}
 

@@ -6,16 +6,17 @@
 //  Copyright © 2020 Jan Manuel Brenner. All rights reserved.
 //
 
-/*
+
 
 import UIKit
+import Firebase
 
 class ToDoDetailVC: UIViewController {
 	@IBOutlet weak var toDoDetailTableView: UITableView!
 
 	@IBOutlet weak var saveButton: UIButton!
 
-	var thisToDo: ToDo!
+	var thisToDo: FBToDo!
 	var toDosVC: ToDosVC!
 
 	var toDoTitleTF: UITextField!
@@ -31,9 +32,15 @@ class ToDoDetailVC: UIViewController {
     }
 
 	@IBAction func saveButton(_ sender: UIButton) {
-		RealmFuncs.Edit.renameToDo(thisToDo, newName: self.toDoTitleTF.text!)
-		RealmFuncs.Edit.changeToDoDescription(thisToDo, description: self.toDoDescriptionTF.text!)
-		toDosVC.toDosTableView.reloadData()
+		toDoTitleTF.resignFirstResponder()
+		toDoDescriptionTF.resignFirstResponder()
+		let toDoRef = Database.database().reference().child("\(S.toDos)/\(thisToDo.uID)")
+//		toDoRef.child(S.name).setValue(thisToDo.name)
+//		toDoRef.child(S.toDoDescription).setValue(thisToDo.toDoDescription)
+		toDoRef.updateChildValues([S.name: thisToDo.name, S.toDoDescription: thisToDo.toDoDescription])
+//		RealmFuncs.Edit.renameToDo(thisToDo, newName: self.toDoTitleTF.text!)
+//		RealmFuncs.Edit.changeToDoDescription(thisToDo, description: self.toDoDescriptionTF.text!)
+//		toDosVC.toDosTableView.reloadData()
 		self.dismiss(animated: true, completion: nil)
 	}
 
@@ -99,9 +106,11 @@ extension ToDoDetailVC: UITextFieldDelegate {
 
 	func textFieldDidEndEditing(_ textField: UITextField) {
 		if textField == toDoTitleTF {
-			RealmFuncs.Edit.renameToDo(thisToDo, newName: textField.text!)
+			thisToDo.name = textField.text!
+//			RealmFuncs.Edit.renameToDo(thisToDo, newName: textField.text!)
 		}else if textField == toDoDescriptionTF {
-			RealmFuncs.Edit.changeToDoDescription(thisToDo, description: textField.text!)
+			thisToDo.toDoDescription = textField.text!
+//			RealmFuncs.Edit.changeToDoDescription(thisToDo, description: textField.text!)
 		}
 		textField.resignFirstResponder()
 
@@ -110,4 +119,4 @@ extension ToDoDetailVC: UITextFieldDelegate {
 }
 
 
-*/
+

@@ -44,6 +44,7 @@
 		2A6A4BAE2458337100FDC7A3 /* ImportPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6A4BAD2458337100FDC7A3 /* ImportPhotoVC.swift */; };
 		2A6C48CC24AB2D73008E60B3 /* S.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6C48CB24AB2D73008E60B3 /* S.swift */; };
 		2A6C48CE24AB3AF3008E60B3 /* FBNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6C48CD24AB3AF3008E60B3 /* FBNote.swift */; };
+		2A717E8A24AE51B900E8F555 /* FBToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A717E8924AE51B900E8F555 /* FBToDo.swift */; };
 		2A7EBB7E245AF1C70015BBCF /* FullSizePhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7EBB7D245AF1C70015BBCF /* FullSizePhotoVC.swift */; };
 		2A9F806D247FE5BB00F944BB /* ToDoDetailTCC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9F806B247FE5BB00F944BB /* ToDoDetailTCC.swift */; };
 		2A9F806E247FE5BB00F944BB /* ToDoDetailTCC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A9F806C247FE5BB00F944BB /* ToDoDetailTCC.xib */; };
@@ -100,6 +101,7 @@
 		2A6A4BAD2458337100FDC7A3 /* ImportPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPhotoVC.swift; sourceTree = "<group>"; };
 		2A6C48CB24AB2D73008E60B3 /* S.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S.swift; sourceTree = "<group>"; };
 		2A6C48CD24AB3AF3008E60B3 /* FBNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBNote.swift; sourceTree = "<group>"; };
+		2A717E8924AE51B900E8F555 /* FBToDo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBToDo.swift; sourceTree = "<group>"; };
 		2A7EBB7D245AF1C70015BBCF /* FullSizePhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullSizePhotoVC.swift; sourceTree = "<group>"; };
 		2A9F806B247FE5BB00F944BB /* ToDoDetailTCC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoDetailTCC.swift; sourceTree = "<group>"; };
 		2A9F806C247FE5BB00F944BB /* ToDoDetailTCC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToDoDetailTCC.xib; sourceTree = "<group>"; };
@@ -202,8 +204,8 @@
 				2A515B5B244DA7F90099AB04 /* Category.swift */,
 				2A515B5D244DA7FA0099AB04 /* Project.swift */,
 				2A515B5F244DA7FB0099AB04 /* ToDo.swift */,
-				2A4B8FD624751EB10076228D /* UnDoneToDo.swift */,
 				2A4B8FD824751F750076228D /* DoneToDo.swift */,
+				2A4B8FD624751EB10076228D /* UnDoneToDo.swift */,
 				2A515B61244DA7FC0099AB04 /* Photo.swift */,
 				2A515B57244DA7CB0099AB04 /* Note.swift */,
 			);
@@ -279,6 +281,7 @@
 				2AD635DC24A24EC9006291F0 /* FBCategory.swift */,
 				2AD635DA24A24EC6006291F0 /* FBProject.swift */,
 				2A6C48CD24AB3AF3008E60B3 /* FBNote.swift */,
+				2A717E8924AE51B900E8F555 /* FBToDo.swift */,
 				2A5F381D24A48BCC00411FDB /* FBK.swift */,
 				2A6C48CB24AB2D73008E60B3 /* S.swift */,
 			);
@@ -459,6 +462,7 @@
 				2A515B62244DA7FD0099AB04 /* Photo.swift in Sources */,
 				2A4E80BE244DE31500608E0C /* PhotoHeaderCHC.swift in Sources */,
 				2A515B60244DA7FB0099AB04 /* ToDo.swift in Sources */,
+				2A717E8A24AE51B900E8F555 /* FBToDo.swift in Sources */,
 				2A515B5E244DA7FA0099AB04 /* Project.swift in Sources */,
 				2A515B6D244DB1590099AB04 /* PhotoCCC.swift in Sources */,
 				2A5F381E24A48BCC00411FDB /* FBK.swift in Sources */,
